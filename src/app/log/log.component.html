@@ -1,0 +1,21 @@
+<div  class="d-flex log-wrapper h-100">
+  <div class="w-100 h-100">
+    <div #container id="log-container" (scroll)="scrolled($event)">
+      <p #message *ngFor="let log of logs" [className]="log.type">
+        [{{ log.timestamp }}][{{ log.type }}] {{ log.message }}
+      </p>
+    </div>
+  </div>
+  <div class="flex-shrink-0">
+    <button
+      (click)="logs = []"
+      *ngIf="logs.length > 0"
+      class="btn btn-sm btn-outline-light"
+      id="reset-log"
+      title="Reset Log"
+    >
+      reset
+    </button>
+  </div>
+</div>
+

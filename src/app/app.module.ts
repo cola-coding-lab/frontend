@@ -9,6 +9,7 @@ import { FooterComponent } from './footer/footer.component';
 import { MainComponent } from './main/main.component';
 import { FlexContainerComponent } from './flex-container/flex-container.component';
 import { OutputComponent } from './output/output.component';
+import { LogComponent } from './log/log.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { OutputComponent } from './output/output.component';
     MainComponent,
     FlexContainerComponent,
     OutputComponent,
+    LogComponent,
   ],
   imports: [
     BrowserModule,
