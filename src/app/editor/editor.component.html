@@ -1,19 +1,29 @@
-<div style="resize: horizontal; padding: 10px; border: 1px solid black; overflow:auto; min-width: 20%; max-width:99%;">
+<div class="d-flex flex-stretch h-100">
+  <!--<select [(ngModel)]="codeMirrorTheme" (change)="updateTheme()">
+    <option *ngFor="let theme of themes" [ngValue]="theme">{{ theme }}</option>
+  </select>
+  <input
+    type="number"
+    name="fontsize"
+    id="fontsize"
+    min="8"
+    max="24"
+    (change)="updateFontSize($event)"
+    value="13"
+  />-->
   <form class="editor" #editor>
     <textarea #code>
-  class Test {
-    constructor() {
-      this.a = 1;
-    }
-      
-    something(x, y) {
-      this.a = x;
-      console.log(y);
-    }
-  }</textarea>
+class Test {
+  constructor() {
+    this.a = 1;
+  }
+    
+  something(x, y) {
+    this.a = x;
+    console.log(y);
+  }
+}</textarea
+    >
   </form>
-  <select [(ngModel)]="codeMirrorTheme" (change)="updateTheme()">
-    <option *ngFor="let theme of themes" [ngValue]="theme">{{theme}}</option>
-  </select>
-  <input type="number" name="fontsize" id="fontsize" min="8" max="24" (change)="updateFontSize($event)" value="13">
 </div>
+
