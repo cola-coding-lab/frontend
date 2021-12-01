@@ -1,0 +1,8 @@
+:host {
+  color: rgb(16, 71, 126);
+
+  main {
+    height: calc(100vh - var(--footer-height) - var(--header-height));
+    padding: 0;
+  }
+}

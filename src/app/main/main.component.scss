@@ -1,0 +1,69 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
+:host {
+  --divider-size: 2px;
+  --min-five-calc: calc(5% - var(--divider-size));
+  --min-five: var(--min-five-calc);
+}
+
+div.resizer {
+  &[data-direction="horizontal"] {
+    width: var(--divider-size);
+    cursor: col-resize;
+  }
+
+  &[data-direction="vertical"] {
+    height: var(--divider-size);
+    cursor: row-resize;
+  }
+}
+
+#container {
+  flex-direction: column;
+
+  #left-box {
+    height: 10%;
+    min-height: var(--min-five);
+  }
+
+  #right-box {
+    min-height: var(--min-five);
+    #right-container {
+      flex-direction: column;
+      height: 80%;
+    }
+
+    #right-below {
+      height: 20%;
+    }
+  }
+}
+
+@include media-breakpoint-up(md) {
+  #container {
+    #right-box {
+      #right-container {
+        flex-direction: row;
+        height: 80%;
+
+        #left-inner,
+        #right-inner {
+          width: 50%;
+        }
+      }
+    }
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  #container {
+    flex-direction: row;
+    #left-box {
+      height: 100%;
+
+      width: 10%;
+    }
+  }
+}

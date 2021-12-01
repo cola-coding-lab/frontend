@@ -1,0 +1,56 @@
+<div id="container" class="d-flex h-100 bg-primary">
+  <app-flex-container
+    id="left-box"
+    class="bg-success"
+    [min]="5"
+    [breaks]="['lg']"
+  >
+    <p>OUTER</p>
+  </app-flex-container>
+
+  <div
+    class="resizer"
+    [attr.data-direction]="getDirection()"
+    (mousedown)="resize($event)"
+  ></div>
+
+  <app-flex-container
+    id="right-box"
+    class="d-flex flex-column h-100 w-100 bg-info"
+    [min]="50"
+  >
+    <app-flex-container id="right-container" class="d-flex bg-dark" [min]="30">
+      <app-flex-container
+        id="left-inner"
+        class="h-100 bg-danger"
+        [min]="10"
+        [breaks]="['md']"
+        >INNER LEFT</app-flex-container
+      >
+
+      <div
+        class="resizer"
+        [attr.data-direction]="getDirection('md')"
+        (mousedown)="resize($event)"
+      ></div>
+
+      <app-flex-container
+        id="right-inner"
+        class="h-100 bg-warning"
+        [min]="10"
+        [breaks]="['md']"
+        >INNER RIGHT</app-flex-container
+      >
+    </app-flex-container>
+
+    <div
+      class="resizer"
+      data-direction="vertical"
+      (mousedown)="resize($event)"
+    ></div>
+
+    <app-flex-container id="right-below" class="bg-light" [min]="10">
+      <p>INNER BELOW</p>
+    </app-flex-container>
+  </app-flex-container>
+</div>

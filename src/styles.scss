@@ -1,1 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Bootstrap */
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+/* Codemirror */
+@import "~codemirror/lib/codemirror";
+@import "~codemirror/theme/dracula";
+
+.CodeMirror {
+  height: 50vh;
+}
+
+body {
+  background: rgb(201, 219, 238);
+}
+
+:root {
+  --header-height: 0px;
+  --footer-height: 0px;  
+}

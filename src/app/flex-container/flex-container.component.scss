@@ -1,0 +1,13 @@
+:host {
+  --divider-size: 2px;
+  
+  &[data-direction="horizontal"] {
+    width: var(--divider-size);
+    cursor: col-resize;
+  }
+
+  &[data-direction="vertical"] {
+    height: var(--divider-size);
+    cursor: row-resize;
+  }
+}
