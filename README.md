@@ -1,4 +1,10 @@
-# AngularCodemirror
+# Angular Resizable
+
+Angular template with resizable containers.
+
+![demo](demo.gif)
+
+Also includes [codemirror](https://codemirror.net/) for future updates.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.13.
 
