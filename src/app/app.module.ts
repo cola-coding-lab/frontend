@@ -8,6 +8,7 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { MainComponent } from './main/main.component';
 import { FlexContainerComponent } from './flex-container/flex-container.component';
+import { OutputComponent } from './output/output.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { FlexContainerComponent } from './flex-container/flex-container.componen
     FooterComponent,
     MainComponent,
     FlexContainerComponent,
+    OutputComponent,
   ],
   imports: [
     BrowserModule,
