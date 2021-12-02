@@ -1,4 +1,6 @@
-import { Component, HostListener, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { getPropertyFor, setPropertyFor } from 'src/util/properties';
+import { EditorFile, FileService } from '../file/file.service';
 import { FlexContainerComponent } from '../flex-container/flex-container.component';
 
 @Component({
@@ -8,9 +10,18 @@ import { FlexContainerComponent } from '../flex-container/flex-container.compone
 })
 export class MainComponent implements OnInit {
   @ViewChildren(FlexContainerComponent) private childs!: QueryList<FlexContainerComponent>;
+  @ViewChild('tabs') public set tabs(tab: ElementRef) {
+    if (tab?.nativeElement?.parentElement) {
+      setPropertyFor(tab.nativeElement.parentElement, 'tabs-height', tab.nativeElement.clientHeight);
+    }
+  }
+
   private innerWidth: number = 0;
 
-  constructor() { }
+  public openFiles: EditorFile[] = [];
+  public file?: EditorFile;
+
+  constructor(private fileService: FileService) { }
 
   private parseNum(value: string, fallback = 1): number {
     return +(/(\d{1,3})%?/.exec(value)?.[1] || fallback);
@@ -36,6 +47,21 @@ export class MainComponent implements OnInit {
 
   ngOnInit(): void {
     this.innerWidth = window.innerWidth;
+    this.fileService.current(
+      file => {
+        if (file && !this.openFiles.includes(file)) {
+          this.openFiles.push(file);
+        }
+        if (file) { this.setCurrent(file); }
+      },
+      err => console.error(err),
+    );
+  }
+
+  public setCurrent(file: EditorFile): void {
+    this.file = file;
+    this.openFiles = this.openFiles.map(f => { f.isOpen = undefined; return f; });
+    this.file.isOpen = true;
   }
 
   public resize($event: MouseEvent): void {
@@ -57,13 +83,10 @@ export class MainComponent implements OnInit {
 
     console.log(direction, m, prevMin, nextMin, prevValue);
 
-    const oldAfter = getComputedStyle(resizer).getPropertyValue(dividerVars.after);
-    const oldLt = getComputedStyle(resizer).getPropertyValue(dividerVars.lt)
-    resizer.style.setProperty(dividerVars.after, `100${vm}`);
-    resizer.style.setProperty(dividerVars.lt, `-50${vm}`);
-
-    const oldCursor = document.body.style.cursor;
-    document.body.style.cursor = resizer.style.cursor;
+    const oldAfter = getPropertyFor(resizer, dividerVars.after);
+    const oldLt = getPropertyFor(resizer, dividerVars.lt);
+    setPropertyFor(resizer, dividerVars.after, 100, vm);
+    setPropertyFor(resizer, dividerVars.lt, -50, vm);
 
     const mouseMoveHandler = (e: MouseEvent) => {
       const pos: { [key: string]: number } = {
@@ -80,7 +103,6 @@ export class MainComponent implements OnInit {
     const mouseUpHandler = () => {
       document.removeEventListener('mousemove', mouseMoveHandler);
       document.removeEventListener('mouseup', mouseUpHandler);
-      document.body.style.cursor = oldCursor;
       resizer.style.setProperty(dividerVars.after, oldAfter);
       resizer.style.setProperty(dividerVars.lt, oldLt);
     }
@@ -91,6 +113,14 @@ export class MainComponent implements OnInit {
 
   public getDirection(breakpoint: BootstrapBreakPoint = 'lg'): string {
     return this.innerWidth >= breakpoints[breakpoint] ? 'horizontal' : 'vertical';
+  }
+
+  public tabId(file: EditorFile): string {
+    return this.contentId(file) + '-tab';
+  }
+
+  public contentId(file: EditorFile): string {
+    return file.name.replace('.', '_');
   }
 }
 

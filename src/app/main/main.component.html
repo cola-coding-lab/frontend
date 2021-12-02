@@ -6,6 +6,7 @@
     [breaks]="['lg']"
   >
     <p>OUTER</p>
+    <app-explorer></app-explorer>
   </app-flex-container>
 
   <div
@@ -19,14 +20,61 @@
     class="d-flex flex-column h-100 w-100 bg-info"
     [min]="50"
   >
-    <app-flex-container id="right-container" class="d-flex bg-dark" [min]="30">
+    <app-flex-container id="right-container" class="d-flex" [min]="30">
       <app-flex-container
         id="left-inner"
-        class="h-100 bg-danger"
+        class="h-100 bg-dark"
         [min]="25"
         [breaks]="['md']"
-        ><app-editor></app-editor></app-flex-container
       >
+        <ul
+          #tabs
+          class="nav nav-tabs"
+          id="fileTab"
+          role="tablist"
+          aria-label="Open code files"
+          *ngIf="openFiles.length > 1"
+        >
+          <li class="nav-item" *ngFor="let f of openFiles" role="presentation">
+            <button
+              class="nav-link"
+              aria-current="page"
+              (click)="setCurrent(f)"
+              [class.active]="f.isOpen"
+              [id]="tabId(f)"
+              data-bs-toggle="tab"
+              [attr.data-bs-target]="'#' + contentId(f)"
+              type="button"
+              role="tab"
+              [attr.aria-controls]="contentId(f)"
+              [attr.aria-selected]="f.isOpen"
+            >
+              {{ f.name }}<span *ngIf="f.isModified"> *</span>
+            </button>
+          </li>
+        </ul>
+        <div
+          class="tab-content"
+          id="fileTabContent"
+          *ngIf="openFiles.length > 1"
+        >
+          <div
+            *ngFor="let f of openFiles"
+            class="tab-pane fade h-100"
+            [class.active]="f.isOpen"
+            [class.show]="f.isOpen"
+            role="tabpanel"
+            [attr.aria-labelledby]="tabId(f)"
+            [id]="contentId(f)"
+          >
+            <app-editor [file]="f"></app-editor>
+          </div>
+        </div>
+        <app-editor
+          *ngIf="openFiles.length === 1"
+          [file]="openFiles[0]"
+        ></app-editor>
+      </app-flex-container>
 
       <div
         class="resizer"
@@ -39,8 +87,8 @@
         class="h-100 bg-warning"
         [min]="25"
         [breaks]="['md']"
-        ><app-output></app-output></app-flex-container
-      >
+        ><app-output></app-output
+      ></app-flex-container>
     </app-flex-container>
 
     <div

@@ -3,17 +3,26 @@ const cssUnitsCheck = new RegExp(`\\d+(${cssUnits.join('|')})$`);
 type CSSUnit = typeof cssUnits[number];
 
 
-export function getProperty(name: string): string {
-  return getComputedStyle(document.documentElement).getPropertyValue(cssVariableName(name));
+export function getDocumentProperty(name: string): string {
+  return getPropertyFor(document.documentElement, cssVariableName(name));
 }
 
-export function setProperty(name: string, value: string | number, unit: CSSUnit = 'px'): void {
-  value = valueContainsUnit(value) ? `${value}` : `${value}${unit}`;
-  if (isValidValue(value)) {
-    document.documentElement.style.setProperty(cssVariableName(name), value);
+export function getPropertyFor(element: HTMLElement, name: string): string {
+  return getComputedStyle(element).getPropertyValue(cssVariableName(name));
+}
+
+export function setDocumentProperty(name: string, value: string | number, unit: CSSUnit = 'px'): void {
+  setPropertyFor(document.documentElement, name, value, unit);
+}
+
+export function setPropertyFor(element: HTMLElement, name: string, value: string | number, unit: CSSUnit = 'px'): void {
+  if (element) {
+    value = valueContainsUnit(value) ? `${value}` : `${value}${unit}`;
+    if (isValidValue(value)) {
+      element.style.setProperty(cssVariableName(name), value);
+    }
   }
 }
-
 
 function cssVariableName(name: string): string {
   return name.startsWith('--') ? name : `--${name}`;

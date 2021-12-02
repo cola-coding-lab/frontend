@@ -1,15 +1,29 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import * as CodeMirror from 'codemirror';
 import { EditorFromTextArea } from 'codemirror';
+import { Subscription, timer } from 'rxjs';
+import { EditorFile } from '../file/file.service';
 
 @Component({
   selector: 'app-editor',
   templateUrl: './editor.component.html',
   styleUrls: ['./editor.component.scss']
 })
-export class EditorComponent implements AfterViewInit, OnDestroy {
-  @ViewChild('code', { static: true }) public code!: ElementRef;
+export class EditorComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+  private static readonly AUTO_SAVE_AFTER = 5000; // 5 seconds
+
+  @ViewChild('code', { static: true }) public code!: ElementRef; /* set setCode(code: ElementRef) {
+    console.log('setCode', code);
+    if (code) {
+      this.code = code;
+      this.setEditor();
+    }
+  }
+  private code?: ElementRef;*/
+
   @ViewChild('editor', { static: true }) public editor!: ElementRef;
+
+  @Input() file?: EditorFile;
 
   public codeMirrorEditor?: EditorFromTextArea;
   public codeMirrorTheme: string = 'default';
@@ -20,6 +34,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy {
   ];
 
   private resizeObserver: ResizeObserver;
+  private saveSubscription?: Subscription;
 
   constructor(private elRef: ElementRef) {
     this.resizeObserver = new ResizeObserver(_ => {
@@ -27,22 +42,64 @@ export class EditorComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    // this.setEditor();
+  }
+
+  ngOnInit(): void {
+    if (!this.file) { throw new Error('no file given'); };
+  }
+
   ngAfterViewInit(): void {
-    if (!this.code) { return; }
     this.resizeObserver.observe(this.elRef.nativeElement.parentElement);
+    this.setEditor();
+  }
+
+  private resetEditor(): void {
+    this.codeMirrorEditor?.toTextArea();
+    this.saveSubscription?.unsubscribe();
+    this.codeMirrorEditor = undefined;
+    if (this.file) { this.file.isModified = undefined; this.file.editor = undefined; }
+  }
+
+  private setEditor(): void {
+    console.log('setEditor', this.code);
+    if (!this.code) { return; }
+    this.resetEditor();
+    const save = (cm: CodeMirror.Editor): void => {
+      if (!this.file) { return; }
+      console.log('save');
+      this.file.content = cm.getValue();
+      this.file.isModified = undefined;
+    }
 
     const options = {
       lineNumbers: true,
-      mode: 'application/javascript',
+      mode: this.file?.type || 'text/text',
       styleActiveLine: true,
       matchBrackets: true,
       autoCloseBrackets: true,
       theme: 'dracula',
-      tabSize: 2
+      tabSize: 2,
+      value: this.file?.content || '',
+      extraKeys: {
+        'Ctrl-S': save
+      }
     }
 
     this.codeMirrorEditor = CodeMirror.fromTextArea(this.code.nativeElement, options);
-    console.log(this.codeMirrorEditor);
+    this.codeMirrorEditor.setValue(this.file?.content || '');
+    this.codeMirrorEditor.on('change', (cm: CodeMirror.Editor) => {
+      if (!this.file) { return; }
+      this.saveSubscription?.unsubscribe();
+      this.file.isModified = true;
+
+      this.saveSubscription = timer(EditorComponent.AUTO_SAVE_AFTER).subscribe(_ => {
+        save(cm);
+      });
+    });
+    if (this.file) { this.file.editor = this.codeMirrorEditor; }
+    console.log(this.codeMirrorEditor, this.file);
     this.codeMirrorEditor.refresh();
   }
 
@@ -67,7 +124,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy {
       return $event.target.dispatchEvent(new Event('change'));
     }
     console.log(value);
-    const div = this.editor.nativeElement.querySelector('.CodeMirror');
+    const div = this.editor?.nativeElement.querySelector('.CodeMirror');
     div.style.fontSize = `${value}px`;
     this.codeMirrorEditor?.refresh();
   }

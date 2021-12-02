@@ -10,6 +10,7 @@ import { MainComponent } from './main/main.component';
 import { FlexContainerComponent } from './flex-container/flex-container.component';
 import { OutputComponent } from './output/output.component';
 import { LogComponent } from './log/log.component';
+import { ExplorerComponent } from './explorer/explorer.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { LogComponent } from './log/log.component';
     FlexContainerComponent,
     OutputComponent,
     LogComponent,
+    ExplorerComponent,
   ],
   imports: [
     BrowserModule,

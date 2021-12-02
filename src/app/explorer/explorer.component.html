@@ -1,0 +1,3 @@
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let file of files" [class.active]="file.isOpen" (click)="select(file)">{{file.name}}<span *ngIf="file.isModified"> *</span></li>
+</ul>
