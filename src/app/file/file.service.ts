@@ -53,7 +53,7 @@ export class FileService {
   }
 }
 
-type FileType = 'text/javascript' | 'text/css' | 'text/html';
+type FileType = 'text/javascript' | 'text/css' | 'text/html' | 'text/plain';
 
 export interface EditorFile {
   name: string;
@@ -62,4 +62,24 @@ export interface EditorFile {
   isModified?: boolean;
   isOpen?: boolean;
   editor?: CodeMirror.Editor
+}
+
+export function getFileType(value: string, defaultType: FileType = 'text/plain'): FileType {
+  const result = /\.(js|css|html?|txt)/i.exec(value);
+  if (result?.[1]) {
+    switch (result[1].toLowerCase()) {
+      case 'js':
+        return 'text/javascript';
+      case 'css':
+        return 'text/css';
+      case 'html':
+      case 'htm':
+        return 'text/html'
+      case 'txt':
+        return 'text/plain';
+      default:
+        return defaultType;
+    }
+  }
+  return defaultType;
 }
