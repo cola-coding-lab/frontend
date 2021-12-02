@@ -72,6 +72,19 @@ div.resizer {
   }
 }
 
+
+li.nav-item {
+  position: relative;
+  .close {
+    position: absolute;
+    color:red;
+    right: 2px;
+    top: -2px;
+    cursor: pointer;
+  }
+}
+
+
 @include media-breakpoint-up(md) {
   #container {
     #right-box {

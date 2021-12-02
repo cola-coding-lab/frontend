@@ -58,6 +58,16 @@ export class MainComponent implements OnInit {
     );
   }
 
+  public close(file: EditorFile): void {
+    this.openFiles = this.openFiles.filter(f => f !== file);
+    file.isOpen = false;
+    file.editor = undefined;
+    if (this.openFiles.length > 0 && !this.openFiles.find(f => f.isOpen)) {
+      this.openFiles[0].isOpen = true;
+      this.file = this.openFiles[0];
+    }
+  }
+
   public setCurrent(file: EditorFile): void {
     this.file = file;
     this.openFiles = this.openFiles.map(f => { f.isOpen = undefined; return f; });

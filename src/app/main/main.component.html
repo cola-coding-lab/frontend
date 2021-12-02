@@ -51,6 +51,7 @@
             >
               {{ f.name }}<span *ngIf="f.isModified"> *</span>
             </button>
+            <div class="close" (click)="close(f)">x</div>
           </li>
         </ul>
         <div
