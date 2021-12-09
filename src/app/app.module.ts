@@ -11,6 +11,8 @@ import { FlexContainerComponent } from './flex-container/flex-container.componen
 import { OutputComponent } from './output/output.component';
 import { LogComponent } from './log/log.component';
 import { ExplorerComponent } from './explorer/explorer.component';
+import { ContextMenuComponent } from './context-menu/context-menu.component';
+import { ContextMenuDirective } from './context-menu/context-menu.directive';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,8 @@ import { ExplorerComponent } from './explorer/explorer.component';
     OutputComponent,
     LogComponent,
     ExplorerComponent,
+    ContextMenuComponent,
+    ContextMenuDirective,
   ],
   imports: [
     BrowserModule,

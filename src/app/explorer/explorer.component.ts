@@ -1,5 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { timer } from 'rxjs';
+import { ContextMenuClick } from '../context-menu/context-menu.model';
+import { HasContextMenuComponent } from '../context-menu/has-context-menu.component';
 import { EditorFile, FileService, getFileType } from '../file/file.service';
 
 @Component({
@@ -7,13 +9,15 @@ import { EditorFile, FileService, getFileType } from '../file/file.service';
   templateUrl: './explorer.component.html',
   styleUrls: ['./explorer.component.scss']
 })
-export class ExplorerComponent implements OnInit {
+export class ExplorerComponent extends HasContextMenuComponent<EditorFile> implements OnInit {
   @ViewChild('newFile') newFile?: ElementRef;
-  public files: EditorFile[] = [];
 
+  public files: EditorFile[] = [];
   public addFile = false;
 
-  constructor(private fileService: FileService) { }
+  constructor(private fileService: FileService) {
+    super();
+  }
 
   ngOnInit(): void {
     this.fileService.subscribe(
@@ -75,4 +79,15 @@ export class ExplorerComponent implements OnInit {
       this.select(file);
     }
   }
+
+  protected onContextMenuItemClick($event: ContextMenuClick, data?: EditorFile): void {
+    this.files = this.files.filter(file => file !== data);
+  }
+
+  protected contextMenuItems = [
+    {
+      text: 'loeschen',
+      event: 'delete',
+    }
+  ];
 }
