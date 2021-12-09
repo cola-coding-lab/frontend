@@ -50,8 +50,8 @@
               [attr.aria-selected]="f.isOpen"
             >
               {{ f.name }}<span *ngIf="f.isModified"> *</span>
+              <div class="close" (click)="close(f)"></div>
             </button>
-            <div class="close" (click)="close(f)">x</div>
           </li>
         </ul>
         <div
@@ -71,10 +71,10 @@
             <app-editor [file]="f"></app-editor>
           </div>
         </div>
-        <app-editor
-          *ngIf="openFiles.length === 1"
-          [file]="openFiles[0]"
-        ></app-editor>
+        <div class="position-relative h-100" *ngIf="openFiles.length === 1">
+          <app-editor [file]="openFiles[0]"></app-editor>
+          <div class="close" (click)="close(openFiles[0])"></div>
+        </div>
       </app-flex-container>
 
       <div

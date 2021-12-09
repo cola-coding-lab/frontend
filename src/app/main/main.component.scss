@@ -61,7 +61,7 @@ div.resizer {
       flex-direction: column;
       height: 80%;
       .tab-content {
-        height: calc(100% - var(--tabs-height))
+        height: calc(100% - var(--tabs-height));
       }
     }
 
@@ -72,18 +72,46 @@ div.resizer {
   }
 }
 
-
 li.nav-item {
   position: relative;
   .close {
-    position: absolute;
-    color:red;
-    right: 2px;
-    top: -2px;
-    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    width: auto !important;
+    height: auto !important;
+    margin-left: 10px;
+    margin-right: -10px;
+  }
+  button.active {
+    .close {
+      opacity: 1;
+    }
   }
 }
 
+.close {
+  position: absolute;
+  color: rgb(32, 32, 32);
+  right: 2px;
+  top: 0px;
+  cursor: pointer;
+  opacity: 0;
+  z-index: 9999;
+  width: 25px;
+  height: 25px;
+  border-radius: 15%;
+  content: "" !important;
+  text-align: center;
+
+  &:hover {
+    opacity: 1;
+    background-color: rgba(161, 161, 161, 0.8);
+  }
+  &::after {
+    content: "\2715";
+    padding: 5px;
+  }
+}
 
 @include media-breakpoint-up(md) {
   #container {
