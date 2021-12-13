@@ -9,19 +9,21 @@ import { EditorFile, FileService, getFileType } from '../file/file.service';
   templateUrl: './explorer.component.html',
   styleUrls: ['./explorer.component.scss']
 })
-export class ExplorerComponent extends HasContextMenuComponent<EditorFile> implements OnInit {
-  @ViewChild('newFile') newFile?: ElementRef;
+export class ExplorerComponent implements OnInit {
+  // @ViewChild('newFile') newFile?: ElementRef;
 
   public files: EditorFile[] = [];
   public addFile = false;
 
   constructor(private fileService: FileService) {
-    super();
   }
 
   ngOnInit(): void {
     this.fileService.subscribe(
-      files => this.files = files,
+      files => {
+        this.files = files
+        console.log(files)
+      },
       err => console.error(err)
     );
   }
@@ -30,7 +32,7 @@ export class ExplorerComponent extends HasContextMenuComponent<EditorFile> imple
     console.log('select', file);
     this.fileService.select(file);
   }
-
+/*
   public add($event: KeyboardEvent): void {
     switch ($event.key) {
       case 'Enter':
@@ -41,6 +43,7 @@ export class ExplorerComponent extends HasContextMenuComponent<EditorFile> imple
         break;
     }
   }
+
 
   public showAddFile(): void {
     this.addFile = true;
@@ -79,15 +82,5 @@ export class ExplorerComponent extends HasContextMenuComponent<EditorFile> imple
       this.select(file);
     }
   }
-
-  protected onContextMenuItemClick($event: ContextMenuClick, data?: EditorFile): void {
-    this.files = this.files.filter(file => file !== data);
-  }
-
-  protected contextMenuItems = [
-    {
-      text: 'loeschen',
-      event: 'delete',
-    }
-  ];
+ */
 }

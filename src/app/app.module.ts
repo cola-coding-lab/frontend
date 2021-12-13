@@ -13,6 +13,7 @@ import { LogComponent } from './log/log.component';
 import { ExplorerComponent } from './explorer/explorer.component';
 import { ContextMenuComponent } from './context-menu/context-menu.component';
 import { ContextMenuDirective } from './context-menu/context-menu.directive';
+import { ExplorerDirectoryComponent } from './explorer-directory/explorer-directory.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { ContextMenuDirective } from './context-menu/context-menu.directive';
     ExplorerComponent,
     ContextMenuComponent,
     ContextMenuDirective,
+    ExplorerDirectoryComponent,
   ],
   imports: [
     BrowserModule,

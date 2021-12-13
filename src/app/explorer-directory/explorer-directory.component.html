@@ -1,0 +1,27 @@
+<ul class="list-group" [ngClass]="{'list-group-root' : root, 'collapse' : collapse}">
+  <div *ngFor="let child of children">
+    <li class="list-group-item list-group-item-action d-flex justify-content-between"
+        [class.active]="isActive(child)"
+
+        (click)="clicked($event, child)"
+        [attr.data-toggle]="isDirectory(child) ? 'collapse' : null"
+    >
+      <div>
+        <i class="bi"
+           [ngClass]="{'bi-chevron-right' : !child.isOpen, 'bi-chevron-down' : child.isOpen}"
+           (click)="toggle($event, child)"
+           *ngIf="isDirectory(child)"></i>
+        <span *ngIf="!child.edit">{{child.name}}<span *ngIf="child.isModified">*</span></span>
+        <input type="text" [ngModel]="child.name" (ngModelChange)="changeName($event)" (keydown)="exitEdit($event, child)" #editRef *ngIf="child.edit">
+      </div>
+      <div class="options d-inline-block">
+        <i class="bi bi-pencil-square" (click)="edit($event, child)"></i>
+        <i class="bi bi-trash-fill" (click)="delete($event, child)"></i>
+      </div>
+    </li>
+    <app-explorer-directory [parent]="child" [children]="child.children"
+                            [collapse]="!child.isOpen"></app-explorer-directory>
+  </div>
+</ul>
+
+<ng-template contextMenu></ng-template>
