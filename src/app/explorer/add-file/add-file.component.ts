@@ -1,13 +1,13 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { EditorFile, getFileType, validFileExtensionRegex } from '../file/file.service';
-import { AddFileType } from './explorer-add-file.model';
+import { EditorFile, getFileType, validFileExtensionRegex } from '../../file/file.service';
+import { AddFileType } from './add-file.model';
 
 @Component({
-  selector: 'app-explorer-add-file',
-  templateUrl: './explorer-add-file.component.html',
-  styleUrls: ['./explorer-add-file.component.scss'],
+  selector: 'explorer-add-file',
+  templateUrl: './add-file.component.html',
+  styleUrls: ['./add-file.component.scss'],
 })
-export class ExplorerAddFileComponent implements OnInit {
+export class AddFileComponent implements OnInit {
   filename: string = '';
   @ViewChild('input', { static: true }) inputRef!: ElementRef;
   @Input() type: AddFileType = 'file';

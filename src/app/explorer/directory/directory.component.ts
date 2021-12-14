@@ -1,10 +1,10 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { ContextMenuClick } from '../context-menu/context-menu.model';
-import { HasContextMenuComponent } from '../context-menu/has-context-menu.component';
-import { ExplorerAddFileComponent } from '../explorer-add-file/explorer-add-file.component';
-import { ExplorerAddFileDirective } from '../explorer-add-file/explorer-add-file.directive';
-import { AddFileType } from '../explorer-add-file/explorer-add-file.model';
-import { EditorFile, FileService } from '../file/file.service';
+import { ContextMenuClick } from '../../context-menu/context-menu.model';
+import { HasContextMenuComponent } from '../../context-menu/has-context-menu.component';
+import { AddFileComponent } from '../add-file/add-file.component';
+import { AddFileDirective } from '../add-file/add-file.directive';
+import { AddFileType } from '../add-file/add-file.model';
+import { EditorFile, FileService } from '../../file/file.service';
 import { CurrentSelectedService } from './current-selected.service';
 
 export interface ExplorerFile extends EditorFile {
@@ -13,15 +13,15 @@ export interface ExplorerFile extends EditorFile {
 }
 
 @Component({
-  selector: 'app-explorer-directory',
-  templateUrl: './explorer-directory.component.html',
-  styleUrls: ['./explorer-directory.component.scss'],
+  selector: 'explorer-directory',
+  templateUrl: './directory.component.html',
+  styleUrls: ['./directory.component.scss'],
 })
-export class ExplorerDirectoryComponent extends HasContextMenuComponent<EditorFile> implements OnInit {
+export class DirectoryComponent extends HasContextMenuComponent<EditorFile> implements OnInit {
   private static BASE_PADDING = 8;
   private static ADD_PADDING = 22;
 
-  @ViewChild(ExplorerAddFileDirective, { static: true }) addFile!: ExplorerAddFileDirective;
+  @ViewChild(AddFileDirective, { static: true }) addFile!: AddFileDirective;
 
   @ViewChild('add', { static: true }) addRef!: ElementRef;
   @Input() root: boolean = false;
@@ -96,7 +96,7 @@ export class ExplorerDirectoryComponent extends HasContextMenuComponent<EditorFi
 
   edit($event: MouseEvent, child: ExplorerFile): void {
     $event.stopPropagation();
-    ExplorerDirectoryComponent.enableEdit(child);
+    DirectoryComponent.enableEdit(child);
   }
 
   delete($event: MouseEvent, child: EditorFile): void {
@@ -133,13 +133,13 @@ export class ExplorerDirectoryComponent extends HasContextMenuComponent<EditorFi
   }
 
   paddingLeft(): string {
-    return `${this.depth * ExplorerDirectoryComponent.ADD_PADDING + ExplorerDirectoryComponent.BASE_PADDING}px !important`;
+    return `${this.depth * DirectoryComponent.ADD_PADDING + DirectoryComponent.BASE_PADDING}px !important`;
   }
 
   protected onContextMenuItemClick($event: ContextMenuClick, data: ExplorerFile): void {
     switch ($event.data.event) {
       case 'rename':
-        ExplorerDirectoryComponent.enableEdit(data);
+        DirectoryComponent.enableEdit(data);
         break;
       case 'delete':
         this.deleteChild(data);
@@ -172,7 +172,7 @@ export class ExplorerDirectoryComponent extends HasContextMenuComponent<EditorFi
     const siblingName = sibling.dataset['name'];
     const viewContainerRef = this.addFile.viewContainerRef;
     viewContainerRef.clear();
-    const componentRef = viewContainerRef.createComponent<ExplorerAddFileComponent>(ExplorerAddFileComponent);
+    const componentRef = viewContainerRef.createComponent<AddFileComponent>(AddFileComponent);
     componentRef.instance.type = type;
     componentRef.instance.paddingLeft = this.paddingLeft();
 

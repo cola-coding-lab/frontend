@@ -1,10 +1,10 @@
-import { Component, HostListener, ViewChild } from "@angular/core";
-import { ContextMenuComponent } from "./context-menu.component";
-import { ContextMenuDirective } from "./context-menu.directive";
-import { ContextMenuClick, ContextMenuItem } from "./context-menu.model";
+import { Component, HostListener, ViewChild } from '@angular/core';
+import { ContextMenuComponent } from './context-menu.component';
+import { ContextMenuDirective } from './context-menu.directive';
+import { ContextMenuClick, ContextMenuItem } from './context-menu.model';
 
 @Component({
-  template: '<ng-template contextMenu></ng-template>'
+  template: '<ng-template contextMenu></ng-template>',
 })
 export abstract class HasContextMenuComponent<T extends any> {
   @ViewChild(ContextMenuDirective, { static: true }) contextMenu!: ContextMenuDirective;
@@ -38,11 +38,11 @@ export abstract class HasContextMenuComponent<T extends any> {
     });
   }
 
-  protected abstract onContextMenuItemClick($event: ContextMenuClick, data?: T): void;
-
   @HostListener('document:click')
   documentClick(): void {
     const viewContainerRef = this.contextMenu?.viewContainerRef;
     viewContainerRef?.clear();
   }
+
+  protected abstract onContextMenuItemClick($event: ContextMenuClick, data?: T): void;
 }

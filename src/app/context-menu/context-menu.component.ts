@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ContextMenuClick, ContextMenuItem } from './context-menu.model';
 
 @Component({
-  selector: 'app-context-menu',
+  selector: 'context-menu',
   templateUrl: './context-menu.component.html',
   styleUrls: ['./context-menu.component.scss']
 })

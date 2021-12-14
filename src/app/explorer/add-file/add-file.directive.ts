@@ -3,6 +3,6 @@ import { Directive, ViewContainerRef } from '@angular/core';
 @Directive({
   selector: '[addFile]',
 })
-export class ExplorerAddFileDirective {
+export class AddFileDirective {
   constructor(public viewContainerRef: ViewContainerRef) { }
 }
