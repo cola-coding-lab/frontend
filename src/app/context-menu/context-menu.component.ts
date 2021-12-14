@@ -8,6 +8,7 @@ import { ContextMenuClick, ContextMenuItem } from './context-menu.model';
 })
 export class ContextMenuComponent implements OnInit {
   @Input() contextMenuItems!: Array<ContextMenuItem>;
+  @Input() target?: HTMLElement;
 
   @Output() onContextMenuItemClick: EventEmitter<ContextMenuClick> = new EventEmitter<ContextMenuClick>();
 
@@ -19,7 +20,8 @@ export class ContextMenuComponent implements OnInit {
   onContextMenuClick(event: Event, data: ContextMenuItem) {
     this.onContextMenuItemClick.emit({
       event,
-      data
+      data,
+      target: this.target,
     });
   }
 

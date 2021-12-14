@@ -1,10 +1,14 @@
-import { Component, ElementRef, HostListener, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ContextMenuClick } from '../context-menu/context-menu.model';
 import { HasContextMenuComponent } from '../context-menu/has-context-menu.component';
+import { ExplorerAddFileComponent } from '../explorer-add-file/explorer-add-file.component';
+import { ExplorerAddFileDirective } from '../explorer-add-file/explorer-add-file.directive';
+import { AddFileType } from '../explorer-add-file/explorer-add-file.model';
 import { EditorFile, FileService } from '../file/file.service';
 import { CurrentSelectedService } from './current-selected.service';
 
-interface ExplorerFile extends EditorFile {
+export interface ExplorerFile extends EditorFile {
+  children?: ExplorerFile[];
   edit?: boolean;
 }
 
@@ -14,10 +18,18 @@ interface ExplorerFile extends EditorFile {
   styleUrls: ['./explorer-directory.component.scss'],
 })
 export class ExplorerDirectoryComponent extends HasContextMenuComponent<EditorFile> implements OnInit {
-  @Input() children?: ExplorerFile[];
+  private static BASE_PADDING = 8;
+  private static ADD_PADDING = 25;
+
+  @ViewChild(ExplorerAddFileDirective, { static: true }) addFile!: ExplorerAddFileDirective;
+
+  @ViewChild('add', { static: true }) addRef!: ElementRef;
   @Input() root: boolean = false;
+  @Input() depth: number = 0;
   @Input() collapse?: boolean = false;
-  @Input() parent?: ExplorerFile;
+  @Input() parent: ExplorerFile = { name: '/', children: [], type: 'directory' };
+  @Output() onFilesUpdate: EventEmitter<EditorFile[]> = new EventEmitter<EditorFile[]>();
+
   protected contextMenuItems = [
     {
       text: 'loeschen',
@@ -26,6 +38,14 @@ export class ExplorerDirectoryComponent extends HasContextMenuComponent<EditorFi
     {
       text: 'umbenennen',
       event: 'rename',
+    },
+    {
+      text: 'neue datei',
+      event: 'new-file',
+    },
+    {
+      text: 'neuer ordner',
+      event: 'new-dir',
     },
   ];
   private tmpName?: string;
@@ -105,11 +125,15 @@ export class ExplorerDirectoryComponent extends HasContextMenuComponent<EditorFi
     this.tmpName = fileName;
   }
 
-  @HostListener('mousedown')
+  @HostListener('document:mousedown')
   closeEditForAllChild(): void {
-    this.children?.forEach(child => {
+    this.parent.children?.forEach(child => {
       child.edit = undefined;
     });
+  }
+
+  paddingLeft(): string {
+    return `${this.depth * ExplorerDirectoryComponent.ADD_PADDING + ExplorerDirectoryComponent.BASE_PADDING}px !important`;
   }
 
   protected onContextMenuItemClick($event: ContextMenuClick, data: ExplorerFile): void {
@@ -119,7 +143,13 @@ export class ExplorerDirectoryComponent extends HasContextMenuComponent<EditorFi
         break;
       case 'delete':
         this.deleteChild(data);
-        this.children = (this.children || []).filter(file => file !== data);
+        this.parent.children = this.parent.children?.filter(file => file !== data);
+        break;
+      case 'new-file':
+        this.add($event.target?.closest('li'));
+        break;
+      case 'new-dir':
+        this.add($event.target?.closest('li'), 'directory');
         break;
       default:
         console.warn(`unknown event [${$event.data.event}]`);
@@ -133,6 +163,39 @@ export class ExplorerDirectoryComponent extends HasContextMenuComponent<EditorFi
   }
 
   private deleteChild(child: EditorFile): void {
-    this.children = (this.children || []).filter(file => file !== child);
+    this.parent.children = this.parent.children?.filter(file => file !== child);
+  }
+
+  private add(sibling?: HTMLElement | null, type: AddFileType = 'file'): void {
+    if (!sibling) { return; }
+    const siblingType = sibling.dataset['type'] || 'file';
+    const siblingName = sibling.dataset['name'];
+    const viewContainerRef = this.addFile.viewContainerRef;
+    viewContainerRef.clear();
+    const componentRef = viewContainerRef.createComponent<ExplorerAddFileComponent>(ExplorerAddFileComponent);
+    componentRef.instance.type = type;
+
+    componentRef.instance.onAddFileAbort.subscribe(() => {
+      viewContainerRef?.clear();
+    });
+    componentRef.instance.onAddFileSave.subscribe((file: EditorFile) => {
+      const dir = (siblingType === 'file') ? this.parent.children : this.parent.children?.find(child => child.name === siblingName)?.children;
+      console.log(dir);
+      if (dir?.find(child => child.name === file.name)) {
+        alert(`${file.name} already exists`);
+        componentRef?.instance.inputRef.nativeElement.focus();
+        return;
+      }
+      viewContainerRef?.clear();
+      if (siblingType === 'file') {
+        this.parent.children?.push(file);
+      } else {
+        this.parent.children?.forEach(child => {
+          if (child.name === siblingName) { child.children?.push(file);}
+        });
+      }
+      this.currentSelectedService.currentSelected = file;
+    });
+    sibling.parentElement?.appendChild(componentRef.location.nativeElement);
   }
 }

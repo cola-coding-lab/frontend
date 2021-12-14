@@ -7,4 +7,5 @@ export interface ContextMenuItem {
 export interface ContextMenuClick {
   event: any;
   data: ContextMenuItem;
+  target?: HTMLElement;
 }

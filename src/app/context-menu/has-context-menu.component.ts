@@ -19,6 +19,7 @@ export abstract class HasContextMenuComponent<T extends any> {
 
     const componentRef = viewContainerRef.createComponent<ContextMenuComponent>(ContextMenuComponent);
     componentRef.instance.contextMenuItems = this.contextMenuItems;
+    componentRef.instance.target = $event.target as HTMLElement;
 
     componentRef.instance.onContextMenuItemClick.subscribe(($click: ContextMenuClick) => {
       this.onContextMenuItemClick($click, data);

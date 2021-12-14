@@ -9,17 +9,17 @@ export class FileService {
   private filesSubject: Subject<EditorFile[]>;
   private currentSubject: Subject<EditorFile | undefined>;
   private files: EditorFile[] = [
-    new ExplorerFile({
+   {
       name: 'test.js',
       type: 'text/javascript',
       content: 'class Test {\n  constructor() {\n    this.a = 1;\n  }\n\n  something(x, y) {\n    this.a = x;\n    console.log(y);\n  }\n}',
-    }),
-    new ExplorerFile({
+    },
+    {
       name: 'main.js',
       type: 'text/javascript',
       content: 'const t = new Test();\nt.something(12, 3);\nconsole.log(t.a);\ndocument.write(t.a);',
-    }),
-    new ExplorerFile({
+    },
+    {
       name: 'src',
       type: 'directory',
       children: [
@@ -29,7 +29,7 @@ export class FileService {
           content: 'console.log("something");',
         },
       ],
-    }),
+    },
   ];
   private currentFile?: EditorFile;
 
@@ -98,8 +98,10 @@ export interface EditorFile {
   children?: EditorFile[];
 }
 
+export const validFileExtensionRegex = /\.(js|css|html?|txt)/i;
+
 export function getFileType(value: string, defaultType: FileType = 'text/plain'): FileType {
-  const result = /\.(js|css|html?|txt)/i.exec(value);
+  const result = validFileExtensionRegex.exec(value);
   if (result?.[1]) {
     switch (result[1].toLowerCase()) {
       case 'js':
@@ -116,83 +118,4 @@ export function getFileType(value: string, defaultType: FileType = 'text/plain')
     }
   }
   return defaultType;
-}
-
-
-class ExplorerFile implements EditorFile {
-  public name: string;
-  public readonly type: FileType;
-  public isOpen: boolean;
-  private _editor?: CodeMirror.Editor;
-
-  constructor(obj?: EditorFile) {
-    this.name = obj?.name || '';
-    this.type = obj?.type || 'text/plain';
-    if (this.isDirectory) {
-      this._children = obj?.children?.map(child => new ExplorerFile(child)) || [];
-    }
-    if (this.isFile) {
-      this._content = obj?.content || '';
-      this._editor = obj?.editor || undefined;
-    }
-    this._isModified = obj?.isModified || false;
-    this.isOpen = obj?.isOpen || false;
-  }
-
-  private _content?: string;
-
-  public get content() {
-    return this._content || '';
-  }
-
-  public set content(val: string) {
-    if (this.isDirectory) { return; }
-    this._content = val;
-  }
-
-  private _isModified?: boolean;
-
-  public get isModified() {
-    return this._isModified || false;
-  }
-
-  public set isModified(val: boolean) {
-    this._isModified = val;
-  }
-
-  private _children?: EditorFile[];
-
-  public get children() {
-    if (this.isFile) { return; }
-    return this._children;
-  }
-
-  public get isDirectory() {
-    return this.type === 'directory';
-  }
-
-  public get isFile() {
-    return !this.isDirectory;
-  }
-
-  public getEditor(): CodeMirror.Editor | undefined {
-    return this._editor;
-  }
-
-  public setEditor(val?: CodeMirror.Editor): void {
-    if (this.isDirectory) { return; }
-    this._editor = val;
-  }
-
-  public addChild(child: EditorFile): void {
-    if (this.isFile) { return; }
-    if (!this._children!!.includes(child)) {
-      this._children!!.push(child);
-    }
-  }
-
-  public removeChild(child: EditorFile): void {
-    if (this.isFile) { return; }
-    this._children = this._children!!.filter(file => file !== child);
-  }
 }

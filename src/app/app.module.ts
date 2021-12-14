@@ -14,6 +14,9 @@ import { ExplorerComponent } from './explorer/explorer.component';
 import { ContextMenuComponent } from './context-menu/context-menu.component';
 import { ContextMenuDirective } from './context-menu/context-menu.directive';
 import { ExplorerDirectoryComponent } from './explorer-directory/explorer-directory.component';
+import { ExplorerAddFileComponent } from './explorer-add-file/explorer-add-file.component';
+import { ExplorerAddFileDirective } from './explorer-add-file/explorer-add-file.directive';
+import { SortExplorerPipe } from './explorer-directory/sort-explorer.pipe';
 
 @NgModule({
   declarations: [
@@ -29,6 +32,9 @@ import { ExplorerDirectoryComponent } from './explorer-directory/explorer-direct
     ContextMenuComponent,
     ContextMenuDirective,
     ExplorerDirectoryComponent,
+    ExplorerAddFileComponent,
+    ExplorerAddFileDirective,
+    SortExplorerPipe,
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,5 @@
 <div class="explorer-container">
-  <app-explorer-directory [children]="files" [root]="true"></app-explorer-directory>
+  <app-explorer-directory [parent]="root" [root]="true" (onFilesUpdate)="setFiles($event)"></app-explorer-directory>
 </div>
 
 <!--
