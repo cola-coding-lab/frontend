@@ -11,6 +11,7 @@ export class ExplorerAddFileComponent implements OnInit {
   filename: string = '';
   @ViewChild('input', { static: true }) inputRef!: ElementRef;
   @Input() type: AddFileType = 'file';
+  @Input() paddingLeft = '0';
 
   @Output() onAddFileSave: EventEmitter<EditorFile> = new EventEmitter<EditorFile>();
   @Output() onAddFileAbort: EventEmitter<void> = new EventEmitter<void>();
@@ -21,7 +22,7 @@ export class ExplorerAddFileComponent implements OnInit {
     this.inputRef.nativeElement.focus();
   }
 
-  save($event: MouseEvent): void {
+  save($event?: MouseEvent): void {
     if (this.filename === '') {
       alert('pleaser enter filename');
       return;
@@ -49,6 +50,19 @@ export class ExplorerAddFileComponent implements OnInit {
     if (!(this.elRef.nativeElement as HTMLElement).contains(target)
       || target.getAttribute('type') === 'reset') {
       this.onAddFileAbort.emit();
+    }
+  }
+
+  onKeyDown($event: KeyboardEvent) {
+    switch ($event.key) {
+      case 'Enter':
+        this.save();
+        break;
+      case 'Escape':
+        this.onAddFileAbort.emit();
+        break;
+      default:
+        break;
     }
   }
 }

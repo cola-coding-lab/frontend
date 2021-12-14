@@ -1,7 +1,7 @@
-<form>
-<input name="filename" #input type="text" [(ngModel)]="filename">
-<div class="btn-group btn-group-sm" role="group" aria-label="save abort">
-  <button type="success" class="btn btn-success" (click)="save($event)">save</button>
-  <button type="reset" class="btn btn-warning" (click)="abort($event)">abort</button>
+<div class="form" [style.padding-left]="paddingLeft" (keydown)="onKeyDown($event)">
+  <input name="filename" #input type="text" [(ngModel)]="filename">
+  <div class="btn-group btn-group-sm" role="group" aria-label="save abort">
+    <button type="success" class="btn btn-success" (click)="save($event)">save</button>
+    <button type="reset" class="btn btn-warning" (click)="abort($event)">abort</button>
+  </div>
 </div>
-</form>

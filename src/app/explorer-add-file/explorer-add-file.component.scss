@@ -1,0 +1,16 @@
+.form {
+  background: white;
+  padding-bottom: 5px;
+  input {
+    // border: none;
+    // appearance: none;
+    // outline: none;
+    width: 100%;
+
+    &:focus {
+      // border: none;
+      // appearance: none;
+      // outline: none !important;
+    }
+  }
+}

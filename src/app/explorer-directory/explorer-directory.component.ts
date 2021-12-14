@@ -19,7 +19,7 @@ export interface ExplorerFile extends EditorFile {
 })
 export class ExplorerDirectoryComponent extends HasContextMenuComponent<EditorFile> implements OnInit {
   private static BASE_PADDING = 8;
-  private static ADD_PADDING = 25;
+  private static ADD_PADDING = 22;
 
   @ViewChild(ExplorerAddFileDirective, { static: true }) addFile!: ExplorerAddFileDirective;
 
@@ -79,7 +79,7 @@ export class ExplorerDirectoryComponent extends HasContextMenuComponent<EditorFi
     $event.stopPropagation();
     if (this.isDirectory(child) && this.isActive(child)) {
       this.toggleDirectoryIsOpen(child);
-    } else {
+    } else if (!this.isDirectory(child)) {
       this.fileService.select(child, this.parent);
     }
     this.currentSelectedService.currentSelected = child;
@@ -174,6 +174,7 @@ export class ExplorerDirectoryComponent extends HasContextMenuComponent<EditorFi
     viewContainerRef.clear();
     const componentRef = viewContainerRef.createComponent<ExplorerAddFileComponent>(ExplorerAddFileComponent);
     componentRef.instance.type = type;
+    componentRef.instance.paddingLeft = this.paddingLeft();
 
     componentRef.instance.onAddFileAbort.subscribe(() => {
       viewContainerRef?.clear();
