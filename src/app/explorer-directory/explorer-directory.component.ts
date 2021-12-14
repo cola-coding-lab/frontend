@@ -23,6 +23,10 @@ export class ExplorerDirectoryComponent extends HasContextMenuComponent<EditorFi
       text: 'loeschen',
       event: 'delete',
     },
+    {
+      text: 'umbenennen',
+      event: 'rename',
+    },
   ];
   private tmpName?: string;
   private activeFile?: EditorFile;
@@ -36,6 +40,10 @@ export class ExplorerDirectoryComponent extends HasContextMenuComponent<EditorFi
     ref?.nativeElement?.focus();
   }
 
+  private static enableEdit(child: ExplorerFile): void {
+    child.edit = true;
+  }
+
   ngOnInit(): void {
     this.currentSelectedService.currentSelected$(
       value => this.activeFile = value,
@@ -47,12 +55,10 @@ export class ExplorerDirectoryComponent extends HasContextMenuComponent<EditorFi
     return file.type === 'directory';
   }
 
-  clicked($event: MouseEvent, child: EditorFile) {
+  clicked($event: MouseEvent, child: EditorFile): void {
     $event.stopPropagation();
-    if (this.isDirectory(child)) {
-      if (this.isActive(child)) {
-        child.isOpen = !child.isOpen;
-      }
+    if (this.isDirectory(child) && this.isActive(child)) {
+      this.toggleDirectoryIsOpen(child);
     } else {
       this.fileService.select(child, this.parent);
     }
@@ -61,29 +67,26 @@ export class ExplorerDirectoryComponent extends HasContextMenuComponent<EditorFi
 
   toggle($event: MouseEvent, child: EditorFile): void {
     $event.stopPropagation();
-    if (this.isDirectory(child)) {
-      child.isOpen = !child.isOpen;
-    }
+    this.toggleDirectoryIsOpen(child);
   }
 
-  isActive(child: EditorFile) {
+  isActive(child: EditorFile): boolean {
     return this.activeFile === child && child !== this.parent;
   }
 
-  edit($event: MouseEvent, child: ExplorerFile) {
+  edit($event: MouseEvent, child: ExplorerFile): void {
     $event.stopPropagation();
-    child.edit = true;
+    ExplorerDirectoryComponent.enableEdit(child);
   }
 
-  delete($event: MouseEvent, child: EditorFile) {
+  delete($event: MouseEvent, child: EditorFile): void {
     $event.stopPropagation();
     if (window.confirm(`will you ${child.name} delete?`)) {
-      console.log('delete', child);
-      // TODO...
+      this.deleteChild(child);
     }
   }
 
-  exitEdit($event: KeyboardEvent, child: ExplorerFile) {
+  exitEdit($event: KeyboardEvent, child: ExplorerFile): void {
     switch ($event.key) {
       case 'Escape':
         child.edit = undefined;
@@ -96,25 +99,40 @@ export class ExplorerDirectoryComponent extends HasContextMenuComponent<EditorFi
       default:
         break;
     }
-
-    if ($event.key === 'Enter') {
-      child.edit = undefined;
-    }
-
   }
 
-  changeName(value: string) {
-    this.tmpName = value;
+  updateFileName(fileName: string): void {
+    this.tmpName = fileName;
   }
 
   @HostListener('mousedown')
-  closeEdit() {
+  closeEditForAllChild(): void {
     this.children?.forEach(child => {
       child.edit = undefined;
     });
   }
 
-  protected onContextMenuItemClick($event: ContextMenuClick, data?: EditorFile): void {
-    this.children = (this.children || []).filter(file => file !== data);
+  protected onContextMenuItemClick($event: ContextMenuClick, data: ExplorerFile): void {
+    switch ($event.data.event) {
+      case 'rename':
+        ExplorerDirectoryComponent.enableEdit(data);
+        break;
+      case 'delete':
+        this.deleteChild(data);
+        this.children = (this.children || []).filter(file => file !== data);
+        break;
+      default:
+        console.warn(`unknown event [${$event.data.event}]`);
+    }
+  }
+
+  private toggleDirectoryIsOpen(child: EditorFile): void {
+    if (this.isDirectory(child)) {
+      child.isOpen = !child.isOpen;
+    }
+  }
+
+  private deleteChild(child: EditorFile): void {
+    this.children = (this.children || []).filter(file => file !== child);
   }
 }

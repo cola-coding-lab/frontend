@@ -2,8 +2,8 @@
   <div *ngFor="let child of children">
     <li class="list-group-item list-group-item-action d-flex justify-content-between"
         [class.active]="isActive(child)"
-
         (click)="clicked($event, child)"
+        (contextmenu)="displayContextMenu($event, child)"
         [attr.data-toggle]="isDirectory(child) ? 'collapse' : null"
     >
       <div>
@@ -12,7 +12,8 @@
            (click)="toggle($event, child)"
            *ngIf="isDirectory(child)"></i>
         <span *ngIf="!child.edit">{{child.name}}<span *ngIf="child.isModified">*</span></span>
-        <input type="text" [ngModel]="child.name" (ngModelChange)="changeName($event)" (keydown)="exitEdit($event, child)" #editRef *ngIf="child.edit">
+        <input type="text" [ngModel]="child.name" (ngModelChange)="updateFileName($event)"
+               (keydown)="exitEdit($event, child)" #editRef *ngIf="child.edit">
       </div>
       <div class="options d-inline-block">
         <i class="bi bi-pencil-square" (click)="edit($event, child)"></i>
