@@ -8,16 +8,15 @@ import { Component, ElementRef, HostBinding, Input, OnInit } from '@angular/core
 export class FlexContainerComponent implements OnInit {
   @Input() min: number = 1;
   @Input() breaks: string[] = [];
-
-  @HostBinding('style.minHeight')
-  get minHeight(): string { return `${this.min}%` }
-
-  @HostBinding('style.minWidth')
-  get minWidth(): string { return `${this.min}%` }
-
   private styles?: CSSStyleDeclaration;
 
   constructor(private elRef: ElementRef) { }
+
+  @HostBinding('style.minHeight')
+  get minHeight(): string { return `${this.min}%`; }
+
+  @HostBinding('style.minWidth')
+  get minWidth(): string { return `${this.min}%`; }
 
   public switch(bp: string): void {
     if (this.breaks.includes(bp)) {

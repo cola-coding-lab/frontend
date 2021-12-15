@@ -1,10 +1,10 @@
-import { AfterViewInit, Component, ElementRef, HostListener, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { timestamp } from 'src/util/datetime';
 
 @Component({
   selector: 'app-log',
   templateUrl: './log.component.html',
-  styleUrls: ['./log.component.scss']
+  styleUrls: ['./log.component.scss'],
 })
 export class LogComponent implements AfterViewInit {
   private static readonly AUTOSCROLL_THRESHOLD = 15;

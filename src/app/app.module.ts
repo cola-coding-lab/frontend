@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { ContextMenuModule } from './context-menu/context-menu.module';
+import { EditorContainerComponent } from './editor-container/editor-container.component';
 import { EditorComponent } from './editor/editor.component';
 import { ExplorerModule } from './explorer/explorer.module';
 import { FlexContainerComponent } from './flex-container/flex-container.component';
@@ -12,7 +13,6 @@ import { HeaderComponent } from './header/header.component';
 import { LogComponent } from './log/log.component';
 import { MainComponent } from './main/main.component';
 import { OutputComponent } from './output/output.component';
-import { EditorContainerComponent } from './editor-container/editor-container.component';
 
 @NgModule({
   declarations: [
