@@ -1,5 +1,10 @@
-.explorer-container {
-  max-height: 33.33333%;
-  position: relative;
-  overflow-y: auto;
-}
+  .explorer-container {
+    max-height: 33.33333%;
+    position: relative;
+    overflow: auto;
+
+    & > explorer-directory {
+      display: grid;
+      white-space: nowrap;
+    }
+  }

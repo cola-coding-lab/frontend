@@ -7,7 +7,6 @@ app-context-menu {
 
 .list-group.list-group-root {
   padding: 0;
-  overflow: hidden;
   border-radius: 0;
 
   .list-group {
@@ -17,7 +16,7 @@ app-context-menu {
   .list-group-item {
     border-radius: 0;
     border-width: 1px 0 0 0;
-    padding: 0.2rem 0.5rem;
+    padding: 0.2rem 3.0rem;
 
     .bi {
       margin-right: 5px;
