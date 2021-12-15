@@ -1,6 +1,9 @@
 import { Component, HostListener, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { getPropertyFor, setPropertyFor } from 'src/util/properties';
+import { parseNum } from '../../util/number';
 import { FlexContainerComponent } from '../flex-container/flex-container.component';
+import { breakpoints, dividerVars, getDirection, measurements, viewMeasures } from './main.constants';
+import { BootstrapBreakPoint } from './main.model';
 
 @Component({
   selector: 'app-main',
@@ -8,7 +11,7 @@ import { FlexContainerComponent } from '../flex-container/flex-container.compone
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
-  @ViewChildren(FlexContainerComponent) private childs!: QueryList<FlexContainerComponent>;
+  @ViewChildren(FlexContainerComponent) private children!: QueryList<FlexContainerComponent>;
   private innerWidth: number = 0;
 
   constructor() { }
@@ -20,7 +23,7 @@ export class MainComponent implements OnInit {
     Object.keys(breakpoints).forEach(bpt => {
       if ((previousWidth < breakpoints[bpt] && this.innerWidth >= breakpoints[bpt])
         || (previousWidth >= breakpoints[bpt] && this.innerWidth < breakpoints[bpt])) {
-        return this.childs['_results'].forEach((child: FlexContainerComponent) => {
+        return this.children['_results'].forEach((child: FlexContainerComponent) => {
           child.switch(bpt);
         });
       }
@@ -29,7 +32,6 @@ export class MainComponent implements OnInit {
 
   ngOnInit(): void {
     this.innerWidth = window.innerWidth;
-
   }
 
   public resize($event: MouseEvent): void {
@@ -40,12 +42,12 @@ export class MainComponent implements OnInit {
     const resizer = $event.target as HTMLElement;
     const prevSibling = resizer.previousElementSibling as HTMLElement;
     const nextSibling = resizer.nextElementSibling as HTMLElement;
-    const direction = this.direction(resizer);
+    const direction = getDirection(resizer);
     const m = measurements[direction];
     const vm = viewMeasures[direction];
 
-    const prevMin = this.parseNum(getComputedStyle(prevSibling).getPropertyValue(`min-${m}`));
-    const nextMin = this.parseNum(getComputedStyle(nextSibling).getPropertyValue(`min-${m}`));
+    const prevMin = parseNum(getComputedStyle(prevSibling).getPropertyValue(`min-${m}`));
+    const nextMin = parseNum(getComputedStyle(nextSibling).getPropertyValue(`min-${m}`));
 
     const prevValue = prevSibling?.getBoundingClientRect()[m];
 
@@ -82,47 +84,5 @@ export class MainComponent implements OnInit {
   public getDirection(breakpoint: BootstrapBreakPoint = 'lg'): string {
     return this.innerWidth >= breakpoints[breakpoint] ? 'horizontal' : 'vertical';
   }
-
-  private parseNum(value: string, fallback = 1): number {
-    return +(/(\d{1,3})%?/.exec(value)?.[1] || fallback);
-  }
-
-  private direction(element: HTMLElement): 'vertical' | 'horizontal' {
-    return /vertical|horizontal/i.exec(element.getAttribute('data-direction') || '')?.[0] as 'vertical' | 'horizontal' || 'horizontal';
-  }
 }
 
-type BootstrapBreakPoint = 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
-
-interface StringNumber {[key: string]: number;}
-
-interface BootstrapBreakPoints extends StringNumber {
-  'sm': number;
-  'md': number;
-  'lg': number;
-  'xl': number;
-  'xxl': number;
-}
-
-const breakpoints: BootstrapBreakPoints = {
-  'sm': 576,
-  'md': 768,
-  'lg': 992,
-  'xl': 1200,
-  'xxl': 1400,
-};
-
-const measurements: { [key: string]: 'height' | 'width' } = {
-  vertical: 'height',
-  horizontal: 'width',
-};
-const viewMeasures: { [key: string]: 'vh' | 'vw' } = {
-  vertical: 'vh',
-  horizontal: 'vw',
-};
-
-const dividerVars = {
-  size: '--divider-size',
-  after: '--divider-after',
-  lt: '--divider-lt',
-};
