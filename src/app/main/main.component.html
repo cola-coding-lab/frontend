@@ -27,54 +27,7 @@
         [min]="25"
         [breaks]="['md']"
       >
-        <ul
-          #tabs
-          class="nav nav-tabs"
-          id="fileTab"
-          role="tablist"
-          aria-label="Open code files"
-          *ngIf="openFiles.length > 1"
-        >
-          <li class="nav-item" *ngFor="let f of openFiles" role="presentation">
-            <button
-              class="nav-link"
-              aria-current="page"
-              (click)="setCurrent(f)"
-              [class.active]="f.isOpen"
-              [id]="tabId(f)"
-              data-bs-toggle="tab"
-              [attr.data-bs-target]="'#' + contentId(f)"
-              type="button"
-              role="tab"
-              [attr.aria-controls]="contentId(f)"
-              [attr.aria-selected]="f.isOpen"
-            >
-              {{ f.name }}<span *ngIf="f.isModified"> *</span>
-              <div class="close" (click)="close(f)"></div>
-            </button>
-          </li>
-        </ul>
-        <div
-          class="tab-content"
-          id="fileTabContent"
-          *ngIf="openFiles.length > 1"
-        >
-          <div
-            *ngFor="let f of openFiles"
-            class="tab-pane fade h-100"
-            [class.active]="f.isOpen"
-            [class.show]="f.isOpen"
-            role="tabpanel"
-            [attr.aria-labelledby]="tabId(f)"
-            [id]="contentId(f)"
-          >
-            <app-editor [file]="f"></app-editor>
-          </div>
-        </div>
-        <div class="position-relative h-100" *ngIf="openFiles.length === 1">
-          <app-editor [file]="openFiles[0]"></app-editor>
-          <div class="close" (click)="close(openFiles[0])"></div>
-        </div>
+        <app-editor-container></app-editor-container>
       </app-flex-container>
 
       <div

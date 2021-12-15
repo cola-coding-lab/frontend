@@ -1,35 +1,17 @@
-import { Component, ElementRef, HostListener, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, HostListener, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { getPropertyFor, setPropertyFor } from 'src/util/properties';
-import { EditorFile, FileService } from '../file/file.service';
 import { FlexContainerComponent } from '../flex-container/flex-container.component';
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss']
+  styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
   @ViewChildren(FlexContainerComponent) private childs!: QueryList<FlexContainerComponent>;
-  @ViewChild('tabs') public set tabs(tab: ElementRef) {
-    if (tab?.nativeElement?.parentElement) {
-      setPropertyFor(tab.nativeElement.parentElement, 'tabs-height', tab.nativeElement.clientHeight);
-    }
-  }
-
   private innerWidth: number = 0;
 
-  public openFiles: EditorFile[] = [];
-  public file?: EditorFile;
-
-  constructor(private fileService: FileService) { }
-
-  private parseNum(value: string, fallback = 1): number {
-    return +(/(\d{1,3})%?/.exec(value)?.[1] || fallback);
-  }
-
-  private direction(element: HTMLElement): 'vertical' | 'horizontal' {
-    return /vertical|horizontal/i.exec(element.getAttribute('data-direction') || '')?.[0] as 'vertical' | 'horizontal' || 'horizontal';
-  }
+  constructor() { }
 
   @HostListener('window:resize', ['$event'])
   onResize(event: UIEvent): void {
@@ -47,31 +29,7 @@ export class MainComponent implements OnInit {
 
   ngOnInit(): void {
     this.innerWidth = window.innerWidth;
-    this.fileService.current(
-      file => {
-        if (file && !this.openFiles.includes(file)) {
-          this.openFiles.push(file);
-        }
-        if (file) { this.setCurrent(file); }
-      },
-      err => console.error(err),
-    );
-  }
 
-  public close(file: EditorFile): void {
-    this.openFiles = this.openFiles.filter(f => f !== file);
-    file.isOpen = false;
-    file.editor = undefined;
-    if (this.openFiles.length > 0 && !this.openFiles.find(f => f.isOpen)) {
-      this.openFiles[0].isOpen = true;
-      this.file = this.openFiles[0];
-    }
-  }
-
-  public setCurrent(file: EditorFile): void {
-    this.file = file;
-    this.openFiles = this.openFiles.map(f => { f.isOpen = undefined; return f; });
-    this.file.isOpen = true;
   }
 
   public resize($event: MouseEvent): void {
@@ -102,20 +60,20 @@ export class MainComponent implements OnInit {
       const pos: { [key: string]: number } = {
         height: e.clientY - y,
         width: e.clientX - x,
-      }
+      };
 
       const newVal = (prevValue + pos[m]) * 100 / (resizer.parentNode! as Element).getBoundingClientRect()[m];
       if (newVal > prevMin && newVal < (100 - nextMin)) {
         prevSibling.style[m] = `${newVal}%`;
         nextSibling.style[m] = `${100 - newVal}%`;
       }
-    }
+    };
     const mouseUpHandler = () => {
       document.removeEventListener('mousemove', mouseMoveHandler);
       document.removeEventListener('mouseup', mouseUpHandler);
       resizer.style.setProperty(dividerVars.after, oldAfter);
       resizer.style.setProperty(dividerVars.lt, oldLt);
-    }
+    };
 
     document.addEventListener('mousemove', mouseMoveHandler);
     document.addEventListener('mouseup', mouseUpHandler);
@@ -125,18 +83,18 @@ export class MainComponent implements OnInit {
     return this.innerWidth >= breakpoints[breakpoint] ? 'horizontal' : 'vertical';
   }
 
-  public tabId(file: EditorFile): string {
-    return this.contentId(file) + '-tab';
+  private parseNum(value: string, fallback = 1): number {
+    return +(/(\d{1,3})%?/.exec(value)?.[1] || fallback);
   }
 
-  public contentId(file: EditorFile): string {
-    return file.name.replace('.', '_');
+  private direction(element: HTMLElement): 'vertical' | 'horizontal' {
+    return /vertical|horizontal/i.exec(element.getAttribute('data-direction') || '')?.[0] as 'vertical' | 'horizontal' || 'horizontal';
   }
 }
 
 type BootstrapBreakPoint = 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
 
-interface StringNumber { [key: string]: number }
+interface StringNumber {[key: string]: number;}
 
 interface BootstrapBreakPoints extends StringNumber {
   'sm': number;
