@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
-import { EditorFile } from '../../file/file.service';
+import { CurrentSelectedService } from '../../explorer/directory/current-selected.service';
+import { EditorFile } from '../../file/file.model';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +10,9 @@ export class OpenTabsService {
   private subject: Subject<EditorFile[]>;
   private files: EditorFile[] = [];
 
-  constructor() {
+  constructor(
+    private explorerCurrentSelectedService: CurrentSelectedService,
+  ) {
     this.subject = new BehaviorSubject<EditorFile[]>([]);
   }
 
@@ -29,11 +32,13 @@ export class OpenTabsService {
     file.editor = undefined;
     this.files = this.files.filter(f => file !== f);
     this.subject.next(this.files);
+    this.explorerCurrentSelectedService.currentSelected = null;
   }
 
   public select(file: EditorFile): void {
     this.files.forEach(f => { f.isOpen = false; });
     file.isOpen = true;
     this.add(file);
+    this.explorerCurrentSelectedService.currentSelected = file;
   }
 }

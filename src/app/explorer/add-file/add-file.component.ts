@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { EditorFile, getFileType, validFileExtensionRegex } from '../../file/file.service';
+import { EditorFile, getFileType, validFileExtensionRegex } from '../../file/file.model';
 import { AddFileType } from './add-file.model';
 
 @Component({

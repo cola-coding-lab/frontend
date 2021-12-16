@@ -2,16 +2,12 @@ import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Outpu
 import { ContextMenuClick } from '../../context-menu/context-menu.model';
 import { HasContextMenuComponent } from '../../context-menu/has-context-menu.component';
 import { OpenTabsService } from '../../editor/tab-container/open-tabs.service';
-import { EditorFile, FileService } from '../../file/file.service';
+import { EditorFile } from '../../file/file.model';
 import { AddFileComponent } from '../add-file/add-file.component';
 import { AddFileDirective } from '../add-file/add-file.directive';
 import { AddFileType } from '../add-file/add-file.model';
 import { CurrentSelectedService } from './current-selected.service';
-
-export interface ExplorerFile extends EditorFile {
-  children?: ExplorerFile[];
-  edit?: boolean;
-}
+import { ExplorerFile } from './directory.model';
 
 @Component({
   selector: 'explorer-directory',
@@ -22,43 +18,30 @@ export class DirectoryComponent extends HasContextMenuComponent<EditorFile> impl
   private static BASE_PADDING = 8;
   private static ADD_PADDING = 22;
 
-  @ViewChild(AddFileDirective, { static: true }) addFile!: AddFileDirective;
-
-  @ViewChild('add', { static: true }) addRef!: ElementRef;
-  @Input() root: boolean = false;
-  @Input() depth: number = 0;
-  @Input() collapse?: boolean = false;
-  @Input() parent: ExplorerFile = { name: '/', children: [], type: 'directory' };
-  @Output() onFilesUpdate: EventEmitter<EditorFile[]> = new EventEmitter<EditorFile[]>();
+  @Input() public root: boolean = false;
+  @Input() public depth: number = 0;
+  @Input() public collapse?: boolean = false;
+  @Input() public parent: ExplorerFile = { name: '/', children: [], type: 'directory' };
+  @Output() public onFilesUpdate: EventEmitter<EditorFile[]> = new EventEmitter<EditorFile[]>();
 
   protected contextMenuItems = [
-    {
-      text: 'loeschen',
-      event: 'delete',
-    },
-    {
-      text: 'umbenennen',
-      event: 'rename',
-    },
-    {
-      text: 'neue datei',
-      event: 'new-file',
-    },
-    {
-      text: 'neuer ordner',
-      event: 'new-dir',
-    },
+    { text: 'löschen', event: 'delete' },
+    { text: 'umbenennen', event: 'rename' },
+    { text: 'neue datei', event: 'new-file' },
+    { text: 'neuer ordner', event: 'new-dir' },
   ];
+
+  @ViewChild(AddFileDirective, { static: true }) private addFile!: AddFileDirective;
   private tmpName?: string;
   private activeFile?: EditorFile;
 
   constructor(
-    private fileService: FileService,
-    private openTabsService: OpenTabsService,
     private currentSelectedService: CurrentSelectedService,
+    private openTabsService: OpenTabsService,
   ) { super(); }
 
-  @ViewChild('editRef', { read: ElementRef }) set editRef(ref: ElementRef) {
+  @ViewChild('editRef', { read: ElementRef })
+  private set editRef(ref: ElementRef) {
     ref?.nativeElement?.focus();
   }
 
@@ -68,48 +51,59 @@ export class DirectoryComponent extends HasContextMenuComponent<EditorFile> impl
 
   ngOnInit(): void {
     this.currentSelectedService.currentSelected$(
-      value => this.activeFile = value,
+      value => {
+        this.activeFile = value;
+        if (
+          value
+          && !this.isDirectory(value)
+          && this.parent.children?.includes(value)
+        ) {
+          setTimeout(() => { // needed because state of parent node will be changed after change-detection run!
+            this.parent.isOpen = true;
+          }, 0);
+        }
+      },
       err => console.error(err),
     );
   }
 
-  isDirectory(file: EditorFile): boolean {
+  public isDirectory(file: EditorFile): boolean {
     return file.type === 'directory';
   }
 
-  clicked($event: MouseEvent, child: EditorFile): void {
+  public clicked($event: MouseEvent, child: EditorFile): void {
     $event.stopPropagation();
     if (this.isDirectory(child) && this.isActive(child)) {
       this.toggleDirectoryIsOpen(child);
     } else if (!this.isDirectory(child)) {
-      this.fileService.select(child, this.parent);
+      this.select(child);
       this.openTabsService.select(child);
     }
     this.currentSelectedService.currentSelected = child;
   }
 
-  toggle($event: MouseEvent, child: EditorFile): void {
+  public toggle($event: MouseEvent, child: EditorFile): void {
     $event.stopPropagation();
     this.toggleDirectoryIsOpen(child);
   }
 
-  isActive(child: EditorFile): boolean {
+  public isActive(child: EditorFile): boolean {
     return this.activeFile === child && child !== this.parent;
   }
 
-  edit($event: MouseEvent, child: ExplorerFile): void {
+  public edit($event: MouseEvent, child: ExplorerFile): void {
     $event.stopPropagation();
     DirectoryComponent.enableEdit(child);
   }
 
-  delete($event: MouseEvent, child: EditorFile): void {
+  public delete($event: MouseEvent, child: EditorFile): void {
     $event.stopPropagation();
     if (window.confirm(`will you ${child.name} delete?`)) {
       this.deleteChild(child);
     }
   }
 
-  exitEdit($event: KeyboardEvent, child: ExplorerFile): void {
+  public exitEdit($event: KeyboardEvent, child: ExplorerFile): void {
     switch ($event.key) {
       case 'Escape':
         child.edit = undefined;
@@ -124,18 +118,11 @@ export class DirectoryComponent extends HasContextMenuComponent<EditorFile> impl
     }
   }
 
-  updateFileName(fileName: string): void {
+  public updateFileName(fileName: string): void {
     this.tmpName = fileName;
   }
 
-  @HostListener('document:mousedown')
-  closeEditForAllChild(): void {
-    this.parent.children?.forEach(child => {
-      child.edit = undefined;
-    });
-  }
-
-  paddingLeft(): string {
+  public paddingLeft(): string {
     return `${this.depth * DirectoryComponent.ADD_PADDING + DirectoryComponent.BASE_PADDING}px !important`;
   }
 
@@ -157,6 +144,13 @@ export class DirectoryComponent extends HasContextMenuComponent<EditorFile> impl
       default:
         console.warn(`unknown event [${$event.data.event}]`);
     }
+  }
+
+  @HostListener('document:mousedown')
+  private closeEditForAllChild(): void {
+    this.parent.children?.forEach(child => {
+      child.edit = undefined;
+    });
   }
 
   private toggleDirectoryIsOpen(child: EditorFile): void {
@@ -194,14 +188,38 @@ export class DirectoryComponent extends HasContextMenuComponent<EditorFile> impl
       viewContainerRef?.clear();
       if (siblingType === 'file') {
         this.parent.children?.push(file);
-        this.openTabsService.select(file);
       } else {
         this.parent.children?.forEach(child => {
           if (child.name === siblingName) { child.children?.push(file);}
         });
       }
       this.currentSelectedService.currentSelected = file;
+      if (!this.isDirectory(file)) {
+        this.openTabsService.select(file);
+      }
     });
     sibling.parentElement?.appendChild(componentRef.location.nativeElement);
+  }
+
+  private select(file: EditorFile): void {
+    if (!this.includes(file, this.parent)) {
+      const children = this.parent.children || [];
+      this.parent.children = [...children, file];
+    } else if (!this.parent.children?.includes(file)) {
+      this.parent.children?.push(file);
+    }
+    this.onFilesUpdate.emit(this.parent.children);
+  }
+
+  private includes(file: EditorFile, parent?: EditorFile): boolean {
+    for (const child of parent?.children || []) {
+      if (child.type === 'directory') {
+        return this.includes(child, file);
+      }
+      if (child === file) {
+        return true;
+      }
+    }
+    return (parent === file);
   }
 }
