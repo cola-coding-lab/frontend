@@ -33,3 +33,20 @@ export function getFileType(value: string, defaultType: FileType = 'text/plain')
   }
   return defaultType;
 }
+
+export function emptyFile(name: string = 'main.js', type: FileType = 'text/javascript'): EditorFile {
+  return {
+    name,
+    type,
+    content: isFile(type) ? '' : undefined,
+    children: isDirectory(type) ? [] : undefined,
+  };
+}
+
+export function isDirectory(type: FileType): boolean {
+  return type === 'directory';
+}
+
+export function isFile(type: FileType): boolean {
+  return !isDirectory(type);
+}

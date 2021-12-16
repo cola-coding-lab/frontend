@@ -1,6 +1,7 @@
-import { EditorFile } from '../file/file.model';
+import { Project } from './project';
 
-export const projectMock: EditorFile[] = [
+const projectMock = Project.fromEmpty();
+projectMock.files = [
   {
     name: 'test.js',
     type: 'text/javascript',
@@ -23,3 +24,5 @@ export const projectMock: EditorFile[] = [
     ],
   },
 ];
+
+export { projectMock };

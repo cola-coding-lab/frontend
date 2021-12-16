@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { OpenTabsService } from '../editor/tab-container/open-tabs.service';
 import { EditorFile } from '../file/file.model';
 import { CurrentProjectService } from '../project/current-project.service';
+import { Project } from '../project/project';
 
 @Component({
   selector: 'app-explorer',
@@ -9,7 +10,8 @@ import { CurrentProjectService } from '../project/current-project.service';
   styleUrls: ['./explorer.component.scss'],
 })
 export class ExplorerComponent implements OnInit {
-  public root: EditorFile = { name: '/', type: 'directory', children: [] };
+  public root?: EditorFile; // = { name: '/', type: 'directory', children: [] };
+  public project?: Project;
 
   constructor(
     private openTabsService: OpenTabsService,
@@ -20,7 +22,7 @@ export class ExplorerComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentProjectService.subscribe(
-     files => this.root.children = files,
+      project => this.project = project,
       err => console.error(err),
     );
   }
