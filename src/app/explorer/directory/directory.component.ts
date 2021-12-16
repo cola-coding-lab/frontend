@@ -1,10 +1,11 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ContextMenuClick } from '../../context-menu/context-menu.model';
 import { HasContextMenuComponent } from '../../context-menu/has-context-menu.component';
+import { OpenTabsService } from '../../editor/tab-container/open-tabs.service';
+import { EditorFile, FileService } from '../../file/file.service';
 import { AddFileComponent } from '../add-file/add-file.component';
 import { AddFileDirective } from '../add-file/add-file.directive';
 import { AddFileType } from '../add-file/add-file.model';
-import { EditorFile, FileService } from '../../file/file.service';
 import { CurrentSelectedService } from './current-selected.service';
 
 export interface ExplorerFile extends EditorFile {
@@ -53,6 +54,7 @@ export class DirectoryComponent extends HasContextMenuComponent<EditorFile> impl
 
   constructor(
     private fileService: FileService,
+    private openTabsService: OpenTabsService,
     private currentSelectedService: CurrentSelectedService,
   ) { super(); }
 
@@ -81,6 +83,7 @@ export class DirectoryComponent extends HasContextMenuComponent<EditorFile> impl
       this.toggleDirectoryIsOpen(child);
     } else if (!this.isDirectory(child)) {
       this.fileService.select(child, this.parent);
+      this.openTabsService.select(child);
     }
     this.currentSelectedService.currentSelected = child;
   }
@@ -164,6 +167,7 @@ export class DirectoryComponent extends HasContextMenuComponent<EditorFile> impl
 
   private deleteChild(child: EditorFile): void {
     this.parent.children = this.parent.children?.filter(file => file !== child);
+    this.openTabsService.remove(child);
   }
 
   private add(sibling?: HTMLElement | null, type: AddFileType = 'file'): void {
@@ -190,6 +194,7 @@ export class DirectoryComponent extends HasContextMenuComponent<EditorFile> impl
       viewContainerRef?.clear();
       if (siblingType === 'file') {
         this.parent.children?.push(file);
+        this.openTabsService.select(file);
       } else {
         this.parent.children?.forEach(child => {
           if (child.name === siblingName) { child.children?.push(file);}

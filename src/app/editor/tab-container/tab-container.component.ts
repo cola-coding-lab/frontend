@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { setPropertyFor } from '../../../util/properties';
-import { EditorFile, FileService } from '../../file/file.service';
+import { EditorFile } from '../../file/file.service';
+import { OpenTabsService } from './open-tabs.service';
 
 @Component({
   selector: 'editor-tab-container',
@@ -8,10 +9,10 @@ import { EditorFile, FileService } from '../../file/file.service';
   styleUrls: ['./tab-container.component.scss'],
 })
 export class TabContainerComponent implements OnInit {
-  public openFiles: EditorFile[] = [];
+  public openTabs: EditorFile[] = [];
   public file?: EditorFile;
 
-  constructor(private fileService: FileService) { }
+  constructor(private openTabsService: OpenTabsService) { }
 
   @ViewChild('tabs')
   public set tabs(tab: ElementRef) {
@@ -21,34 +22,41 @@ export class TabContainerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fileService.current(
-      file => {
-        if (file && !this.openFiles.includes(file)) {
-          this.openFiles.push(file);
-        }
-        if (file) { this.setCurrent(file); }
-      },
-      err => console.error(err),
-    );
+    this.openTabsService.subscribe(files => {
+      this.openTabs = files;
+    });
+    // this.fileService.current(
+    //   file => {
+    //     if (file && !this.openFiles.includes(file)) {
+    //       this.openFiles.push(file);
+    //     }
+    //     if (file) { this.setCurrent(file); }
+    //   },
+    //   err => console.error(err),
+    // );
   }
 
   public close(file: EditorFile): void {
-    this.openFiles = this.openFiles.filter(f => f !== file);
+    this.openTabsService.remove(file);
+    /*
+    this.openTabs = this.openTabs.filter(f => f !== file);
     file.isOpen = false;
     file.editor = undefined;
-    if (this.openFiles.length > 0 && !this.openFiles.find(f => f.isOpen)) {
-      this.openFiles[0].isOpen = true;
-      this.file = this.openFiles[0];
+    if (this.openTabs.length > 0 && !this.openTabs.find(f => f.isOpen)) {
+      this.openTabs[0].isOpen = true;
+      this.file = this.openTabs[0];
     }
+     */
   }
 
-  public setCurrent(file: EditorFile): void {
-    this.file = file;
-    this.openFiles = this.openFiles.map(f => {
-      f.isOpen = undefined;
-      return f;
-    });
-    this.file.isOpen = true;
+  public select(file: EditorFile): void {
+    this.openTabsService.select(file);
+    // this.file = file;
+    // this.openTabs = this.openTabs.map(f => {
+    //   f.isOpen = undefined;
+    //   return f;
+    // });
+    // this.file.isOpen = true;
   }
 
   public tabId(file: EditorFile): string {

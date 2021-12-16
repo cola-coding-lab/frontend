@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { OpenTabsService } from '../editor/tab-container/open-tabs.service';
 import { EditorFile, FileService } from '../file/file.service';
 
 @Component({
@@ -10,7 +11,10 @@ export class ExplorerComponent implements OnInit {
   public root: EditorFile = {name: '/', type: 'directory', children: []}
   public addFile = false;
 
-  constructor(private fileService: FileService) {
+  constructor(
+    private fileService: FileService,
+    private openTabsService: OpenTabsService,
+    ) {
   }
 
   ngOnInit(): void {
@@ -28,7 +32,8 @@ export class ExplorerComponent implements OnInit {
   }
 
   public select(file: EditorFile): void {
-    console.log('select', file);
-    this.fileService.select(file);
+    // console.log('select', file);
+    // this.fileService.select(file);
+    this.openTabsService.select(file);
   }
 }
