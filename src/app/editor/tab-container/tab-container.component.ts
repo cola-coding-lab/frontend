@@ -1,13 +1,13 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { setPropertyFor } from '../../util/properties';
-import { EditorFile, FileService } from '../file/file.service';
+import { setPropertyFor } from '../../../util/properties';
+import { EditorFile, FileService } from '../../file/file.service';
 
 @Component({
-  selector: 'app-editor-container',
-  templateUrl: './editor-container.component.html',
-  styleUrls: ['./editor-container.component.scss'],
+  selector: 'editor-tab-container',
+  templateUrl: './tab-container.component.html',
+  styleUrls: ['./tab-container.component.scss'],
 })
-export class EditorContainerComponent implements OnInit {
+export class TabContainerComponent implements OnInit {
   public openFiles: EditorFile[] = [];
   public file?: EditorFile;
 

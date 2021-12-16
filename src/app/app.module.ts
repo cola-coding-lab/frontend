@@ -4,8 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { ContextMenuModule } from './context-menu/context-menu.module';
-import { EditorContainerComponent } from './editor-container/editor-container.component';
-import { EditorComponent } from './editor/editor.component';
+import { TabContainerComponent } from './editor/tab-container/tab-container.component';
+import { EditorModule } from './editor/editor.module';
 import { ExplorerModule } from './explorer/explorer.module';
 import { FlexContainerComponent } from './flex-container/flex-container.component';
 import { FooterComponent } from './footer/footer.component';
@@ -17,20 +17,19 @@ import { OutputComponent } from './output/output.component';
 @NgModule({
   declarations: [
     AppComponent,
-    EditorComponent,
     HeaderComponent,
     FooterComponent,
     MainComponent,
     FlexContainerComponent,
     OutputComponent,
     LogComponent,
-    EditorContainerComponent,
   ],
   imports: [
     BrowserModule,
-    FormsModule,
-    ExplorerModule,
     ContextMenuModule,
+    EditorModule,
+    ExplorerModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
