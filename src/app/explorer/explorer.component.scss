@@ -1,10 +1,14 @@
-  .explorer-container {
-    max-height: 33.33333%;
-    position: relative;
-    overflow: auto;
+.project-explorer-container {
+}
 
-    & > explorer-directory {
-      display: grid;
-      white-space: nowrap;
-    }
+
+.files-explorer-container {
+  max-height: 33.33333%;
+  position: relative;
+  overflow: auto;
+
+  & > explorer-directory {
+    display: grid;
+    white-space: nowrap;
   }
+}

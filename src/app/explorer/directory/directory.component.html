@@ -11,7 +11,7 @@
     >
       <div>
         <i class="bi"
-           [ngClass]="{'bi-chevron-right' : !child.isOpen, 'bi-chevron-down' : child.isOpen}"
+           [ngClass]="child.isOpen ? 'bi-chevron-down' :'bi-chevron-right'"
            (click)="toggle($event, child)"
            *ngIf="isDirectory(child)"></i>
         <span *ngIf="!child.edit">{{child.name}}<span *ngIf="child.isModified">*</span></span>

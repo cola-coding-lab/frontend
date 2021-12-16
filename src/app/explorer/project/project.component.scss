@@ -1,0 +1,21 @@
+.card {
+
+  .card-header {
+    white-space: nowrap;
+    padding: 0.5rem 0;
+    display: inline;
+    text-align: center;
+    text-wrap: none;
+    text-overflow: clip;
+  }
+
+  .card-body {
+    padding: 0.5rem 0.2rem;
+
+    .form-check {
+      label.fs-info {
+        font-size: 0.75rem;
+      }
+    }
+  }
+}

@@ -5,4 +5,5 @@ export interface IProject {
   title: string;
   description: string;
   files: EditorFile[];
+  showHidden?: boolean;
 }

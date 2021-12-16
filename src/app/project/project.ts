@@ -3,9 +3,10 @@ import { IProject } from './project.model';
 
 export class Project implements IProject {
   public readonly name: string;
-  public readonly title: string;
-  public readonly description: string;
+  public title: string;
+  public description: string;
   public files: EditorFile[];
+  public showHidden: boolean;
 
   constructor(json?: string | IProject) {
     const obj = typeof json === 'string' ? JSON.parse(json) : json;
@@ -13,6 +14,7 @@ export class Project implements IProject {
     this.title = obj?.title || '';
     this.description = obj?.description || '';
     this.files = obj?.files || [];
+    this.showHidden = obj?.showHidden || false;
   }
 
   public get projectRoot(): EditorFile {

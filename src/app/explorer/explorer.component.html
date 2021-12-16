@@ -1,3 +1,8 @@
-<div class="explorer-container">
-  <explorer-directory *ngIf="project" [parent]="project.projectRoot" [root]="true" (onFilesUpdate)="setFiles($event)"></explorer-directory>
+<div class="project-explorer-container">
+  <explorer-project *ngIf="project" [project]="project"></explorer-project>
+</div>
+
+<div class="files-explorer-container">
+  <explorer-directory *ngIf="project" [parent]="project.projectRoot" [root]="true"
+                      (onFilesUpdate)="setFiles($event)"></explorer-directory>
 </div>
