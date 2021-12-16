@@ -1,38 +1,28 @@
-<div class="card">
-  <div class="card-header" [title]="project.title">
-    <i class="bi"
-       [ngClass]="collapse ? 'bi-chevron-compact-right': 'bi-chevron-compact-down'"
-       (click)="collapse = !collapse"
-    ></i>{{project.title}}
+<form (submit)="saveProjectChanges()">
+  <input
+    [(ngModel)]="project.title"
+    class="form-control"
+    name="project-title"
+    placeholder="Projektname"
+    type="text">
+  <textarea
+    [(ngModel)]="project.description"
+    class="form-control"
+    name="project-description"
+    placeholder="Projektbeschreibung"></textarea>
+  <div class="form-check">
+    <input
+      [(ngModel)]="project.showHidden"
+      [ngModelOptions]="{standalone: true}"
+      class="form-check-input"
+      name="project-show-hidden"
+      id="project-show-hidden"
+      type="checkbox">
+    <label for="project-show-hidden" class="form-check-label fs-info">
+      Versteckte Dateien anzeigen?
+    </label>
   </div>
-  <div class="card-body" data-toogle="collapse" [class.collapse]="collapse">
-    <form (submit)="saveProjectChanges()">
-      <input
-        [(ngModel)]="project.title"
-        class="form-control"
-        name="project-title"
-        placeholder="Projektname"
-        type="text">
-      <textarea
-        [(ngModel)]="project.description"
-        class="form-control"
-        name="project-description"
-        placeholder="Projektbeschreibung"></textarea>
-      <div class="form-check">
-        <input
-          [(ngModel)]="project.showHidden"
-          [ngModelOptions]="{standalone: true}"
-          class="form-check-input"
-          name="project-show-hidden"
-          id="project-show-hidden"
-          type="checkbox">
-        <label for="project-show-hidden" class="form-check-label fs-info">
-          Versteckte Dateien anzeigen?
-        </label>
-      </div>
-      <div class="d-grid gap-2">
-        <button class="btn btn-outline-primary btn-sm" type="submit">Speichern</button>
-      </div>
-    </form>
+  <div class="d-grid gap-2">
+    <button class="btn btn-outline-primary btn-sm" type="submit">Speichern</button>
   </div>
-</div>
+</form>

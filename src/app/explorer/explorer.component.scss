@@ -1,14 +1,17 @@
-.project-explorer-container {
+explorer-container:not(:first-child) {
+  ::ng-deep .card {
+    border-radius: 0 !important;
+  }
 }
 
+explorer-container.file-explorer {
+  ::ng-deep .card-body {
+    position: relative !important;
+    overflow: auto !important;
 
-.files-explorer-container {
-  max-height: 33.33333%;
-  position: relative;
-  overflow: auto;
-
-  & > explorer-directory {
-    display: grid;
-    white-space: nowrap;
+    & > explorer-directory {
+      display: grid;
+      white-space: nowrap;
+    }
   }
 }

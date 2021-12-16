@@ -1,0 +1,11 @@
+<div class="card">
+  <div class="card-header" (click)="collapse = !collapse" [title]="title">
+    <i class="bi"
+       [ngClass]="collapse ? 'bi-chevron-compact-right': 'bi-chevron-compact-down'"
+    ></i>
+    <span>{{title}}</span>
+  </div>
+  <div class="card-body container-body" data-toggle="collapse" [class.collapse]="collapse">
+    <ng-content></ng-content>
+  </div>
+</div>
