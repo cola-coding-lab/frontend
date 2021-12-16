@@ -8,7 +8,6 @@
   --divider-lt: -3px;
   --min-five-calc: calc(5% - var(--divider-size));
   --min-five: var(--min-five-calc);
-  --tabs-height: 0px;
 }
 
 div.resizer {
@@ -66,9 +65,6 @@ div.resizer {
       flex-direction: column;
       height: 80%;
 
-      .tab-content {
-        height: calc(100% - var(--tabs-height));
-      }
     }
 
     #right-below {

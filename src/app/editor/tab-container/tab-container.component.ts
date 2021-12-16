@@ -25,38 +25,14 @@ export class TabContainerComponent implements OnInit {
     this.openTabsService.subscribe(files => {
       this.openTabs = files;
     });
-    // this.fileService.current(
-    //   file => {
-    //     if (file && !this.openFiles.includes(file)) {
-    //       this.openFiles.push(file);
-    //     }
-    //     if (file) { this.setCurrent(file); }
-    //   },
-    //   err => console.error(err),
-    // );
   }
 
   public close(file: EditorFile): void {
     this.openTabsService.remove(file);
-    /*
-    this.openTabs = this.openTabs.filter(f => f !== file);
-    file.isOpen = false;
-    file.editor = undefined;
-    if (this.openTabs.length > 0 && !this.openTabs.find(f => f.isOpen)) {
-      this.openTabs[0].isOpen = true;
-      this.file = this.openTabs[0];
-    }
-     */
   }
 
   public select(file: EditorFile): void {
     this.openTabsService.select(file);
-    // this.file = file;
-    // this.openTabs = this.openTabs.map(f => {
-    //   f.isOpen = undefined;
-    //   return f;
-    // });
-    // this.file.isOpen = true;
   }
 
   public tabId(file: EditorFile): string {
