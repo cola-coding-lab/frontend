@@ -1,4 +1,4 @@
-<explorer-container *ngIf="project" [title]="project.title">
+<explorer-container *ngIf="project" [title]="project.title || 'Projekt'">
   <explorer-project [project]="project"></explorer-project>
 </explorer-container>
 <explorer-container class="file-explorer" *ngIf="project?.files" title="Dateien" [collapse]="false">

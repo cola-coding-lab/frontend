@@ -1,15 +1,23 @@
 <form (submit)="saveProjectChanges()">
-  <input
-    [(ngModel)]="project.title"
-    class="form-control"
-    name="project-title"
-    placeholder="Projektname"
-    type="text">
-  <textarea
-    [(ngModel)]="project.description"
-    class="form-control"
-    name="project-description"
-    placeholder="Projektbeschreibung"></textarea>
+  <div class="form-floating mb-3">
+    <input
+      [(ngModel)]="project.title"
+      class="form-control"
+      name="project-title"
+      id="project-title"
+      placeholder="Projektname"
+      type="text">
+    <label for="project-title">Projektname</label>
+  </div>
+  <div class="form-floating mb-3">
+     <textarea
+       [(ngModel)]="project.description"
+       class="form-control"
+       name="project-description"
+       id="project-description"
+       placeholder="Projektbeschreibung"></textarea>
+    <label for="project-description">Projektbeschreibung</label>
+  </div>
   <div class="form-check">
     <input
       [(ngModel)]="project.showHidden"
