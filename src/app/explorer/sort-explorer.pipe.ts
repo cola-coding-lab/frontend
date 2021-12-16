@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ExplorerFile } from './directory/directory.model';
+import { ExplorerFile } from './file/file.model';
 
 @Pipe({
   name: 'sortExplorer',

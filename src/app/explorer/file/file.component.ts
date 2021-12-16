@@ -7,14 +7,14 @@ import { AddFileComponent } from '../add-file/add-file.component';
 import { AddFileDirective } from '../add-file/add-file.directive';
 import { AddFileType } from '../add-file/add-file.model';
 import { CurrentSelectedService } from './current-selected.service';
-import { ExplorerFile } from './directory.model';
+import { ExplorerFile } from './file.model';
 
 @Component({
-  selector: 'explorer-directory',
-  templateUrl: './directory.component.html',
-  styleUrls: ['./directory.component.scss'],
+  selector: 'explorer-file',
+  templateUrl: './file.component.html',
+  styleUrls: ['./file.component.scss'],
 })
-export class DirectoryComponent extends HasContextMenuComponent<EditorFile> implements OnInit {
+export class FileComponent extends HasContextMenuComponent<EditorFile> implements OnInit {
   private static BASE_PADDING = 8;
   private static ADD_PADDING = 22;
 
@@ -93,7 +93,7 @@ export class DirectoryComponent extends HasContextMenuComponent<EditorFile> impl
 
   public edit($event: MouseEvent, child: ExplorerFile): void {
     $event.stopPropagation();
-    DirectoryComponent.enableEdit(child);
+    FileComponent.enableEdit(child);
   }
 
   public delete($event: MouseEvent, child: EditorFile): void {
@@ -123,13 +123,13 @@ export class DirectoryComponent extends HasContextMenuComponent<EditorFile> impl
   }
 
   public paddingLeft(): string {
-    return `${this.depth * DirectoryComponent.ADD_PADDING + DirectoryComponent.BASE_PADDING}px !important`;
+    return `${this.depth * FileComponent.ADD_PADDING + FileComponent.BASE_PADDING}px !important`;
   }
 
   protected onContextMenuItemClick($event: ContextMenuClick, data: ExplorerFile): void {
     switch ($event.data.event) {
       case 'rename':
-        DirectoryComponent.enableEdit(data);
+        FileComponent.enableEdit(data);
         break;
       case 'delete':
         this.deleteChild(data);

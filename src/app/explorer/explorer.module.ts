@@ -5,7 +5,7 @@ import { ContextMenuModule } from '../context-menu/context-menu.module';
 import { AddFileComponent } from './add-file/add-file.component';
 import { AddFileDirective } from './add-file/add-file.directive';
 import { ContainerComponent } from './container/container.component';
-import { DirectoryComponent } from './directory/directory.component';
+import { FileComponent } from './file/file.component';
 import { ExplorerComponent } from './explorer.component';
 import { ProjectComponent } from './project/project.component';
 import { SortExplorerPipe } from './sort-explorer.pipe';
@@ -15,7 +15,7 @@ import { SortExplorerPipe } from './sort-explorer.pipe';
   declarations: [
     ExplorerComponent,
     SortExplorerPipe,
-    DirectoryComponent,
+    FileComponent,
     AddFileDirective,
     AddFileComponent,
     ProjectComponent,

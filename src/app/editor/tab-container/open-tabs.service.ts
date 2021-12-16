@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
-import { CurrentSelectedService } from '../../explorer/directory/current-selected.service';
+import { CurrentSelectedService } from '../../explorer/file/current-selected.service';
 import { EditorFile } from '../../file/file.model';
 
 @Injectable({
