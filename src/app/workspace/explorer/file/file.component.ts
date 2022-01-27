@@ -1,8 +1,8 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { ContextMenuClick } from '../../context-menu/context-menu.model';
-import { HasContextMenuComponent } from '../../context-menu/has-context-menu.component';
+import { ContextMenuClick } from '../../../context-menu/context-menu.model';
+import { HasContextMenuComponent } from '../../../context-menu/has-context-menu.component';
 import { OpenTabsService } from '../../editor/tab-container/open-tabs.service';
-import { EditorFile } from '../../file/file.model';
+import { EditorFile } from '../../../file/file.model';
 import { AddFileComponent } from '../add-file/add-file.component';
 import { AddFileDirective } from '../add-file/add-file.directive';
 import { AddFileType } from '../add-file/add-file.model';

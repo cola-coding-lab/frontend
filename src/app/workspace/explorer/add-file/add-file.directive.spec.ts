@@ -1,4 +1,4 @@
-import { ViewContainerRefMock } from '../../../util/view-container-ref.mock';
+import { ViewContainerRefMock } from '../../../../util/view-container-ref.mock';
 import { AddFileDirective } from './add-file.directive';
 
 describe('ExplorerAddFileDirective', () => {

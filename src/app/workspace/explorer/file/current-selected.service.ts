@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
-import { EditorFile } from '../../file/file.model';
+import { EditorFile } from '../../../file/file.model';
 
 @Injectable({
   providedIn: 'root',

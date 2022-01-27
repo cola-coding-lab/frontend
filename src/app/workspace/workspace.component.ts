@@ -1,16 +1,16 @@
 import { Component, HostListener, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { getPropertyFor, setPropertyFor } from 'src/util/properties';
 import { parseNum } from '../../util/number';
-import { FlexContainerComponent } from '../flex-container/flex-container.component';
-import { breakpoints, dividerVars, getDirection, measurements, viewMeasures } from './main.constants';
-import { BootstrapBreakPoint } from './main.model';
+import { FlexContainerComponent } from './flex-container/flex-container.component';
+import { breakpoints, dividerVars, getDirection, measurements, viewMeasures } from './workspace.constants';
+import { BootstrapBreakPoint } from './workspace.model';
 
 @Component({
-  selector: 'app-main',
-  templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss'],
+  selector: 'app-workspace',
+  templateUrl: './workspace.component.html',
+  styleUrls: ['./workspace.component.scss'],
 })
-export class MainComponent implements OnInit {
+export class WorkspaceComponent implements OnInit {
   @ViewChildren(FlexContainerComponent) private children!: QueryList<FlexContainerComponent>;
   private innerWidth: number = 0;
 

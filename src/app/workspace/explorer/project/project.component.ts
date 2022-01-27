@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Project } from '../../project/project';
+import { Project } from '../../../project/project';
 import { ContainerContentComponent } from '../container/container-content.component';
 
 @Component({

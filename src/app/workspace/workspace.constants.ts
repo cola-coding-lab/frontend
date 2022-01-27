@@ -1,4 +1,4 @@
-import { BootstrapBreakPoints } from './main.model';
+import { BootstrapBreakPoints } from './workspace.model';
 
 export const breakpoints: BootstrapBreakPoints = {
   'sm': 576,

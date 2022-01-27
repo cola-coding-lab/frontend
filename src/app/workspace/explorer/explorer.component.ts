@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { OpenTabsService } from '../editor/tab-container/open-tabs.service';
-import { EditorFile } from '../file/file.model';
-import { CurrentProjectService } from '../project/current-project.service';
-import { Project } from '../project/project';
+import { EditorFile } from '../../file/file.model';
+import { CurrentProjectService } from '../../project/current-project.service';
+import { Project } from '../../project/project';
 
 @Component({
   selector: 'app-explorer',

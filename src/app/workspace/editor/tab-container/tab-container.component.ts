@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { setPropertyFor } from '../../../util/properties';
-import { EditorFile } from '../../file/file.model';
+import { setPropertyFor } from '../../../../util/properties';
+import { EditorFile } from '../../../file/file.model';
 import { OpenTabsService } from './open-tabs.service';
 
 @Component({

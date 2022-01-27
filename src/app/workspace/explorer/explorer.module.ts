@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ContextMenuModule } from '../context-menu/context-menu.module';
+import { ContextMenuModule } from '../../context-menu/context-menu.module';
 import { AddFileComponent } from './add-file/add-file.component';
 import { AddFileDirective } from './add-file/add-file.directive';
 import { ContainerComponent } from './container/container.component';

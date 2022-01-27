@@ -12,7 +12,7 @@ import {
 import * as CodeMirror from 'codemirror';
 import { EditorFromTextArea } from 'codemirror';
 import { Subscription, timer } from 'rxjs';
-import { EditorFile } from '../file/file.model';
+import { EditorFile } from '../../file/file.model';
 
 @Component({
   selector: 'app-editor',
