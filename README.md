@@ -8,6 +8,19 @@ Also includes [codemirror](https://codemirror.net/) for future updates.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.13.
 
+## Prerequisites
+
+* [Node.js](https://nodejs.org/en/)
+  * Recommended: Current [LTS Version](https://nodejs.org/en/download/)
+  * See also: [NVM](https://github.com/nvm-sh/nvm)
+* [NPM](https://www.npmjs.com/) (comes with Node.js)
+* [Angular CLI](https://angular.io/cli)
+  * `npm install -g @angular/cli` to install Angular CLI globally
+* Webbrowser with Devtools
+
+At the current state, there is no communication with the [backend](https://mode.fh-joanneum.at/cola/editor/cola-api-service).  
+Later you also will need a local (or remote) connection to it, docs will be updated then.
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
