@@ -8,14 +8,15 @@ describe('EditorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EditorComponent ]
-    })
-    .compileComponents();
+                   declarations: [EditorComponent],
+                 })
+                 .compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EditorComponent);
     component = fixture.componentInstance;
+    component.file = { name: 'test.js', type: 'text/javascript' };
     fixture.detectChanges();
   });
 

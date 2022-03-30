@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Project } from '../../../project/project';
 
 import { ProjectComponent } from './project.component';
 
@@ -8,14 +9,15 @@ describe('ProjectComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ProjectComponent ]
-    })
-    .compileComponents();
+                   declarations: [ProjectComponent],
+                 })
+                 .compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProjectComponent);
     component = fixture.componentInstance;
+    component.project = new Project({ name: 'test', title: 'test', description: 'test', showHidden: false, files: [] });
     fixture.detectChanges();
   });
 
