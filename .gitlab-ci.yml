@@ -43,8 +43,8 @@ build-job:
     - npm ci
     - npm run build --prod
     - echo "Compile complete."
-  #rules:
-  #  - if: "$CI_COMMIT_BRANCH == 'develop'"
+  rules:
+    - if: "$CI_COMMIT_BRANCH == 'develop'"
 
 .unit-test-job:   # This job runs in the test stage.
   image: node:16
@@ -78,3 +78,6 @@ deploy-job:      # This job runs in the deploy stage.
     - ssh ${DEPLOY_USER}@${DEPLOY_SERVER} "find html -type d -exec chmod 755 {} \;"
     - ssh ${DEPLOY_USER}@${DEPLOY_SERVER} "find html -type f -exec chmod 644 {} \;"
     - echo "Application successfully deployed."
+  rules:
+    - if: "$CI_COMMIT_BRANCH == 'develop'"
+
