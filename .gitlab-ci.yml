@@ -1,0 +1,80 @@
+
+stages:          # List of stages for jobs, and their order of execution
+  #- test
+  - build
+  - deploy
+
+.prepare-job:
+  variables:
+    GIT_STRATEGY: none
+  before_script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - |
+      if [ ! -d "${CI_PROJECT_DIR}/.git" ]
+      then
+          echo "inside IF ... ${CI_PROJECT_DIR}"
+          mkdir -p "${CI_PROJECT_DIR}"
+          cd "${CI_PROJECT_DIR}"
+          git init
+          git remote add origin "ssh://git@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
+      fi
+    - cd "${CI_PROJECT_DIR}"
+    - git fetch origin
+    - git checkout "${CI_COMMIT_SHA}"
+    - git reset --hard HEAD
+    - git clean -ffdx
+
+
+build-job:
+  image: node:16
+  stage: build
+  extends: .prepare-job
+  artifacts:
+    paths:
+      - dist/*
+    expire_in:
+      1 week
+  script:
+    - echo "Compiling the code..."
+    - npm ci
+    - npm run build --prod
+    - echo "Compile complete."
+  #rules:
+  #  - if: "$CI_COMMIT_BRANCH == 'develop'"
+
+.unit-test-job:   # This job runs in the test stage.
+  image: node:16
+  stage: test    # It only starts when the job in the build stage completes successfully.
+  script:
+    - echo "Running unit tests... This will take about 60 seconds."
+    - npm run test
+    - echo "Code coverage is 90%"
+
+deploy-job:      # This job runs in the deploy stage.
+  image: alpine
+  stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
+  variables:
+    GIT_STRATEGY: none
+  dependencies:
+    - build-job
+  before_script:
+    - ls 
+    - apk --no-cache add openssh-client bash
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  script:
+    - echo "Deploying application..."
+    - ssh ${DEPLOY_USER}@${DEPLOY_SERVER} "[ -d backup ] || mkdir backup"
+    - ssh ${DEPLOY_USER}@${DEPLOY_SERVER} "[ -d html ] && tar czvf backup/html_$(date +%F_%H%M%S).tgz html || echo nothing to backup"
+    - ssh ${DEPLOY_USER}@${DEPLOY_SERVER} "[ -d html ] && rm -rf html || echo nothing to delete"
+    - scp -rp dist/angular-codemirror ${DEPLOY_USER}@${DEPLOY_SERVER}:html
+    - ssh ${DEPLOY_USER}@${DEPLOY_SERVER} "chmod 755 html"
+    - ssh ${DEPLOY_USER}@${DEPLOY_SERVER} "find html -type d -exec chmod 755 {} \;"
+    - ssh ${DEPLOY_USER}@${DEPLOY_SERVER} "find html -type f -exec chmod 644 {} \;"
+    - echo "Application successfully deployed."
