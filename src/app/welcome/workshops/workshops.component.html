@@ -8,13 +8,13 @@
                 {{workshop.title}}
             </div>
             <div class="col-md-2">
-                {{workshop.shortDescription}}
+                {{workshop.description}}
             </div>
             <div class="col-md-2">
                 {{workshop.image}}hier könnten Fotos sein
             </div>
             <div class="col-md-2">
-                {{workshop.detailDescription}}
+                {{workshop.difficulty}}
             </div>
             <div class="col-md-2">
                 <button type="button" class="btn btn-secondary">WS {{workshop.title}} jetzt starten</button>
@@ -34,7 +34,7 @@
             <h3>{{workshop.title}}</h3><br>
             <div class="row">
                 <div class="col-md-3">
-                    {{workshop.shortDescription}}
+                    {{workshop.description}}
                 </div>
                 <div class="col-md-3">
                     {{workshop.image}}hier könnten Fotos sein
@@ -64,7 +64,7 @@
             <h3>{{workshop.title}}</h3><br>
             <div class="row">
                 <div class="col-md-6">
-                    {{workshop.shortDescription}}
+                    {{workshop.description}}
                 </div>
                 <div class="col-md-1"></div>
                 <div class="col-md-1">
@@ -114,12 +114,12 @@
                 <!-- <div collapse="workshop.isCollapsed"> -->
                 <!-- ________________________________________________________ -->
 
-                
+
                 <div class="collapse" id="openCollapseDescription_{{workshop.id}}">
                     <!-- <div class="collapse" id="openCollapseDescription{{workshop.id}}"> -->
                     <!-- <div class="collapse" id="openCollapseDescription${(workshop.id)}"> -->
                     <div class="row">
-                        <div class="col-md-4">{{workshop.detailDescription}}</div>
+                        <div class="col-md-4">{{workshop.description}}</div>
                         <div class="col-md-3">{{workshop.image}}hier könnten Fotos sein</div>
                         <div class="col-md-1">
                             <button type="button" class="btn btn-secondary" routerLink="/workspace">WS
