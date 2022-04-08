@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from "../../environments/environment";
 
 @Component({
   selector: 'app-welcome',
@@ -7,13 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WelcomeComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+    console.log(environment);
+  }
 
   ngOnInit(): void {
   }
 
   openWorkshoplist(){
-    
+
   }
 
 }
