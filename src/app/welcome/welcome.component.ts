@@ -12,4 +12,8 @@ export class WelcomeComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  openWorkshoplist(){
+    
+  }
+
 }
