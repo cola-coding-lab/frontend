@@ -10,6 +10,12 @@ import { setDocumentProperty } from 'src/util/properties';
 export class HeaderComponent extends ComputedComponent implements OnInit {
   public title = 'Resizable';
 
+  constructor(
+    // private draftService: DraftService
+  ) {
+    super();
+  }
+
   ngOnInit(): void {
     setDocumentProperty('header-height', this.height);
   }

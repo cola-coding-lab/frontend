@@ -60,3 +60,26 @@ package that implements end-to-end testing capabilities.
 
 To get more help on the Angular CLI use `ng help` or go check out
 the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+
+
+### Draft chooser...
+1. HeaderComponent.html (extend HTML) -> Dropdown = "Draft 1", "Draft 2", "Draft 3", ...
+2. HeaderComponent.ts -> function "changeDraft(draft: string | number)" -> this.draftService.setDraft(draft)
+3. (new) DraftService.ts -> 
+  ```
+  {
+    public draftObs: Observable...
+    private currentDraft: string | number
+    public getDraft(): Observable<string | number> {
+      return draftObs
+    }
+    public setDraft(draft: string | number) {
+      draftObs.next(draft);
+    }
+  }
+  ```
+4. WelcomeComponent.ts + WorkshopsComponent.ts -> use DraftService via Constructor
+   1. draftService.getDraft()
+   2. instance variable (e.g. "draft")
+5. WelcomeComponent.html + WorkshopsComponent.html -> only display chosen draft ... *ngIf 

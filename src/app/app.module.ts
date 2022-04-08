@@ -11,6 +11,7 @@ import { WorkspaceModule } from './workspace/workspace.module';
 import { AppRoutingModule } from './app-routing.module';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { WorkshopsComponent } from './welcome/workshops/workshops.component';
+import { HttpClientModule } from "@angular/common/http";
 
 //collapse function
 // import { NgbdDropdown } from './dropdown-basic';
@@ -29,6 +30,7 @@ import { WorkshopsComponent } from './welcome/workshops/workshops.component';
     FormsModule,
     WorkspaceModule,
     AppRoutingModule,
+    HttpClientModule,
     // NgbdModule,
   ],
   providers: [],

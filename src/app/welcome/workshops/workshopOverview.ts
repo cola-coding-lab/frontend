@@ -8,3 +8,10 @@ export interface WorkshopOverview {
   difficulty: string;
   categories: string[];
 }
+
+export interface WorkshopOverviewAPIResponse {
+  WorkshopOverviewMock: WorkshopOverview[];
+  url: string;
+  method: string;
+  timestamp: string;
+}
