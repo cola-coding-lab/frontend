@@ -90,6 +90,9 @@
             },
             "development": {
               "browserTarget": "angular-codemirror:build:development"
+            },
+            "development-local": {
+              "browserTarget": "angular-codemirror:build:development-local"
             }
           },
           "defaultConfiguration": "development"
