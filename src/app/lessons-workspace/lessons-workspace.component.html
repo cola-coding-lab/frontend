@@ -4,9 +4,39 @@
     class="bg-light"
     [min]="15"
     [breaks]="['lg']"
+
   >
-    {{lesson.description}}
+    <div class="description" [innerHTML]="lesson.description | md2html"></div>
+
+    <mat-stepper [linear]="false" *ngIf="lesson.steps.length > 0">
+      <mat-step *ngFor="let step of lesson.steps; let idx = index" [optional]="step.isOptional"
+                [editable]="false" [completed]="false"
+
+      >
+        <ng-template matStepLabel>{{step.label}}</ng-template>
+        <div class="description" [innerHTML]="step.description | md2html"></div>
+        <button mat-button matStepperPrevious *ngIf="idx > 0">zurück</button>
+        <button mat-button matStepperNext *ngIf="idx < lesson.steps.length - 1">
+          weiter
+        </button>
+      </mat-step>
+    </mat-stepper>
+
+    <div *ngIf="lesson.hint">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">
+            <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#hint" aria-expanded="false"
+                    aria-controls="hint">
+              Hinweis
+            </button>
+          </h5>
+        </div>
+      </div>
+      <div id="hint" class="collapse" [innerHTML]="lesson.hint | md2html"></div>
+    </div>
   </app-flex-container>
+
 
   <div class="resizer"
        [attr.data-direction]="getDirection()"

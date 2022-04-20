@@ -10,8 +10,15 @@
   width: 100%;
 
   app-flex-container {
+    overflow: auto;
     height: 33.3333%;
     width: 100%;
+
+    .description {
+      padding: 5px;
+
+      // TODO: Styling for Lesson description HERE
+    }
   }
 }
 

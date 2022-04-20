@@ -11,6 +11,7 @@ import { v4 } from 'uuid';
 export class LessonsWorkspaceComponent extends WorkspaceComponent {
   @Input() lesson!: Lesson;
 
+
   constructor() { super(); }
 
   ngOnInit(): void {
@@ -20,13 +21,34 @@ export class LessonsWorkspaceComponent extends WorkspaceComponent {
       this.lesson = {
         id: v4(),
         title: 'first lesson',
-        description: `here will be the markdown/html description`,
-        descriptionImages: [],
+        description: `## Lektion 01
+Lass uns gleich loslegen.
+In dieser Lektion lernst du, wie du mit Hilfe der JavaScript Bibliothek p5.js das Spielfeld erstellst.
+...
+![testbild](https://picsum.photos/300/200)
+        `,
         type: '',
-        steps: [],
-        stepsImages: [],
-        hint: '',
+        steps: [
+          {
+            label: 'Schritt 01',
+            description: `#### Was ist eine Funktion?
+Vereinfacht erklärt kannst du dir unter einer Funktion einen wiederverwendbaren Codeblock vorstellen.
+...
+`,
+            isOptional: false,
+          },
+          {
+            label: 'Schritt 02',
+            description: `#### Noch mehr Schritte...
+hier steht noch viel mehr Sinnvolles
+...
+`,
+            isOptional: true,
+          },
+        ],
+        hint: 'ein Hinweis',
       };
     }
   }
+
 }
