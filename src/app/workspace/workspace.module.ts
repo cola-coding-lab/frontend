@@ -22,6 +22,7 @@ import { WorkspaceComponent } from './workspace.component';
   ],
   exports: [
     WorkspaceComponent,
+    FlexContainerComponent,
   ],
 })
 export class WorkspaceModule {}
