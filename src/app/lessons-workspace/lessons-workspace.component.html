@@ -1,11 +1,11 @@
 <div id="container" class="d-flex h-100 bg-primary">
   <app-flex-container
     id="description-box"
-    class="bg-success"
+    class="bg-light"
     [min]="15"
     [breaks]="['lg']"
   >
-    <p>DESCRIPTION WILL BE PLACED HERE...</p>
+    {{lesson.description}}
   </app-flex-container>
 
   <div class="resizer"
@@ -15,7 +15,7 @@
 
   <app-flex-container
     id="editor-box"
-    class="bg-dark"
+    class="bg-light"
     [min]="15"
     [breaks]="['lg']"
   >

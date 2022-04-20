@@ -3,19 +3,25 @@
 @import "~bootstrap/scss/mixins";
 @import "../workspace/resizeable-container.component";
 
-app-flex-container {
-  width: 100%;
-  height: 100%;
-}
-
 #container {
   overflow: hidden;
   position: relative;
   flex-direction: column;
+  width: 100%;
+
+  app-flex-container {
+    height: 33.3333%;
+    width: 100%;
+  }
 }
 
 @include media-breakpoint-up(lg) {
   #container {
     flex-direction: row;
+
+    app-flex-container {
+      height: 100%;
+      width: 33.3333%
+    }
   }
 }
