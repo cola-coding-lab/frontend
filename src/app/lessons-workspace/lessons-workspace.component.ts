@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Lesson } from '../welcome/workshops/lesson';
 
 @Component({
   selector: 'app-lessons-workspace',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./lessons-workspace.component.scss']
 })
 export class LessonsWorkspaceComponent implements OnInit {
+  @Input() lesson!: Lesson;
 
   constructor() { }
 

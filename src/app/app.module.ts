@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-// import { NgbdModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { ContextMenuModule } from './context-menu/context-menu.module';
@@ -11,10 +10,9 @@ import { WorkspaceModule } from './workspace/workspace.module';
 import { AppRoutingModule } from './app-routing.module';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { WorkshopsComponent } from './welcome/workshops/workshops.component';
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule } from '@angular/common/http';
+import { LessonsWorkspaceModule } from './lessons-workspace/lessons-workspace.module';
 
-//collapse function
-// import { NgbdDropdown } from './dropdown-basic';
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +20,6 @@ import { HttpClientModule } from "@angular/common/http";
     FooterComponent,
     WelcomeComponent,
     WorkshopsComponent,
-    // NgbdModule
   ],
   imports: [
     BrowserModule,
@@ -31,9 +28,9 @@ import { HttpClientModule } from "@angular/common/http";
     WorkspaceModule,
     AppRoutingModule,
     HttpClientModule,
-    // NgbdModule,
+    LessonsWorkspaceModule,
   ],
   providers: [],
-  bootstrap: [AppComponent],
+  bootstrap: [ AppComponent ],
 })
 export class AppModule {}
