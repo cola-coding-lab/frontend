@@ -1,3 +1,38 @@
-<div id='container' class='d-flex h-100 bg-primary'>
- content will be placed here ...
+<div id="container" class="d-flex h-100 bg-primary">
+  <app-flex-container
+    id="description-box"
+    class="bg-success"
+    [min]="15"
+    [breaks]="['lg']"
+  >
+    <p>DESCRIPTION WILL BE PLACED HERE...</p>
+  </app-flex-container>
+
+  <div class="resizer"
+       [attr.data-direction]="getDirection()"
+       (mousedown)="resize($event)"
+  ></div>
+
+  <app-flex-container
+    id="editor-box"
+    class="bg-dark"
+    [min]="15"
+    [breaks]="['lg']"
+  >
+    <p>EDITOR WILL BE PLACED HERE...</p>
+  </app-flex-container>
+
+  <div class="resizer"
+       [attr.data-direction]="getDirection()"
+       (mousedown)="resize($event)"
+  ></div>
+
+  <app-flex-container
+    id="result-box"
+    class="bg-light"
+    [min]="15"
+    [breaks]="['lg']"
+  >
+    <p>OUTPUT WILL BE PLACED HERE...</p>
+  </app-flex-container>
 </div>
