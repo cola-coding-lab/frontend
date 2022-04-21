@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { setPropertyFor } from '../../../../util/properties';
 import { EditorFile } from '../../../file/file.model';
 import { OpenTabsService } from './open-tabs.service';
@@ -9,6 +9,7 @@ import { OpenTabsService } from './open-tabs.service';
   styleUrls: ['./tab-container.component.scss'],
 })
 export class TabContainerComponent implements OnInit {
+  @Input() public isCloseable: boolean = true;
   public openTabs: EditorFile[] = [];
   public file?: EditorFile;
 

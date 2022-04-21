@@ -1,4 +1,5 @@
 import { Step } from './Step';
+import { Codefile } from './codefile';
 
 export interface Lesson {
     id: string;
@@ -7,4 +8,5 @@ export interface Lesson {
     type: string;
     steps: Step[];
     hint?: string;
+    code: Codefile[];
   }

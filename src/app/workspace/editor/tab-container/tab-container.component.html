@@ -21,7 +21,7 @@
       [attr.aria-selected]="f.isOpen"
     >
       {{ f.name }}<span *ngIf="f.isModified"> *</span>
-      <div class="close" (click)="close(f)"></div>
+      <div *ngIf="isCloseable" class="close" (click)="close(f)"></div>
     </button>
   </li>
 </ul>
@@ -44,5 +44,5 @@
 </div>
 <div class="position-relative h-100" *ngIf="openTabs.length === 1">
   <app-editor [file]="openTabs[0]"></app-editor>
-  <div class="close" (click)="close(openTabs[0])"></div>
+  <div *ngIf="isCloseable" class="close" (click)="close(openTabs[0])"></div>
 </div>

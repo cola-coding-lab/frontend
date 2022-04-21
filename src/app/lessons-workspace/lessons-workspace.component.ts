@@ -1,18 +1,25 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { Lesson } from '../welcome/workshops/lesson';
 import { WorkspaceComponent } from '../workspace/workspace.component';
 import { v4 } from 'uuid';
+import { MimeType } from '../welcome/workshops/codefile';
+import { OpenTabsService } from '../workspace/editor/tab-container/open-tabs.service';
+import { EditorFile } from '../file/file.model';
 
 @Component({
   selector: 'app-lessons-workspace',
   templateUrl: './lessons-workspace.component.html',
   styleUrls: [ './lessons-workspace.component.scss' ],
+  providers: [ OpenTabsService ],
 })
-export class LessonsWorkspaceComponent extends WorkspaceComponent {
+export class LessonsWorkspaceComponent extends WorkspaceComponent implements OnDestroy {
   @Input() lesson!: Lesson;
 
+  constructor(private openTabsService: OpenTabsService) { super(); }
 
-  constructor() { super(); }
+  ngOnDestroy(): void {
+    this.openTabsService.clear();
+  }
 
   ngOnInit(): void {
     super.ngOnInit();
@@ -46,9 +53,27 @@ hier steht noch viel mehr Sinnvolles
             isOptional: true,
           },
         ],
+        code: [
+          {
+            name: 'main.js',
+            type: MimeType.js,
+            content: '',
+          },
+          {
+            name: 'other.js',
+            type: MimeType.js,
+            content: 'console.log("hello");',
+          },
+        ],
         hint: 'ein Hinweis',
       };
     }
+
+    const { code } = this.lesson;
+    code.forEach((file, idx) => {
+      this.openTabsService.add(file as EditorFile);
+      if (idx === 0) { this.openTabsService.select(file as EditorFile);}
+    });
   }
 
 }

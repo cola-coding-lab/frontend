@@ -7,6 +7,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { EditorModule } from '../workspace/editor/editor.module';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatStepperModule,
     MatIconModule,
     MatButtonModule,
+    EditorModule,
   ],
 })
 export class LessonsWorkspaceModule {
