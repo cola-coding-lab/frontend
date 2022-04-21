@@ -4,7 +4,7 @@
   id="fileTab"
   role="tablist"
   aria-label="Open code files"
-  *ngIf="openTabs.length > 1"
+  *ngIf="displayTabs"
 >
   <li class="nav-item" *ngFor="let f of openTabs" role="presentation">
     <button
@@ -28,7 +28,7 @@
 <div
   class="tab-content"
   id="fileTabContent"
-  *ngIf="openTabs.length > 1"
+  *ngIf="displayTabs"
 >
   <div
     *ngFor="let f of openTabs"
@@ -41,8 +41,15 @@
   >
     <app-editor [file]="f"></app-editor>
   </div>
+  <div #run *ngIf="showRunArea">
+    <!-- TODO: move in own component -->
+    <div class="btn-group" style="width: 100%" role="group" aria-label="play/stop area">
+      <button type="button" style="width: 50%" class="btn btn-success">&#9658;</button>
+      <button type="button" style="width: 50%" class="btn btn-warning">&#9726;</button>
+    </div>
+  </div>
 </div>
-<div class="position-relative h-100" *ngIf="openTabs.length === 1">
+<div class="position-relative h-100" *ngIf="openTabs.length === 1 && !showTabsAlways">
   <app-editor [file]="openTabs[0]"></app-editor>
   <div *ngIf="isCloseable" class="close" (click)="close(openTabs[0])"></div>
 </div>
