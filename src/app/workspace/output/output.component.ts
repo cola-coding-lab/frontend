@@ -8,7 +8,7 @@ import { OutputLibsService } from './output-libs.service';
 @Component({
   selector: 'app-output',
   templateUrl: './output.component.html',
-  styleUrls: ['./output.component.scss'],
+  styleUrls: [ './output.component.scss' ],
 })
 export class OutputComponent implements AfterViewInit {
   @ViewChild('iframe', { static: false }) iframe!: ElementRef;
@@ -38,14 +38,23 @@ export class OutputComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.resizeObserver.observe(this.elRef.nativeElement.parentElement);
-    this.filesService.subscribe(values => this.files = values);
-    this.iframe.nativeElement.contentWindow.location.reload();
+    this.filesService.subscribe(values => {
+      if (values !== this.files) {
+        this.files = values;
+        this.iframe.nativeElement.contentWindow.location.reload();
+      }
+    });
+    this.libsService.subscribe(values => {
+      if (values !== this.jsLibs) {
+        this.jsLibs = values;
+        this.iframe.nativeElement.contentWindow.location.reload();
+      }
+    });
   }
 
   public onLoad(iframe: HTMLIFrameElement): void {
     const doc = iframe.contentDocument || iframe.contentWindow?.document;
     if (doc) {
-      console.log(doc);
       this.jsLibs.forEach(lib => {
         OutputComponent.addScript(doc, lib);
       });
