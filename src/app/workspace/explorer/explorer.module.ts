@@ -10,6 +10,9 @@ import { ExplorerComponent } from './explorer.component';
 import { ProjectComponent } from './project/project.component';
 import { SortExplorerPipe } from './sort-explorer.pipe';
 import { EditorModule } from '../editor/editor.module';
+import { ProjectModalComponent } from './project/project-modal/project-modal.component';
+import { ProjectCardComponent } from './project/project-card/project-card.component';
+import { ModalModule } from '../../modal/modal.module';
 
 
 @NgModule({
@@ -21,12 +24,15 @@ import { EditorModule } from '../editor/editor.module';
     AddFileComponent,
     ProjectComponent,
     ContainerComponent,
+    ProjectModalComponent,
+    ProjectCardComponent,
   ],
   imports: [
     CommonModule,
     FormsModule,
     ContextMenuModule,
     EditorModule,
+    ModalModule,
   ],
   exports: [
     ExplorerComponent,

@@ -6,6 +6,9 @@ import { LogComponent } from './log/log.component';
 import { OutputComponent } from './output/output.component';
 import { FlexContainerComponent } from './flex-container/flex-container.component';
 import { WorkspaceComponent } from './workspace.component';
+import { ExportComponent } from './export/export.component';
+import { ModalModule } from '../modal/modal.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -14,11 +17,14 @@ import { WorkspaceComponent } from './workspace.component';
     LogComponent,
     OutputComponent,
     WorkspaceComponent,
+    ExportComponent,
   ],
   imports: [
     CommonModule,
     EditorModule,
     ExplorerModule,
+    ModalModule,
+    ReactiveFormsModule,
   ],
   exports: [
     WorkspaceComponent,

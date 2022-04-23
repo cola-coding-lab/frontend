@@ -1,0 +1,85 @@
+<div class="btn-group">
+  <button class="btn btn-primary" (click)="downloadHtml()" type="button">Export</button>
+  <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" type="button"
+          data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="visually-hidden  ">Toggle Dropdown</span>
+  </button>
+  <ul class="dropdown-menu">
+    <li><a class="dropdown-item" (click)="downloadHtml()">Export als HTML</a></li>
+    <li><a class="dropdown-item" (click)="modal.open()">Export als PWA</a></li>
+  </ul>
+</div>
+
+<app-modal #modal id="pwa_export">
+  <h1>Export</h1>
+  <p>F&uuml;r den Export f&uuml;lle bitte die folgenden Punkte aus.</p>
+  <form (ngSubmit)="onPwaSubmit()" *ngIf="modal.isOpen" [formGroup]="pwaExportForm">
+    <div class="row">
+      <div class="col-6">
+        <label class="form-label" for="pwa_title">Titel &lowast;</label>
+        <input [class.is-invalid]="pwaExportForm.get('pwa_title')?.invalid"
+               aria-describedby="titleHelp"
+               class="form-control"
+               formControlName="pwa_title"
+               id="pwa_title"
+               placeholder="Titel"
+               type="text">
+        <div *ngIf="pwaExportForm.get('pwa_title')?.valid" class="form-text" id="titleHelp">Titel deiner PWA</div>
+        <div *ngIf="pwaExportForm.get('pwa_title')?.invalid"
+             class="form-text error-text"
+             id="titleError">
+          Bitte gib einen Titel an!
+        </div>
+      </div>
+      <div class="col-2">
+        <label class="form-label" for="pwa_color">Farbe &lowast;</label>
+        <input aria-describedby="colorHelp"
+               class="form-control form-control-color"
+               formControlName="pwa_color"
+               id="pwa_color"
+               type="color">
+        <div class="form-text" id="colorHelp">Farbe deiner PWA</div>
+      </div>
+      <div class="col-4">
+        <label class="form-label" for="pwa_logo">Logo</label>
+        <input (change)="onFileSelect($event)"
+               [class.is-invalid]="pwaExportForm.get('pwa_logo')?.invalid"
+               accept="image/png, image/jpeg"
+               aria-describedby="logoHelp"
+               class="form-control"
+               id="pwa_logo" type="file">
+        <div class="form-text" id="logoHelp">
+          Du kannst ein eigenes Logo w&auml;hlen. Dies sollte Quadratisch sein und nicht gr&ouml;&szlig;er als 2MB
+        </div>
+        <div *ngIf="pwaExportForm.get('pwa_logo')?.invalid" class="form-text error-text" id="logoError">
+          {{logoError()}}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-3">
+        <label class="form-label" for="pwa_description">Beschreibung</label>
+        <textarea aria-describedby="descriptionHelp"
+                  class="form-control"
+                  formControlName="pwa_description"
+                  id="pwa_description"
+                  rows="3"></textarea>
+        <div class="form-text" id="descriptionHelp">Beschreibung deiner PWA</div>
+      </div>
+      <div class="col">
+        <label class="form-label" for="pwa_css">Custom CSS</label>
+        <textarea aria-describedby="cssHelp"
+                  class="form-control"
+                  formControlName="pwa_css"
+                  id="pwa_css"
+                  rows="3"></textarea>
+        <div class="form-text" id="cssHelp">Du kannst dein eigenes CSS hinzuf&uuml;gen</div>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col">
+        <button class="form-control btn btn-success" type="submit">Exportieren</button>
+      </div>
+    </div>
+  </form>
+</app-modal>

@@ -6,4 +6,5 @@ export const environment = {
   },
   baseHref: '/',
   title: 'CoLa Virtual Coding Lab',
+  p5CDN: '',
 };

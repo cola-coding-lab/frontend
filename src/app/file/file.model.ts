@@ -1,6 +1,6 @@
 import * as CodeMirror from 'codemirror';
 
-type FileType = 'text/javascript' | 'text/css' | 'text/html' | 'text/plain' | 'directory';
+export type FileType = 'text/javascript' | 'text/css' | 'text/html' | 'text/plain' | 'directory';
 
 export interface EditorFile {
   name: string;
