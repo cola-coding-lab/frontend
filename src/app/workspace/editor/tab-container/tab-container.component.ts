@@ -1,9 +1,11 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { setPropertyFor } from '../../../../util/properties';
 import { EditorFile } from '../../../file/file.model';
 import { OpenTabsService } from './open-tabs.service';
 import { OutputFilesService } from '../../output/output-files.service';
 import { Codefile, MimeType } from '../../../welcome/workshops/codefile';
+import { ControlState } from '../controls/controls.model';
+import { EditorComponent } from '../editor.component';
 
 @Component({
   selector: 'editor-tab-container',
@@ -14,6 +16,7 @@ export class TabContainerComponent implements OnInit {
   @Input() public isCloseable: boolean = true;
   @Input() public showRunArea: boolean = false;
   @Input() public showTabsAlways: boolean = false;
+  @ViewChildren('editor') public editors?: QueryList<EditorComponent>;
 
   public openTabs: EditorFile[] = [];
   public file?: EditorFile;
@@ -63,11 +66,16 @@ export class TabContainerComponent implements OnInit {
     return file.name.replace('.', '_');
   }
 
-  public play(): void {
-    const files = this.openTabs.map<Codefile>((ef: EditorFile) => {
-      return { name: ef.name, type: ef.type as MimeType, content: ef.content || '' };
-    });
-    this.outputFilesService.update(files);
+  public controlsClicked(state: ControlState): void {
+    this.editors?.forEach(editor => editor.save());
+    if (state === ControlState.RUN) {
+      const files = this.openTabs.map<Codefile>((ef: EditorFile) => {
+        return { name: ef.name, type: ef.type as MimeType, content: ef.content || '' };
+      });
+      this.outputFilesService.update(files);
+    } else {
+      this.outputFilesService.clear();
+    }
   }
 
   private setTabsHeight() {
@@ -77,9 +85,5 @@ export class TabContainerComponent implements OnInit {
         : this.tabsElement.nativeElement.clientHeight;
       setPropertyFor(this.tabsElement.nativeElement.parentElement, 'tabs-height', height);
     }
-  }
-
-  public stop(): void {
-    this.outputFilesService.clear();
   }
 }

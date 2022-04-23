@@ -39,17 +39,13 @@
     [attr.aria-labelledby]="tabId(f)"
     [id]="contentId(f)"
   >
-    <app-editor [file]="f"></app-editor>
+    <app-editor #editor [file]="f"></app-editor>
   </div>
   <div #run *ngIf="showRunArea">
-    <!-- TODO: move in own component -->
-    <div class="btn-group" style="width: 100%" role="group" aria-label="play/stop area">
-      <button type="button" style="width: 50%" class="btn btn-success" (click)="play()">&#9658;</button>
-      <button type="button" style="width: 50%" class="btn btn-warning" (click)="stop()">&#9726;</button>
-    </div>
+    <app-controls (state)="controlsClicked($event)"></app-controls>
   </div>
 </div>
 <div class="position-relative h-100" *ngIf="openTabs.length === 1 && !showTabsAlways">
-  <app-editor [file]="openTabs[0]"></app-editor>
+  <app-editor #editor [file]="openTabs[0]"></app-editor>
   <div *ngIf="isCloseable" class="close" (click)="close(openTabs[0])"></div>
 </div>
