@@ -9,6 +9,7 @@ import { FileComponent } from './file/file.component';
 import { ExplorerComponent } from './explorer.component';
 import { ProjectComponent } from './project/project.component';
 import { SortExplorerPipe } from './sort-explorer.pipe';
+import { EditorModule } from '../editor/editor.module';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { SortExplorerPipe } from './sort-explorer.pipe';
     CommonModule,
     FormsModule,
     ContextMenuModule,
+    EditorModule,
   ],
   exports: [
     ExplorerComponent,

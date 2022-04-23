@@ -5,3 +5,4 @@
   <explorer-file *ngIf="project" [parent]="project.projectRoot" [root]="true"
                       (onFilesUpdate)="setFiles($event)"></explorer-file>
 </explorer-container>
+<app-controls (state)="controlStateChanged($event)"></app-controls>

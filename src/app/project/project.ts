@@ -30,8 +30,29 @@ export class Project implements IProject {
       name: 'Empty',
       title: 'Leeres Projekt',
       description: 'Starte mit einem leeren Projekt',
-      files: [emptyFile()],
+      files: [ emptyFile() ],
     });
+  }
+
+  public static filesForExport(project?: Project): EditorFile[] {
+    if (!project) { return []; }
+    const flatChildren = (children?: EditorFile[]): EditorFile[] => {
+      if (!children || children.length === 0) {return [];}
+      const dirs = children.filter(c => c.type === 'directory');
+      let tmp: EditorFile[] = [];
+      dirs.forEach(dir => { tmp = [ ...flatChildren(dir.children) ]; });
+      const files = children.filter(c => c.type !== 'directory');
+      return [ ...files, ...tmp ];
+    };
+
+    return flatChildren(project.files);
+  }
+
+  public toJson(): IProject {
+    return {
+      ...this,
+      projectRoot: undefined,
+    };
   }
 
   public save(): void {
