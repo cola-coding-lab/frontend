@@ -10,6 +10,7 @@ export class Project implements IProject {
 
   constructor(json?: string | IProject) {
     const obj = typeof json === 'string' ? JSON.parse(json) : json;
+    obj.files = convertFiles(obj.files);
     this.name = obj?.name || '';
     this.title = obj?.title || '';
     this.description = obj?.description || '';
@@ -59,4 +60,36 @@ export class Project implements IProject {
     localStorage.setItem(this.name, JSON.stringify(this));
     this.files.forEach(file => file.isModified = false);
   }
+}
+
+
+function convertFiles(files: EditorFile[] | ScriptFile[]) {
+  return files.map<EditorFile>(f => {
+    if ('script' in f) {
+      return { name: f.filename, type: f.filetype, content: f.script.innerHTML || '' } as EditorFile;
+    }
+    return f as EditorFile;
+  });
+}
+
+
+export interface IScript {
+  src?: string;
+  innerHTML?: string;
+}
+
+export interface ScriptFile {
+  script: IScript;
+  filename: string;
+  filetype: ScriptFileType;
+  isModule?: boolean;
+  isActive?: boolean;
+  isModified?: boolean;
+}
+
+// http://www.iana.org/assignments/media-types/media-types.xhtml
+export enum ScriptFileType {
+  javascript = 'application/javascript',
+  json = 'application/json',
+  plain = 'text/plain',
 }

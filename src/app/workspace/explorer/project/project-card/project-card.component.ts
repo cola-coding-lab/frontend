@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IProject } from '../../../../project/project.model';
 import { ProjectService } from '../project.service';
 import { StorageService } from '../../../../storage/storage.service';
+import { CurrentProjectService } from '../../../../project/current-project.service';
 
 @Component({
   selector: 'app-project-card',
@@ -19,6 +20,7 @@ export class ProjectCardComponent {
   constructor(
     private projectService: ProjectService,
     private storageService: StorageService,
+    private currentProjectService: CurrentProjectService,
   ) { }
 
   public emitProject(project: IProject): void {

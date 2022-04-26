@@ -23,3 +23,61 @@ body {
   --header-height: 0px;
   --footer-height: 0px;
 }
+
+
+/* MODAL STYLES */
+app-modal {
+  visibility: hidden;
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  z-index: 1998;
+
+  transition: visibility 0.3s, opacity 0.5s linear;
+
+  .cola-modal {
+    position: relative;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: 2rem;
+
+    z-index: 1999;
+
+    overflow: auto;
+
+    .cola-modal-body {
+      padding: 20px;
+      background: #fff;
+
+      margin: 40px;
+    }
+  }
+
+  .cola-modal-background {
+    /* modal background fixed across whole screen */
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    /* semi-transparent white  */
+    background-color: rgba(160, 160, 160, 0.3);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    /* z-index must be below .jw-modal and above everything else  */
+    z-index: 1998;
+  }
+
+}
+
+body.cola-modal-open {
+  overflow: hidden;
+}

@@ -36,6 +36,7 @@ import { ModalModule } from '../../modal/modal.module';
   ],
   exports: [
     ExplorerComponent,
+    ProjectModalComponent,
   ],
 })
 export class ExplorerModule {}

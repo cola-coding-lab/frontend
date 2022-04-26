@@ -5,11 +5,12 @@ import { Project } from '../../../../project/project';
 import { v4 } from 'uuid';
 import { IAvailableProjects, ProjectService } from '../project.service';
 import { ModalComponent } from '../../../../modal/modal.component';
+import { CurrentProjectService } from '../../../../project/current-project.service';
 
 @Component({
   selector: 'app-project-modal',
   templateUrl: './project-modal.component.html',
-  styleUrls: ['./project-modal.component.scss']
+  styleUrls: [ './project-modal.component.scss' ],
 })
 export class ProjectModalComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('modal', { static: false }) modal!: ModalComponent;
@@ -19,10 +20,12 @@ export class ProjectModalComponent implements AfterViewInit, OnInit, OnDestroy {
 
   constructor(
     private projectService: ProjectService,
+    private currentProjectService: CurrentProjectService,
   ) { }
 
   public get newProject(): boolean {
-    return !this.projectService.activeProject;
+    return !this.currentProjectService.activeProject;
+    // return !this.projectService.activeProject;
   }
 
   ngOnDestroy(): void {
@@ -39,11 +42,14 @@ export class ProjectModalComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   public createProject(project: IProject, create = false): void {
+    console.log(project);
     if (create) {
       project = Project.fromJson(JSON.stringify(project));
       project.name = v4();
     }
     this.projectService.activeProject = project;
+    this.currentProjectService.activeProject = Project.fromJson(project);
+    console.log(this.currentProjectService.activeProject);
     this.modal?.close();
   }
 
@@ -52,5 +58,4 @@ export class ProjectModalComponent implements AfterViewInit, OnInit, OnDestroy {
       if (isInit) { this.modal?.open(); }
     });
   }
-
 }
