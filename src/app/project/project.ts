@@ -53,11 +53,14 @@ export class Project implements IProject {
     return {
       ...this,
       projectRoot: undefined,
+      files: this.files.map(file => {
+        return {...file, editor: undefined}
+      })
     };
   }
 
   public save(): void {
-    localStorage.setItem(this.name, JSON.stringify(this));
+    localStorage.setItem(this.name, JSON.stringify(this.toJson()));
     this.files.forEach(file => file.isModified = false);
   }
 }
@@ -65,7 +68,7 @@ export class Project implements IProject {
 
 function convertFiles(files: EditorFile[] | ScriptFile[]) {
   return files.map<EditorFile>(f => {
-    if ('script' in f) {
+    if (f && 'script' in f) {
       return { name: f.filename, type: f.filetype, content: f.script.innerHTML || '' } as EditorFile;
     }
     return f as EditorFile;
