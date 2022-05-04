@@ -6,7 +6,7 @@ import { Project } from '../../../project/project';
 import { StorageService } from '../../../storage/storage.service';
 import { checkForActiveFile } from '../../../../util/file';
 import { IExplorerEntry } from '../explorer.model';
-import { ApiService } from './api.service';
+import { ProjectExplorerApi } from './project-explorer-api.service';
 import { EditorFile } from '../../../file/file.model';
 
 @Injectable({
@@ -20,7 +20,7 @@ export class ProjectService {
   private active?: IProject;
 
   constructor(
-    private apiService: ApiService,
+    private apiService: ProjectExplorerApi,
     private storageService: StorageService,
   ) {
     const activeProjectInStorage = this.storageService.get(ProjectService.ACTIVE_KEY);
@@ -49,7 +49,7 @@ export class ProjectService {
       this.storageService.save(ProjectService.ACTIVE_KEY, this.active.name);
       const stored = this.storageService.getObject(ProjectService.PROJECTS_KEY) as string[] || [];
       stored.push(this.active.name);
-      this.storageService.save(ProjectService.PROJECTS_KEY, [...new Set(stored)]);
+      this.storageService.save(ProjectService.PROJECTS_KEY, [ ...new Set(stored) ]);
     } else {
       this.storageService.remove(ProjectService.ACTIVE_KEY);
     }
@@ -72,7 +72,7 @@ export class ProjectService {
     return this.apiService.getExplorer()
       .pipe(map(value => {
         const projects = {
-          templates: [Project.fromEmpty()],
+          templates: [ Project.fromEmpty() ],
           stored: [] as IProject[],
         };
         for (const dir of value['project-explorer'].files) {
@@ -80,12 +80,12 @@ export class ProjectService {
           if ('description' in value[dir]) {
             projects.templates.push(new Project(
               {
-              name: (value[dir] as IExplorerEntry).description?.name || dir,
-              title: (value[dir] as IExplorerEntry).description?.title || dir,
-              description: (value[dir] as IExplorerEntry).description?.description || dir,
-              files: value[dir].files as EditorFile[],
-              // (value[dir] as IExplorerEntry).description?.files || undefined,
-            }
+                name: (value[dir] as IExplorerEntry).description?.name || dir,
+                title: (value[dir] as IExplorerEntry).description?.title || dir,
+                description: (value[dir] as IExplorerEntry).description?.description || dir,
+                files: value[dir].files as EditorFile[],
+                // (value[dir] as IExplorerEntry).description?.files || undefined,
+              },
             ));
           }
         }

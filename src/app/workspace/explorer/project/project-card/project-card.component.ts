@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IProject } from '../../../../project/project.model';
-import { ProjectService } from '../project.service';
-import { StorageService } from '../../../../storage/storage.service';
 import { CurrentProjectService } from '../../../../project/current-project.service';
 
 @Component({
@@ -18,8 +16,8 @@ export class ProjectCardComponent {
   @Output() selected = new EventEmitter<IProject>();
 
   constructor(
-    private projectService: ProjectService,
-    private storageService: StorageService,
+    // private projectService: ProjectService,
+    // private storageService: StorageService,
     private currentProjectService: CurrentProjectService,
   ) { }
 
@@ -28,7 +26,8 @@ export class ProjectCardComponent {
   }
 
   public removeProject(project: IProject): void {
-    this.projects = this.projects?.filter(p => p !== project);
+    // TODO: (re) implement me
+    /*this.projects = this.projects?.filter(p => p !== project);
     let stored = this.storageService.getObject(ProjectService.PROJECTS_KEY) as string[];
     if (stored) {
       stored = stored.filter(p => p !== project.name);
@@ -38,7 +37,7 @@ export class ProjectCardComponent {
     }
     if (this.projectService.activeProject?.name === project.name) {
       this.projectService.activeProject = undefined;
-    }
+    }*/
   }
 }
 

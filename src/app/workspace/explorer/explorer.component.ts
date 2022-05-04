@@ -13,7 +13,6 @@ import { Codefile, MimeType } from '../../welcome/workshops/codefile';
   styleUrls: [ './explorer.component.scss' ],
 })
 export class ExplorerComponent implements OnInit {
-  public root?: EditorFile; // = { name: '/', type: 'directory', children: [] };
   public project?: Project;
 
   constructor(

@@ -1,9 +1,13 @@
 <app-modal #modal class="text-center" id="choose_project">
   <h1>Wähle ein Projekt</h1>
-  <app-project-card (selected)="createProject($event, true)" [projects]="availableProjects?.templates" buttonText="Erstellen"
+  <app-project-card (selected)="createProject($event, true)"
+                    [projects]="apiProjects"
+                    buttonText="Erstellen"
                     title="Vorlagen"></app-project-card>
 
-  <app-project-card (selected)="createProject($event)" [projects]="availableProjects?.stored" [removeAble]="true"
+  <app-project-card (selected)="createProject($event)"
+                    [projects]="storedProjects"
+                    [removeAble]="true"
                     buttonText="Übernehmen"
                     title="Gespeichert"></app-project-card>
 </app-modal>

@@ -1,15 +1,23 @@
 import * as CodeMirror from 'codemirror';
 
-export type FileType = 'text/javascript' | 'text/css' | 'text/html' | 'text/plain' | 'directory';
+export type FileType = 'text/javascript' | 'text/css' | 'text/html' | 'text/plain'; // | 'directory';
 
 export interface EditorFile {
+  id?: number;
   name: string;
   type: FileType;
-  content?: string;
+  content: string;
+  projectName: string;
   isModified?: boolean;
-  isOpen?: boolean;
+  isOpen: boolean;
   editor?: CodeMirror.Editor;
   children?: EditorFile[];
+}
+
+export interface Directory {
+  id?: number;
+  name: string;
+  children: EditorFile[];
 }
 
 export const validFileExtensionRegex = /\.(js|css|html?|txt)/i;
@@ -34,17 +42,19 @@ export function getFileType(value: string, defaultType: FileType = 'text/plain')
   return defaultType;
 }
 
-export function emptyFile(name: string = 'main.js', type: FileType = 'text/javascript'): EditorFile {
+export function emptyFile(projectName: string, name: string = 'main.js', type: FileType = 'text/javascript'): EditorFile {
   return {
     name,
     type,
-    content: isFile(type) ? '' : undefined,
-    children: isDirectory(type) ? [] : undefined,
+    projectName,
+    content: '', //isFile(type) ? '' : undefined,
+    isOpen: false,
   };
 }
 
 export function isDirectory(type: FileType): boolean {
-  return type === 'directory';
+  // return type === 'directory';
+  return false;
 }
 
 export function isFile(type: FileType): boolean {

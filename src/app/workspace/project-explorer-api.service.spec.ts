@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { ProjectExplorerApi } from './project-explorer-api.service';
 
-describe('ApiService', () => {
+describe('ProjectExplorerApiService', () => {
   let service: ProjectExplorerApi;
 
   beforeEach(() => {

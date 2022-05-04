@@ -28,7 +28,7 @@ export class AddFileComponent implements OnInit {
       return;
     }
     if (this.type === 'file') {
-      if (validFileExtensionRegex.test(this.filename)) {
+      /*if (validFileExtensionRegex.test(this.filename)) {
         this.onAddFileSave.emit({
           name: this.filename,
           type: getFileType(this.filename, 'text/javascript'),
@@ -37,10 +37,10 @@ export class AddFileComponent implements OnInit {
       } else {
         this.filename += `.js`;
         this.onAddFileSave.emit({ name: this.filename, type: 'text/javascript', content: '' });
-      }
+      }*/
     }
     if (this.type === 'directory') {
-      this.onAddFileSave.emit({ name: this.filename, type: 'directory', children: [] });
+      /*this.onAddFileSave.emit({ name: this.filename, type: 'directory', children: [], content: '' });*/
     }
   }
 

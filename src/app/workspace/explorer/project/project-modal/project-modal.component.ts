@@ -1,11 +1,11 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { AfterViewInit, Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { IProject } from '../../../../project/project.model';
 import { Project } from '../../../../project/project';
 import { v4 } from 'uuid';
-import { IAvailableProjects, ProjectService } from '../project.service';
 import { ModalComponent } from '../../../../modal/modal.component';
-import { CurrentProjectService } from '../../../../project/current-project.service';
+import { ProjectExplorerApi } from '../../../project-explorer-api.service';
+import { db } from '../../../../../util/db/db';
 
 @Component({
   selector: 'app-project-modal',
@@ -14,31 +14,44 @@ import { CurrentProjectService } from '../../../../project/current-project.servi
 })
 export class ProjectModalComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('modal', { static: false }) modal!: ModalComponent;
-  public availableProjects?: IAvailableProjects;
+  @Output() public onProjectSelected = new EventEmitter<IProject>();
+  public storedProjects!: IProject[];
+  public apiProjects?: IProject[];
   private afterInit = new BehaviorSubject(false);
-  private availableSubscription?: Subscription;
 
   constructor(
-    private projectService: ProjectService,
-    private currentProjectService: CurrentProjectService,
+    private readonly projectExplorerApiService: ProjectExplorerApi,
   ) { }
 
-  public get newProject(): boolean {
-    return !this.currentProjectService.activeProject;
-    // return !this.projectService.activeProject;
-  }
-
   ngOnDestroy(): void {
-    this.availableSubscription?.unsubscribe();
   }
 
   ngOnInit(): void {
-    this.availableSubscription = this.projectService.subscribeAvailable(value => this.availableProjects = value);
+    db.foo().then((projects) => {
+      this.storedProjects = projects;
+      this.afterInit.next(true);
+      this.open();
+    });
+    this.projectExplorerApiService.projects$.subscribe(
+      projects => {
+        this.apiProjects = projects.map(project => {
+          return {
+            ...project, files: project.files.map(file => {
+              return {
+                ...file,
+                projectName: project.name,
+                isOpen: false,
+              };
+            }),
+          };
+        });
+        this.afterInit.next(true);
+        this.open();
+      },
+    );
   }
 
   ngAfterViewInit(): void {
-    if (this.newProject) { this.open(); }
-    this.afterInit.next(true);
   }
 
   public createProject(project: IProject, create = false): void {
@@ -47,15 +60,12 @@ export class ProjectModalComponent implements AfterViewInit, OnInit, OnDestroy {
       project = Project.fromJson(JSON.stringify(project));
       project.name = v4();
       project.files.forEach(file => {
-        if(file.name.match(/index|main/i)) {
-          console.log(file);
+        if (file.name.match(/index|main/i)) {
           file.isOpen = true;
         }
       });
     }
-    this.projectService.activeProject = project;
-    this.currentProjectService.activeProject = Project.fromJson(project);
-    console.log(this.currentProjectService.activeProject);
+    this.onProjectSelected.emit(project);
     this.modal?.close();
   }
 

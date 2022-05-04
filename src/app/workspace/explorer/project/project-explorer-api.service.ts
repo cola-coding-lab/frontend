@@ -9,7 +9,7 @@ import { IPwaData } from '../../export/export.model';
 @Injectable({
   providedIn: 'root',
 })
-export class ApiService {
+export class ProjectExplorerApi {
   private readonly uri: string = `${environment.api.src}/${environment.api.version}/`;
   private readonly base: string = (`${location?.origin}` || this.uri) + environment.baseHref;
 

@@ -13,6 +13,7 @@ import * as CodeMirror from 'codemirror';
 import { EditorFromTextArea } from 'codemirror';
 import { Subscription, timer } from 'rxjs';
 import { EditorFile } from '../../file/file.model';
+import { db } from '../../../util/db/db';
 
 @Component({
   selector: 'app-editor',
@@ -90,6 +91,14 @@ export class EditorComponent implements OnInit, AfterViewInit, OnChanges, OnDest
     console.log(`save ${this.file.name}`);
     this.file.content = cm.getValue();
     this.file.isModified = undefined;
+    db.files.put({
+      content: this.file!.content,
+      isOpen: this.file!.isOpen,
+      name: this.file!.name,
+      id: this.file!.id,
+      type: this.file!.type,
+      projectName: this.file!.projectName,
+    });
   }
 
   private resetEditor(): void {

@@ -1,4 +1,4 @@
-<div id="container" class="d-flex h-100 bg-primary" *ngIf="!modal.newProject; else chooseProject">
+<div id="container" class="d-flex h-100 bg-primary" *ngIf="projectSelected; else chooseProject">
   <app-flex-container
     id="left-box"
     class="bg-success"
@@ -64,7 +64,6 @@
   <div class="new-project">
     <button (click)="modal?.open()" class="btn btn-primary w-75 h-25" type="button">Wähle ein Projekt</button>
   </div>
-
+  <app-project-modal #modal (onProjectSelected)="setProject($event)"></app-project-modal>
 </ng-template>
 
-<app-project-modal #modal></app-project-modal>

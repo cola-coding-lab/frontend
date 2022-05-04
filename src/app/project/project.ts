@@ -1,7 +1,9 @@
-import { EditorFile, emptyFile } from '../file/file.model';
+import { Directory, EditorFile, emptyFile } from '../file/file.model';
 import { IProject } from './project.model';
+import { v4 } from 'uuid';
 
 export class Project implements IProject {
+  public readonly id: number;
   public readonly name: string;
   public title: string;
   public description: string;
@@ -11,6 +13,7 @@ export class Project implements IProject {
   constructor(json?: string | IProject) {
     const obj = typeof json === 'string' ? JSON.parse(json) : json;
     obj.files = convertFiles(obj.files);
+    this.id = obj?.id || 0;
     this.name = obj?.name || '';
     this.title = obj?.title || '';
     this.description = obj?.description || '';
@@ -18,8 +21,8 @@ export class Project implements IProject {
     this.showHidden = obj?.showHidden || false;
   }
 
-  public get projectRoot(): EditorFile {
-    return { name: '/', type: 'directory', children: this.files };
+  public get projectRoot(): Directory {
+    return { name: '/', children: this.files };
   }
 
   public static fromJson(json: string | IProject): Project {
@@ -27,11 +30,12 @@ export class Project implements IProject {
   }
 
   public static fromEmpty(): Project {
+    const projectName = 'Empty' + v4();
     return new Project({
-      name: 'Empty',
+      name: projectName,
       title: 'Leeres Projekt',
       description: 'Starte mit einem leeren Projekt',
-      files: [ emptyFile() ],
+      files: [ emptyFile(projectName) ],
     });
   }
 
@@ -39,10 +43,10 @@ export class Project implements IProject {
     if (!project) { return []; }
     const flatChildren = (children?: EditorFile[]): EditorFile[] => {
       if (!children || children.length === 0) {return [];}
-      const dirs = children.filter(c => c.type === 'directory');
+      // const dirs = children.filter(c => c.type === 'directory');
       let tmp: EditorFile[] = [];
-      dirs.forEach(dir => { tmp = [ ...flatChildren(dir.children) ]; });
-      const files = children.filter(c => c.type !== 'directory');
+      // dirs.forEach(dir => { tmp = [ ...flatChildren(dir.children) ]; });
+      const files = children; //.filter(c => c.type !== 'directory');
       return [ ...files, ...tmp ];
     };
 
@@ -54,8 +58,8 @@ export class Project implements IProject {
       ...this,
       projectRoot: undefined,
       files: this.files.map(file => {
-        return {...file, editor: undefined}
-      })
+        return { ...file, editor: undefined };
+      }),
     };
   }
 

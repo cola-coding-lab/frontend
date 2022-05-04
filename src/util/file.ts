@@ -1,12 +1,4 @@
-import { EditorFile, FileType } from '../app/file/file.model';
-
-export const emptyFile = (name = 'main.js', type: FileType = 'text/javascript'): EditorFile => {
-  return {
-    name,
-    type,
-    content: '',
-  };
-};
+import { EditorFile } from '../app/file/file.model';
 
 export function checkForActiveFile(files: EditorFile[]): EditorFile[] {
   // check/correct that only one file is active

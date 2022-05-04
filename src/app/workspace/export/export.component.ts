@@ -2,9 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ModalComponent } from '../../modal/modal.component';
 import { Project } from '../../project/project';
-import { ApiService } from '../explorer/project/api.service';
-import { ProjectService } from '../explorer/project/project.service';
-import { environment } from '../../../environments/environment';
+import { ProjectExplorerApi } from '../explorer/project/project-explorer-api.service';
 import { IPwaData } from './export.model';
 import { ProjectFileService } from '../../project/project-file.service';
 import { downloadBlob } from '../../../util/download';
@@ -12,16 +10,16 @@ import { downloadBlob } from '../../../util/download';
 @Component({
   selector: 'app-export',
   templateUrl: './export.component.html',
-  styleUrls: ['./export.component.scss']
+  styleUrls: [ './export.component.scss' ],
 })
 export class ExportComponent implements OnInit {
   private static readonly DEFAULT_TITLE = 'Meine App';
 
   @ViewChild('modal', { static: false }) modal!: ModalComponent;
   public pwaExportForm = new FormGroup({
-    pwa_title: new FormControl(null, { validators: [Validators.required, Validators.minLength(1)] }),
-    pwa_color: new FormControl(null, { validators: [Validators.required] }),
-    pwa_description: new FormControl(null, { validators: [Validators.required, Validators.minLength(1)] }),
+    pwa_title: new FormControl(null, { validators: [ Validators.required, Validators.minLength(1) ] }),
+    pwa_color: new FormControl(null, { validators: [ Validators.required ] }),
+    pwa_description: new FormControl(null, { validators: [ Validators.required, Validators.minLength(1) ] }),
     pwa_css: new FormControl(),
     pwa_logo: new FormControl(),
   });
@@ -30,18 +28,18 @@ export class ExportComponent implements OnInit {
   private p5js = '';
 
   constructor(
-    private apiService: ApiService,
+    private apiService: ProjectExplorerApi,
     private projectFileService: ProjectFileService,
-    private projectService: ProjectService,
+    // private projectService: ProjectService,
   ) {
     this.apiService.getP5JS().subscribe(value => this.p5js = value.script);
-    this.projectService.subscribeActive(active => {
+    /*this.projectService.subscribeActive(active => {
       if (active) {
         this.project = Project.fromJson(active);
         this.pwaExportForm.patchValue({ pwa_title: active.title });
         this.pwaExportForm.patchValue({ pwa_description: active.description });
       }
-    });
+    });*/
   }
 
   ngOnInit(): void {
@@ -112,7 +110,7 @@ export class ExportComponent implements OnInit {
   }
 
   public downloadHtml(): void {
-    const project = this.projectService.activeProject;
+    /*const project = this.projectService.activeProject;
     const iframe = document.createElement('iframe');
     iframe.src = 'assets/iframe/iframe.html';
     iframe.onload = () => {
@@ -141,6 +139,7 @@ export class ExportComponent implements OnInit {
     iframe.style.display = 'none';
     document.body.appendChild(iframe);
     iframe.contentWindow?.location.reload();
+     */
   }
 
   private async getPwaImage(): Promise<string | ArrayBuffer | undefined> {
@@ -171,7 +170,7 @@ export class ExportComponent implements OnInit {
 function imageValidator(): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
     if (!control.value) { return null; }
-    const validType = ['image/png', 'image/jpeg'].includes(control.value?.type);
+    const validType = [ 'image/png', 'image/jpeg' ].includes(control.value?.type);
     const validSize = control.value?.size <= 2e+6;
 
     const err = {
