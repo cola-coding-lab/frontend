@@ -46,6 +46,12 @@ export class ProjectModalComponent implements AfterViewInit, OnInit, OnDestroy {
     if (create) {
       project = Project.fromJson(JSON.stringify(project));
       project.name = v4();
+      project.files.forEach(file => {
+        if(file.name.match(/index|main/i)) {
+          console.log(file);
+          file.isOpen = true;
+        }
+      });
     }
     this.projectService.activeProject = project;
     this.currentProjectService.activeProject = Project.fromJson(project);

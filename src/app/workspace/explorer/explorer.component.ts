@@ -26,9 +26,14 @@ export class ExplorerComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentProjectService.subscribe(
-      project => this.project = project,
-      err => console.error(err),
-    );
+      project => {
+        this.project = project;
+        this.project.files.forEach(file => {
+          if(file.isOpen) { this.openTabsService.select(file); }
+        })
+      },
+        err => console.error(err)
+      );
   }
 
   public setFiles(files: EditorFile[]): void {
