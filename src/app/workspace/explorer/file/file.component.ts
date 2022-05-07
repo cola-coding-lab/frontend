@@ -1,13 +1,24 @@
-import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { ContextMenuClick } from '../../../context-menu/context-menu.model';
 import { HasContextMenuComponent } from '../../../context-menu/has-context-menu.component';
 import { OpenTabsService } from '../../editor/tab-container/open-tabs.service';
-import { Directory, EditorFile } from '../../../file/file.model';
+import { Directory, EditorFile, getFileType } from '../../../file/file.model';
 import { AddFileComponent } from '../add-file/add-file.component';
 import { AddFileDirective } from '../add-file/add-file.directive';
-import { AddFileType } from '../add-file/add-file.model';
+import { AddFileResult, AddFileType } from '../add-file/add-file.model';
 import { CurrentSelectedService } from './current-selected.service';
 import { ExplorerFile } from './file.model';
+import { db } from '../../../../util/db/db';
 
 @Component({
   selector: 'explorer-file',
@@ -21,14 +32,14 @@ export class FileComponent extends HasContextMenuComponent<EditorFile> implement
   @Input() public root: boolean = false;
   @Input() public depth: number = 0;
   @Input() public collapse?: boolean = false;
-  @Input() public parent: Directory = { name: '/', children: [] };
+  @Input() public parent: Directory = { projectId: '', name: '/', children: [] };
   @Output() public onFilesUpdate: EventEmitter<EditorFile[]> = new EventEmitter<EditorFile[]>();
 
   protected contextMenuItems = [
     { text: 'löschen', event: 'delete' },
     { text: 'umbenennen', event: 'rename' },
     { text: 'neue datei', event: 'new-file' },
-    { text: 'neuer ordner', event: 'new-dir' },
+    // { text: 'neuer ordner', event: 'new-dir' },
   ];
 
   @ViewChild(AddFileDirective, { static: true }) private addFile!: AddFileDirective;
@@ -38,6 +49,7 @@ export class FileComponent extends HasContextMenuComponent<EditorFile> implement
   constructor(
     private currentSelectedService: CurrentSelectedService,
     private openTabsService: OpenTabsService,
+    private ref: ChangeDetectorRef,
   ) { super(); }
 
   @ViewChild('editRef', { read: ElementRef })
@@ -113,6 +125,7 @@ export class FileComponent extends HasContextMenuComponent<EditorFile> implement
         child.name = this.tmpName || child.name;
         this.tmpName = undefined;
         child.edit = undefined;
+        db.saveFile(child);
         break;
       default:
         break;
@@ -160,8 +173,11 @@ export class FileComponent extends HasContextMenuComponent<EditorFile> implement
   }
 
   private deleteChild(child: EditorFile): void {
-    this.parent.children = this.parent.children?.filter(file => file !== child);
+    this.parent.children = this.parent.children?.filter(file => file.id !== child.id);
+    db.deleteFile(child);
     this.openTabsService.remove(child);
+    // TODO: Deleted child keeps in file-list
+    this.ref.detectChanges();
   }
 
   private add(sibling?: HTMLElement | null, type: AddFileType = 'file'): void {
@@ -177,7 +193,20 @@ export class FileComponent extends HasContextMenuComponent<EditorFile> implement
     componentRef.instance.onAddFileAbort.subscribe(() => {
       viewContainerRef?.clear();
     });
-    componentRef.instance.onAddFileSave.subscribe((file: EditorFile) => {
+    componentRef.instance.onAddFileSave.subscribe(async (result: AddFileResult) => {
+      if (result.type === 'file') {
+        const file: EditorFile = {
+          name: result.name,
+          type: getFileType(result.name),
+          isOpen: true,
+          content: '',
+          projectId: this.parent.projectId,
+          id: await db.nextFileId(this.parent.projectId),
+        };
+        db.files.put(file);
+        this.parent.children.push(file);
+        this.openTabsService.select(file);
+      }
       /*const dir = (siblingType === 'file') ? this.parent.children : this.parent.children?.find(id => id === siblingName)?.children;
       console.log(dir);
       if (dir?.find(child => child.name === file.name)) {

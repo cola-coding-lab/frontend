@@ -23,7 +23,7 @@ export class Project implements IProject {
   }
 
   public get projectRoot(): Directory {
-    return { name: '/', children: this.files };
+    return { projectId: this.id, name: '/', children: this.files };
   }
 
   public static fromJson(json: string | IProject): Project {

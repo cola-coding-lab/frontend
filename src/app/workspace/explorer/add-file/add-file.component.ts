@@ -1,11 +1,11 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { EditorFile, getFileType, validFileExtensionRegex } from '../../../file/file.model';
-import { AddFileType } from './add-file.model';
+import { validFileExtensionRegex } from '../../../file/file.model';
+import { AddFileResult, AddFileType } from './add-file.model';
 
 @Component({
   selector: 'explorer-add-file',
   templateUrl: './add-file.component.html',
-  styleUrls: ['./add-file.component.scss'],
+  styleUrls: [ './add-file.component.scss' ],
 })
 export class AddFileComponent implements OnInit {
   filename: string = '';
@@ -13,7 +13,7 @@ export class AddFileComponent implements OnInit {
   @Input() type: AddFileType = 'file';
   @Input() paddingLeft = '0';
 
-  @Output() onAddFileSave: EventEmitter<EditorFile> = new EventEmitter<EditorFile>();
+  @Output() onAddFileSave: EventEmitter<AddFileResult> = new EventEmitter<AddFileResult>();
   @Output() onAddFileAbort: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(private elRef: ElementRef) { }
@@ -27,24 +27,14 @@ export class AddFileComponent implements OnInit {
       alert('pleaser enter filename');
       return;
     }
-    if (this.type === 'file') {
-      /*if (validFileExtensionRegex.test(this.filename)) {
-        this.onAddFileSave.emit({
-          name: this.filename,
-          type: getFileType(this.filename, 'text/javascript'),
-          content: '',
-        });
-      } else {
-        this.filename += `.js`;
-        this.onAddFileSave.emit({ name: this.filename, type: 'text/javascript', content: '' });
-      }*/
-    }
-    if (this.type === 'directory') {
-      /*this.onAddFileSave.emit({ name: this.filename, type: 'directory', children: [], content: '' });*/
-    }
+    if (this.type === 'file' && !validFileExtensionRegex.test(this.filename)) { this.filename += `.js`; }
+    this.onAddFileSave.emit({
+      type: this.type,
+      name: this.filename,
+    });
   }
 
-  @HostListener('document:mousedown', ['$event'])
+  @HostListener('document:mousedown', [ '$event' ])
   abort($event: MouseEvent): void {
     const target = $event.target as HTMLElement;
     if (!(this.elRef.nativeElement as HTMLElement).contains(target)

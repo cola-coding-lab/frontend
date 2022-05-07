@@ -2,21 +2,22 @@ import * as CodeMirror from 'codemirror';
 
 export type FileType = 'text/javascript' | 'text/css' | 'text/html' | 'text/plain'; // | 'directory';
 
-export interface EditorFile {
+export interface FSElement {
   id?: number;
   name: string;
+  projectId: string;
+}
+
+export interface EditorFile extends FSElement {
   type: FileType;
   content: string;
-  projectId: string;
   isModified?: boolean;
   isOpen: boolean;
   editor?: CodeMirror.Editor;
-  children?: EditorFile[];
+  children?: EditorFile[]; // TODO: Remove
 }
 
-export interface Directory {
-  id?: number;
-  name: string;
+export interface Directory extends FSElement {
   children: EditorFile[];
 }
 

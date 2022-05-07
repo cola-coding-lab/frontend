@@ -6,6 +6,7 @@ import { Project } from '../../project/project';
 import { ControlState } from '../editor/controls/controls.model';
 import { OutputFilesService } from '../output/output-files.service';
 import { Codefile, MimeType } from '../../welcome/workshops/codefile';
+import { db } from '../../../util/db/db';
 
 @Component({
   selector: 'app-explorer',
@@ -61,5 +62,10 @@ export class ExplorerComponent implements OnInit {
     } else {
       this.outputFilesService.clear();
     }
+  }
+
+  async dbTest() {
+    const val = await db.nextFileId('fa86c6d2-180f-5081-ba85-be7e43dc1da3');
+    console.log(val);
   }
 }

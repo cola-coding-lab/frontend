@@ -52,7 +52,26 @@ export class AppDB extends Dexie {
     this.projects.where('id').equals(project.id).delete();
   }
 
-  async  getStoredProjects() {
+  async deleteFile(file: EditorFile) {
+    this.files.where('[id+projectId]').equals([ file.id!, file.projectId ]).delete();
+  }
+
+  async nextFileId(projectId: string): Promise<number> {
+    return this.files.where('projectId').equals(projectId).primaryKeys().then((keys) => (keys.map(key => (key as unknown as any[])[0]).sort().pop() || 1) + 1);
+  }
+
+  async saveFile(file: EditorFile) {
+    this.files.put({
+      id: file.id,
+      name: file.name,
+      projectId: file.projectId,
+      content: file.content,
+      type: file.type,
+      isOpen: file.isOpen,
+    });
+  }
+
+  async getStoredProjects() {
     const [ projects, files, dirs ] = await Promise.all([
         this.projects.toArray(),
         this.files.toArray(),
@@ -66,12 +85,13 @@ export class AppDB extends Dexie {
         files: files.filter(file => file.projectId === project.id).map<EditorFile>(file => {
           return {
             ...file,
-            type: file.type as FileType
+            type: file.type as FileType,
           };
         }),
       };
     });
   }
+
 }
 
 export const db = new AppDB();
