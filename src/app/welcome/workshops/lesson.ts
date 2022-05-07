@@ -1,5 +1,5 @@
 import { Step } from './Step';
-import { Codefile } from './codefile';
+import { CodeFile } from '../../file/file.model';
 
 export interface Lesson {
     id: string;
@@ -8,5 +8,5 @@ export interface Lesson {
     type: string;
     steps: Step[];
     hint?: string;
-    code: Codefile[];
+    code: CodeFile[];
   }

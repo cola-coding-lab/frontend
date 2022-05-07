@@ -2,10 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ModalComponent } from '../../modal/modal.component';
 import { Project } from '../../project/project';
-import { ProjectExplorerApi } from '../explorer/project/project-explorer-api.service';
 import { IPwaData } from './export.model';
-import { ProjectFileService } from '../../project/project-file.service';
 import { downloadBlob } from '../../../util/download';
+import { CurrentProjectService } from '../../project/current-project.service';
+import { ProjectExplorerApiService } from '../project-explorer-api.service';
 
 @Component({
   selector: 'app-export',
@@ -14,6 +14,8 @@ import { downloadBlob } from '../../../util/download';
 })
 export class ExportComponent implements OnInit {
   private static readonly DEFAULT_TITLE = 'Meine App';
+
+  // TODO: make me work
 
   @ViewChild('modal', { static: false }) modal!: ModalComponent;
   public pwaExportForm = new FormGroup({
@@ -28,11 +30,10 @@ export class ExportComponent implements OnInit {
   private p5js = '';
 
   constructor(
-    private apiService: ProjectExplorerApi,
-    private projectFileService: ProjectFileService,
-    // private projectService: ProjectService,
+    private apiService: ProjectExplorerApiService,
+    private projectService: CurrentProjectService,
   ) {
-    this.apiService.getP5JS().subscribe(value => this.p5js = value.script);
+    this.apiService.p5js$.subscribe(value => this.p5js = value.script);
     /*this.projectService.subscribeActive(active => {
       if (active) {
         this.project = Project.fromJson(active);
@@ -63,14 +64,14 @@ export class ExportComponent implements OnInit {
       pwa_color: this.pwaExportForm.value.pwa_color,
       pwa_css: this.pwaExportForm.value.pwa_css || undefined,
       pwa_image: image?.toString(),
-      pwa_scripts: this.projectFileService.allStoredFiles().map(f => f.content || ''),
+      pwa_scripts: this.projectService.activeProject?.files?.map(f => f.content || '') || [],
       pwa_description: this.pwaExportForm.value.pwa_description,
     };
 
-    this.apiService.postPWA(data).subscribe(
+    this.apiService.postPWA$(data).subscribe(
       value => {
         console.log(value);
-        this.apiService.getPWAZip(`${data.pwa_title}.zip`).subscribe(
+        this.apiService.getPWAZip$(`${data.pwa_title}.zip`).subscribe(
           zip => {
             console.log(zip);
             if (zip.type === 'application/zip') {

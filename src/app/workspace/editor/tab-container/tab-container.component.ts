@@ -1,9 +1,8 @@
 import { Component, ElementRef, Input, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { setPropertyFor } from '../../../../util/properties';
-import { EditorFile } from '../../../file/file.model';
+import { CodeFile, EditorFile, MimeType } from '../../../file/file.model';
 import { OpenTabsService } from './open-tabs.service';
 import { OutputFilesService } from '../../output/output-files.service';
-import { Codefile, MimeType } from '../../../welcome/workshops/codefile';
 import { ControlState } from '../controls/controls.model';
 import { EditorComponent } from '../editor.component';
 
@@ -69,7 +68,7 @@ export class TabContainerComponent implements OnInit {
   public controlsClicked(state: ControlState): void {
     this.editors?.forEach(editor => editor.save());
     if (state === ControlState.RUN) {
-      const files = this.openTabs.map<Codefile>((ef: EditorFile) => {
+      const files = this.openTabs.map<CodeFile>((ef: EditorFile) => {
         return { name: ef.name, type: ef.type as MimeType, content: ef.content || '' };
       });
       this.outputFilesService.update(files);

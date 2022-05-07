@@ -1,16 +1,18 @@
 import * as CodeMirror from 'codemirror';
 
-export type FileType = 'text/javascript' | 'text/css' | 'text/html' | 'text/plain'; // | 'directory';
-
 export interface FSElement {
   id?: number;
   name: string;
   projectId: string;
 }
 
-export interface EditorFile extends FSElement {
-  type: FileType;
+export interface CodeFile {
+  name: string;
+  type: MimeType;
   content: string;
+}
+
+export interface EditorFile extends FSElement, CodeFile {
   isModified?: boolean;
   isOpen: boolean;
   editor?: CodeMirror.Editor;
@@ -21,21 +23,31 @@ export interface Directory extends FSElement {
   children: EditorFile[];
 }
 
+export enum MimeType {
+  js = 'text/javascript',
+  css = 'text/css',
+  html = 'text/html',
+  plain = 'text/plain',
+  jpeg = 'image/jpeg',
+  png = 'image/png',
+  gif = 'image/gif'
+}
+
 export const validFileExtensionRegex = /\.(js|css|html?|txt)/i;
 
-export function getFileType(value: string, defaultType: FileType = 'text/plain'): FileType {
+export function getFileType(value: string, defaultType: MimeType = MimeType.plain): MimeType {
   const result = validFileExtensionRegex.exec(value);
   if (result?.[1]) {
     switch (result[1].toLowerCase()) {
       case 'js':
-        return 'text/javascript';
+        return MimeType.js;
       case 'css':
-        return 'text/css';
+        return MimeType.css;
       case 'html':
       case 'htm':
-        return 'text/html';
+        return MimeType.html;
       case 'txt':
-        return 'text/plain';
+        return MimeType.plain;
       default:
         return defaultType;
     }
@@ -43,21 +55,12 @@ export function getFileType(value: string, defaultType: FileType = 'text/plain')
   return defaultType;
 }
 
-export function emptyFile(projectId: string, name: string = 'main.js', type: FileType = 'text/javascript'): EditorFile {
+export function emptyFile(projectId: string, name: string = 'main.js', type = MimeType.js): EditorFile {
   return {
     name,
     type,
     projectId,
-    content: '', //isFile(type) ? '' : undefined,
+    content: '',
     isOpen: false,
   };
-}
-
-export function isDirectory(type: FileType): boolean {
-  // return type === 'directory';
-  return false;
-}
-
-export function isFile(type: FileType): boolean {
-  return !isDirectory(type);
 }

@@ -1,11 +1,11 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { IProject } from '../../../../project/project.model';
-import { Project } from '../../../../project/project';
+import { Project, IProject } from '../../../../project/project';
 import { v4 } from 'uuid';
 import { ModalComponent } from '../../../../modal/modal.component';
-import { ProjectExplorerApi } from '../../../project-explorer-api.service';
+import { ProjectExplorerApiService } from '../../../project-explorer-api.service';
 import { db } from '../../../../../util/db/db';
+import { EditorFile } from '../../../../file/file.model';
 
 @Component({
   selector: 'app-project-modal',
@@ -21,7 +21,7 @@ export class ProjectModalComponent implements OnInit, OnDestroy {
   private afterInit = new BehaviorSubject(false);
 
   constructor(
-    private readonly projectExplorerApiService: ProjectExplorerApi,
+    private readonly projectExplorerApiService: ProjectExplorerApiService,
   ) { }
 
   ngOnDestroy(): void {
@@ -37,7 +37,7 @@ export class ProjectModalComponent implements OnInit, OnDestroy {
       projects => {
         this.apiProjects = projects.map(project => {
           return {
-            ...project, files: project.files.map(file => {
+            ...project, files: project.files.map<EditorFile>(file => {
               return {
                 ...file,
                 projectId: project.id,

@@ -2,8 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { ResizeableContainerComponent } from './resizeable-container.component';
 import { CurrentProjectService } from '../project/current-project.service';
 import { db } from '../../util/db/db';
-import { IProject } from '../project/project.model';
-import { Project } from '../project/project';
+import { Project, IProject } from '../project/project';
 import { ProjectModalComponent } from './explorer/project/project-modal/project-modal.component';
 import { OpenTabsService } from './editor/tab-container/open-tabs.service';
 

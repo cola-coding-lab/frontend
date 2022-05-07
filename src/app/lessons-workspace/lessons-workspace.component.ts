@@ -1,9 +1,8 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { Lesson } from '../welcome/workshops/lesson';
 import { v4 } from 'uuid';
-import { MimeType } from '../welcome/workshops/codefile';
 import { OpenTabsService } from '../workspace/editor/tab-container/open-tabs.service';
-import { EditorFile } from '../file/file.model';
+import { EditorFile, MimeType } from '../file/file.model';
 import { ResizeableContainerComponent } from '../workspace/resizeable-container.component';
 
 @Component({

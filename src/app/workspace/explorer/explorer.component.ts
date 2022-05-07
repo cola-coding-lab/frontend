@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { OpenTabsService } from '../editor/tab-container/open-tabs.service';
-import { EditorFile } from '../../file/file.model';
+import { CodeFile, EditorFile, MimeType } from '../../file/file.model';
 import { CurrentProjectService } from '../../project/current-project.service';
 import { Project } from '../../project/project';
 import { ControlState } from '../editor/controls/controls.model';
 import { OutputFilesService } from '../output/output-files.service';
-import { Codefile, MimeType } from '../../welcome/workshops/codefile';
-import { db } from '../../../util/db/db';
 
 @Component({
   selector: 'app-explorer',
@@ -29,11 +27,11 @@ export class ExplorerComponent implements OnInit {
       project => {
         this.project = project;
         this.project.files.forEach(file => {
-          if(file.isOpen) { this.openTabsService.select(file); }
-        })
+          if (file.isOpen) { this.openTabsService.select(file); }
+        });
       },
-        err => console.error(err)
-      );
+      err => console.error(err),
+    );
   }
 
   public setFiles(files: EditorFile[]): void {
@@ -50,7 +48,7 @@ export class ExplorerComponent implements OnInit {
         if (a.name > b.name) { return 1; }
         if (b.name > a.name) { return -1; }
         return 0;
-      }).map<Codefile>(f => {
+      }).map<CodeFile>(f => {
         return { name: f.name, type: f.type as MimeType, content: f.content || '' };
       });
       const mainIdx = files.findIndex(f => f.name.match(/(index|main)\.js/i));
@@ -62,10 +60,5 @@ export class ExplorerComponent implements OnInit {
     } else {
       this.outputFilesService.clear();
     }
-  }
-
-  async dbTest() {
-    const val = await db.nextFileId('fa86c6d2-180f-5081-ba85-be7e43dc1da3');
-    console.log(val);
   }
 }

@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ProjectExplorerApi } from './project-explorer-api.service';
+import { ProjectExplorerApiService } from './project-explorer-api.service';
 
 describe('ProjectExplorerApiService', () => {
-  let service: ProjectExplorerApi;
+  let service: ProjectExplorerApiService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ProjectExplorerApi);
+    service = TestBed.inject(ProjectExplorerApiService);
   });
 
   it('should be created', () => {

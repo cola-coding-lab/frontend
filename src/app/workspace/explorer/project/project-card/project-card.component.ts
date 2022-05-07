@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { IProject } from '../../../../project/project.model';
+import { IProject } from '../../../../project/project';
 
 @Component({
   selector: 'app-project-card',

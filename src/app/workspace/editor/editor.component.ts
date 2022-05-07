@@ -91,14 +91,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnChanges, OnDest
     console.log(`save ${this.file.name}`);
     this.file.content = cm.getValue();
     this.file.isModified = undefined;
-    db.files.put({
-      content: this.file!.content,
-      isOpen: this.file!.isOpen,
-      name: this.file!.name,
-      id: this.file!.id,
-      type: this.file!.type,
-      projectId: this.file!.projectId,
-    });
+    db.saveFile(this.file);
   }
 
   private resetEditor(): void {

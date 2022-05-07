@@ -1,6 +1,6 @@
 import Dexie, { Table } from 'dexie';
-import { IProject } from '../../app/project/project.model';
-import { EditorFile, FileType } from '../../app/file/file.model';
+import { IProject } from '../../app/project/project';
+import { EditorFile, MimeType } from '../../app/file/file.model';
 
 export interface DbProject {
   id: string;
@@ -46,13 +46,13 @@ export class AppDB extends Dexie {
     // Todo?
   }
 
-  async deleteProject(project: IProject) {
+  async deleteProject(project: IProject): Promise<void> {
     this.files.where('projectId').equals(project.id).delete();
     this.directories.where('projectId').equals(project.id).delete();
     this.projects.where('id').equals(project.id).delete();
   }
 
-  async deleteFile(file: EditorFile) {
+  deleteFile(file: EditorFile): void {
     this.files.where('[id+projectId]').equals([ file.id!, file.projectId ]).delete();
   }
 
@@ -60,7 +60,7 @@ export class AppDB extends Dexie {
     return this.files.where('projectId').equals(projectId).primaryKeys().then((keys) => (keys.map(key => (key as unknown as any[])[0]).sort().pop() || 1) + 1);
   }
 
-  async saveFile(file: EditorFile) {
+  saveFile(file: EditorFile): void {
     this.files.put({
       id: file.id,
       name: file.name,
@@ -69,6 +69,10 @@ export class AppDB extends Dexie {
       type: file.type,
       isOpen: file.isOpen,
     });
+  }
+
+  saveFiles(files: EditorFile[]): void {
+    files.forEach(file => this.saveFile(file));
   }
 
   async getStoredProjects() {
@@ -85,7 +89,7 @@ export class AppDB extends Dexie {
         files: files.filter(file => file.projectId === project.id).map<EditorFile>(file => {
           return {
             ...file,
-            type: file.type as FileType,
+            type: file.type as MimeType,
           };
         }),
       };

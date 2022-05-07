@@ -203,7 +203,7 @@ export class FileComponent extends HasContextMenuComponent<EditorFile> implement
           projectId: this.parent.projectId,
           id: await db.nextFileId(this.parent.projectId),
         };
-        db.files.put(file);
+        db.saveFile(file);
         this.parent.children.push(file);
         this.openTabsService.select(file);
       }

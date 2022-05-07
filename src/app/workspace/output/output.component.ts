@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { Codefile } from '../../welcome/workshops/codefile';
 import { OutputFile } from './output-file.model';
 import { OutputFilesService } from './output-files.service';
 import { OutputLibsService } from './output-libs.service';
+import { CodeFile } from '../../file/file.model';
 
 
 @Component({
@@ -14,7 +14,7 @@ export class OutputComponent implements AfterViewInit {
   @ViewChild('iframe', { static: false }) iframe!: ElementRef;
   public onresize = false;
   private resizeObserver: ResizeObserver;
-  private files: Codefile[] = [];
+  private files: CodeFile[] = [];
 
   private jsLibs: OutputFile[] = [];
 
