@@ -7,7 +7,7 @@ export interface EditorFile {
   name: string;
   type: FileType;
   content: string;
-  projectName: string;
+  projectId: string;
   isModified?: boolean;
   isOpen: boolean;
   editor?: CodeMirror.Editor;
@@ -42,11 +42,11 @@ export function getFileType(value: string, defaultType: FileType = 'text/plain')
   return defaultType;
 }
 
-export function emptyFile(projectName: string, name: string = 'main.js', type: FileType = 'text/javascript'): EditorFile {
+export function emptyFile(projectId: string, name: string = 'main.js', type: FileType = 'text/javascript'): EditorFile {
   return {
     name,
     type,
-    projectName,
+    projectId,
     content: '', //isFile(type) ? '' : undefined,
     isOpen: false,
   };

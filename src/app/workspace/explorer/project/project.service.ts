@@ -8,6 +8,7 @@ import { checkForActiveFile } from '../../../../util/file';
 import { IExplorerEntry } from '../explorer.model';
 import { ProjectExplorerApi } from './project-explorer-api.service';
 import { EditorFile } from '../../../file/file.model';
+import { v4 } from 'uuid';
 
 @Injectable({
   providedIn: 'root',
@@ -80,6 +81,7 @@ export class ProjectService {
           if ('description' in value[dir]) {
             projects.templates.push(new Project(
               {
+                id: v4(),
                 name: (value[dir] as IExplorerEntry).description?.name || dir,
                 title: (value[dir] as IExplorerEntry).description?.title || dir,
                 description: (value[dir] as IExplorerEntry).description?.description || dir,

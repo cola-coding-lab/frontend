@@ -97,7 +97,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnChanges, OnDest
       name: this.file!.name,
       id: this.file!.id,
       type: this.file!.type,
-      projectName: this.file!.projectName,
+      projectId: this.file!.projectId,
     });
   }
 

@@ -3,6 +3,7 @@ import { IProject } from '../../app/project/project.model';
 import { EditorFile, FileType } from '../../app/file/file.model';
 
 export interface DbProject {
+  id: string;
   name: string;
   title: string;
   description: string;
@@ -12,7 +13,7 @@ export interface DbProject {
 interface DbFsItem {
   id?: number;
   name: string;
-  projectName: string;
+  projectId: string;
 }
 
 export interface DbFile extends DbFsItem {
@@ -33,10 +34,10 @@ export class AppDB extends Dexie {
 
   constructor() {
     super('vcl-fs-db');
-    this.version(3).stores({
-      projects: 'name',
-      files: '++id, projectName',
-      directories: '++id, projectName',
+    this.version(1).stores({
+      projects: 'id',
+      files: '[id+projectId], projectId',
+      directories: '[id+projectId], projectId',
     });
     this.on('populate', () => this.populate());
   }
@@ -45,7 +46,13 @@ export class AppDB extends Dexie {
     // Todo?
   }
 
-  async foo() {
+  async deleteProject(project: IProject) {
+    this.files.where('projectId').equals(project.id).delete();
+    this.directories.where('projectId').equals(project.id).delete();
+    this.projects.where('id').equals(project.id).delete();
+  }
+
+  async  getStoredProjects() {
     const [ projects, files, dirs ] = await Promise.all([
         this.projects.toArray(),
         this.files.toArray(),
@@ -56,7 +63,7 @@ export class AppDB extends Dexie {
     return projects.map<IProject>(project => {
       return {
         ...project,
-        files: files.filter(file => file.projectName === project.name).map<EditorFile>(file => {
+        files: files.filter(file => file.projectId === project.id).map<EditorFile>(file => {
           return {
             ...file,
             type: file.type as FileType

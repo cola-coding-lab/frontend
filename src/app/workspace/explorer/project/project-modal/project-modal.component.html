@@ -6,6 +6,7 @@
                     title="Vorlagen"></app-project-card>
 
   <app-project-card (selected)="createProject($event)"
+                    (removed)="removeProject($event)"
                     [projects]="storedProjects"
                     [removeAble]="true"
                     buttonText="Übernehmen"

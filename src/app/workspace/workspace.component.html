@@ -7,6 +7,7 @@
   >
     <p>OUTER</p>
     <app-explorer></app-explorer>
+    <button (click)="modal.open()"></button>
   </app-flex-container>
 
   <div
@@ -62,8 +63,8 @@
 
 <ng-template #chooseProject>
   <div class="new-project">
-    <button (click)="modal?.open()" class="btn btn-primary w-75 h-25" type="button">Wähle ein Projekt</button>
+    <button (click)="modal.open()" class="btn btn-primary w-75 h-25" type="button">Wähle ein Projekt</button>
   </div>
-  <app-project-modal #modal (onProjectSelected)="setProject($event)"></app-project-modal>
 </ng-template>
+<app-project-modal #modal (selected)="setProject($event)" (removed)="removeProject($event)"></app-project-modal>
 

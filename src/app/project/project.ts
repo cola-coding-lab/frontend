@@ -1,9 +1,10 @@
 import { Directory, EditorFile, emptyFile } from '../file/file.model';
 import { IProject } from './project.model';
 import { v4 } from 'uuid';
+import { db } from '../../util/db/db';
 
 export class Project implements IProject {
-  public readonly id: number;
+  public readonly id: string;
   public readonly name: string;
   public title: string;
   public description: string;
@@ -13,11 +14,11 @@ export class Project implements IProject {
   constructor(json?: string | IProject) {
     const obj = typeof json === 'string' ? JSON.parse(json) : json;
     obj.files = convertFiles(obj.files);
-    this.id = obj?.id || 0;
+    this.id = obj?.id || v4();
     this.name = obj?.name || '';
     this.title = obj?.title || '';
     this.description = obj?.description || '';
-    this.files = obj?.files || [];
+    this.files = obj?.files?.map((file: EditorFile) => {return { ...file, projectId: this.id };}) || [];
     this.showHidden = obj?.showHidden || false;
   }
 
@@ -30,12 +31,13 @@ export class Project implements IProject {
   }
 
   public static fromEmpty(): Project {
-    const projectName = 'Empty' + v4();
+    const id = v4();
     return new Project({
-      name: projectName,
+      id,
+      name: 'Empty',
       title: 'Leeres Projekt',
       description: 'Starte mit einem leeren Projekt',
-      files: [ emptyFile(projectName) ],
+      files: [ emptyFile(id) ],
     });
   }
 
@@ -64,8 +66,25 @@ export class Project implements IProject {
   }
 
   public save(): void {
-    localStorage.setItem(this.name, JSON.stringify(this.toJson()));
-    this.files.forEach(file => file.isModified = false);
+    db.projects.put({
+      id: this.id,
+      name: this.name,
+      title: this.title,
+      description: this.description,
+      showHidden: this.showHidden,
+    });
+    db.files.bulkPut(this.files.map(file => {
+      file.isModified = false;
+      file.content = file.editor?.getValue().toString() || file.content;
+      return {
+        id: file.id,
+        name: file.name,
+        projectId: this.id,
+        content: file.content,
+        type: file.type,
+        isOpen: file.isOpen,
+      };
+    }));
   }
 }
 
