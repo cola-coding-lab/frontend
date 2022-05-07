@@ -29,7 +29,7 @@ export class WorkspaceComponent extends ResizeableContainerComponent {
   ngOnInit(): void {
     super.ngOnInit();
     db.getStoredProjects().then(projects => {
-      const project = projects.find(project => project.name === this.activeProject);
+      const project = projects.find(project => project.id === this.activeProject);
       if (project) {
         this.currentProjectService.activeProject = new Project(project);
         this.modal.close();
