@@ -19,7 +19,6 @@ export class ExportComponent implements OnInit {
   private static readonly DEFAULT_TITLE = 'Meine App';
   @ViewChild('modal', { static: false }) modal!: ModalComponent;
 
-  // TODO: make me work
   public pwaExportForm = new FormGroup({
     pwa_title: new FormControl(null, { validators: [ Validators.required, Validators.minLength(1) ] }),
     pwa_color: new FormControl(null, { validators: [ Validators.required ] }),
@@ -35,13 +34,13 @@ export class ExportComponent implements OnInit {
     private projectService: CurrentProjectService,
     private libsService: OutputLibsService,
   ) {
-    /*this.projectService.subscribeActive(active => {
+    this.projectService.subscribe(active => {
       if (active) {
-        this.project = Project.fromJson(active);
+        this.project = active;
         this.pwaExportForm.patchValue({ pwa_title: active.title });
         this.pwaExportForm.patchValue({ pwa_description: active.description });
       }
-    });*/
+    });
   }
 
   ngOnInit(): void {
@@ -115,15 +114,14 @@ export class ExportComponent implements OnInit {
 
 
   public downloadHtml(): void {
-    const project = this.projectService.activeProject!;
     const iframe = document.createElement('iframe');
     iframe.src = 'assets/iframe/iframe.html';
     iframe.onload = () => {
       try {
-        const doc = createDoc(iframe, { jsLibs: this.jsLibs, project, removeSettings: true });
+        const doc = createDoc(iframe, { jsLibs: this.jsLibs, project: this.project, removeSettings: true });
         if (doc?.documentElement?.outerHTML || doc?.documentElement?.innerHTML) {
           const dl = downloadBlob(new Blob([ doc.documentElement.outerHTML || doc.documentElement.innerHTML ]),
-            `${project?.title || ExportComponent.DEFAULT_TITLE}.html`);
+            `${this.project?.title || ExportComponent.DEFAULT_TITLE}.html`);
           dl.click();
           document.body.removeChild(iframe);
         }
