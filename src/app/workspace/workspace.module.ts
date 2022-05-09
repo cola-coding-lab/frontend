@@ -30,6 +30,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     WorkspaceComponent,
     FlexContainerComponent,
     OutputComponent,
+    ExportComponent,
   ],
 })
 export class WorkspaceModule {}

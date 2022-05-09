@@ -3,6 +3,7 @@ import { OutputFile } from './output-file.model';
 import { OutputFilesService } from './output-files.service';
 import { OutputLibsService } from './output-libs.service';
 import { CodeFile } from '../../file/file.model';
+import { addScript } from '../../../util/output/add-script';
 
 
 @Component({
@@ -28,16 +29,6 @@ export class OutputComponent implements AfterViewInit {
     });
   }
 
-  private static addScript(doc: Document, lib: OutputFile): void {
-    const script = doc.createElement('script');
-    const place = lib.place || 'body';
-    if (lib.src) { script.src = lib.src; }
-    script.innerHTML = lib.innerHTML || '';
-    if (lib.id) { script.id = lib.id; }
-    script.async = false;
-    doc[place].append(script);
-  }
-
   ngAfterViewInit(): void {
     this.resizeObserver.observe(this.elRef.nativeElement.parentElement);
     this.filesService.subscribe(values => {
@@ -58,13 +49,13 @@ export class OutputComponent implements AfterViewInit {
     const doc = iframe.contentDocument || iframe.contentWindow?.document;
     if (doc) {
       this.jsLibs.forEach(lib => {
-        OutputComponent.addScript(doc, lib);
+        addScript(doc, lib);
       });
 
       this.files.map<OutputFile>(file => {
         return { id: file.name, innerHTML: file.content, place: 'body' };
       }).forEach(file => {
-        OutputComponent.addScript(doc, file);
+        addScript(doc, file);
       });
     }
   }

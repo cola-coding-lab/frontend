@@ -6,6 +6,10 @@ import { IPwaData } from './export.model';
 import { downloadBlob } from '../../../util/download';
 import { CurrentProjectService } from '../../project/current-project.service';
 import { ProjectExplorerApiService } from '../project-explorer-api.service';
+import { environment } from '../../../environments/environment';
+import { addScript } from '../../../util/output/add-script';
+import { OutputLibsService } from '../output/output-libs.service';
+import { OutputFile } from '../output/output-file.model';
 
 @Component({
   selector: 'app-export',
@@ -14,6 +18,7 @@ import { ProjectExplorerApiService } from '../project-explorer-api.service';
 })
 export class ExportComponent implements OnInit {
   private static readonly DEFAULT_TITLE = 'Meine App';
+  private jsLibs: OutputFile[] = [];
 
   // TODO: make me work
 
@@ -32,6 +37,7 @@ export class ExportComponent implements OnInit {
   constructor(
     private apiService: ProjectExplorerApiService,
     private projectService: CurrentProjectService,
+    private libsService: OutputLibsService,
   ) {
     this.apiService.p5js$.subscribe(value => this.p5js = value.script);
     /*this.projectService.subscribeActive(active => {
@@ -45,6 +51,8 @@ export class ExportComponent implements OnInit {
 
   ngOnInit(): void {
     this.pwaExportForm.get('pwa_color')?.setValue('#FFFFFF');
+    this.libsService.subscribe(libs => this.jsLibs = libs);
+    this.projectService.subscribe(project => this.project = project);
   }
 
   public async onPwaSubmit(): Promise<void> {
@@ -110,28 +118,30 @@ export class ExportComponent implements OnInit {
     return ret;
   }
 
+
   public downloadHtml(): void {
-    /*const project = this.projectService.activeProject;
+    const project = this.projectService.activeProject;
     const iframe = document.createElement('iframe');
     iframe.src = 'assets/iframe/iframe.html';
     iframe.onload = () => {
       const doc = iframe.contentDocument || iframe.contentWindow?.document;
       if (doc) {
-        doc.title = project?.title || ExportComponent.DEFAULT_TITLE;
-        if (this.p5js && this.p5js !== '') {
-          addScript(doc, { innerHTML: this.p5js });
-        } else {
-          addScript(doc, { src: environment.p5CDN });
-        }
+        doc.title = this.project?.title || 'VCL Export';
+        this.jsLibs.forEach(lib => {
+          addScript(doc, lib);
+        });
+
+        this.project?.files.map<OutputFile>(file => {
+          return { id: file.name, innerHTML: file.content, place: 'body' };
+        }).forEach(file => {
+          addScript(doc, file);
+        });
+
         // remove 'settings' from iframe
         doc.querySelector('script#settings')?.remove();
-        // see https://medium.com/swlh/components-inside-iframe-and-data-binding-in-angular-ac10eb6ab54b
-        for (const file of project?.files || []) {
-          addScript(doc, { innerHTML: file.content });
-        }
       }
       if (doc?.documentElement?.outerHTML || doc?.documentElement?.innerHTML) {
-        const dl = downloadBlob(new Blob([doc.documentElement.outerHTML || doc.documentElement.innerHTML]),
+        const dl = downloadBlob(new Blob([ doc.documentElement.outerHTML || doc.documentElement.innerHTML ]),
           `${project?.title || ExportComponent.DEFAULT_TITLE}.html`);
         dl.click();
         document.body.removeChild(iframe);
@@ -140,7 +150,6 @@ export class ExportComponent implements OnInit {
     iframe.style.display = 'none';
     document.body.appendChild(iframe);
     iframe.contentWindow?.location.reload();
-     */
   }
 
   private async getPwaImage(): Promise<string | ArrayBuffer | undefined> {
@@ -182,11 +191,3 @@ function imageValidator(): ValidatorFn {
     return validType && validSize ? null : err;
   };
 }
-
-function addScript(doc: Document, options: { src?: string, innerHTML?: string }): void {
-  const script = doc.createElement('script');
-  if (options.src) { script.src = options.src; }
-  script.innerHTML = options.innerHTML || '';
-  doc.body.appendChild(script);
-}
-

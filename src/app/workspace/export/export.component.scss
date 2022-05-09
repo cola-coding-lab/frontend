@@ -5,3 +5,8 @@ textarea {
 .error-text {
   color: #dc3545 !important;
 }
+
+.dropdown-menu.show {
+  right: 0 !important;
+  left: unset !important;
+}
