@@ -5,11 +5,10 @@ import { Project } from '../../project/project';
 import { IPwaData } from './export.model';
 import { downloadBlob } from '../../../util/download';
 import { CurrentProjectService } from '../../project/current-project.service';
-import { ProjectExplorerApiService } from '../project-explorer-api.service';
-import { environment } from '../../../environments/environment';
-import { addScript } from '../../../util/output/add-script';
+import { createDoc } from '../../../util/output/export';
 import { OutputLibsService } from '../output/output-libs.service';
 import { OutputFile } from '../output/output-file.model';
+import { ProjectExplorerApiService } from '../project-explorer-api.service';
 
 @Component({
   selector: 'app-export',
@@ -18,11 +17,9 @@ import { OutputFile } from '../output/output-file.model';
 })
 export class ExportComponent implements OnInit {
   private static readonly DEFAULT_TITLE = 'Meine App';
-  private jsLibs: OutputFile[] = [];
+  @ViewChild('modal', { static: false }) modal!: ModalComponent;
 
   // TODO: make me work
-
-  @ViewChild('modal', { static: false }) modal!: ModalComponent;
   public pwaExportForm = new FormGroup({
     pwa_title: new FormControl(null, { validators: [ Validators.required, Validators.minLength(1) ] }),
     pwa_color: new FormControl(null, { validators: [ Validators.required ] }),
@@ -31,15 +28,13 @@ export class ExportComponent implements OnInit {
     pwa_logo: new FormControl(),
   });
   public project?: Project;
-
-  private p5js = '';
+  private jsLibs: OutputFile[] = [];
 
   constructor(
     private apiService: ProjectExplorerApiService,
     private projectService: CurrentProjectService,
     private libsService: OutputLibsService,
   ) {
-    this.apiService.p5js$.subscribe(value => this.p5js = value.script);
     /*this.projectService.subscribeActive(active => {
       if (active) {
         this.project = Project.fromJson(active);
@@ -120,31 +115,20 @@ export class ExportComponent implements OnInit {
 
 
   public downloadHtml(): void {
-    const project = this.projectService.activeProject;
+    const project = this.projectService.activeProject!;
     const iframe = document.createElement('iframe');
     iframe.src = 'assets/iframe/iframe.html';
     iframe.onload = () => {
-      const doc = iframe.contentDocument || iframe.contentWindow?.document;
-      if (doc) {
-        doc.title = this.project?.title || 'VCL Export';
-        this.jsLibs.forEach(lib => {
-          addScript(doc, lib);
-        });
-
-        this.project?.files.map<OutputFile>(file => {
-          return { id: file.name, innerHTML: file.content, place: 'body' };
-        }).forEach(file => {
-          addScript(doc, file);
-        });
-
-        // remove 'settings' from iframe
-        doc.querySelector('script#settings')?.remove();
-      }
-      if (doc?.documentElement?.outerHTML || doc?.documentElement?.innerHTML) {
-        const dl = downloadBlob(new Blob([ doc.documentElement.outerHTML || doc.documentElement.innerHTML ]),
-          `${project?.title || ExportComponent.DEFAULT_TITLE}.html`);
-        dl.click();
-        document.body.removeChild(iframe);
+      try {
+        const doc = createDoc(iframe, { jsLibs: this.jsLibs, project, removeSettings: true });
+        if (doc?.documentElement?.outerHTML || doc?.documentElement?.innerHTML) {
+          const dl = downloadBlob(new Blob([ doc.documentElement.outerHTML || doc.documentElement.innerHTML ]),
+            `${project?.title || ExportComponent.DEFAULT_TITLE}.html`);
+          dl.click();
+          document.body.removeChild(iframe);
+        }
+      } catch (err) {
+        console.error((err as Error).message);
       }
     };
     iframe.style.display = 'none';
