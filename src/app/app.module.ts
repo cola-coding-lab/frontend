@@ -12,6 +12,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { WorkshopsComponent } from './welcome/workshops/workshops.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LessonsWorkspaceModule } from './lessons-workspace/lessons-workspace.module';
+import { ExplorerModule } from './workspace/explorer/explorer.module';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { LessonsWorkspaceModule } from './lessons-workspace/lessons-workspace.mo
     AppRoutingModule,
     HttpClientModule,
     LessonsWorkspaceModule,
+    ExplorerModule,
   ],
   providers: [],
   bootstrap: [ AppComponent ],

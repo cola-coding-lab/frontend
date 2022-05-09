@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ComputedComponent } from 'src/util/computed.component';
 import { setDocumentProperty } from 'src/util/properties';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-footer',
@@ -9,8 +10,8 @@ import { setDocumentProperty } from 'src/util/properties';
 })
 export class FooterComponent extends ComputedComponent implements OnInit {
   public info = {
-    href: '#',
-    text: 'Resize',
+    href: environment.baseHref,
+    text: environment.title,
   };
 
   public get year(): number {

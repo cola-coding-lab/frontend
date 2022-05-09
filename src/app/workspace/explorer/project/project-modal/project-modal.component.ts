@@ -1,11 +1,13 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild, ViewContainerRef } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Project, IProject } from '../../../../project/project';
+import { IProject, Project } from '../../../../project/project';
 import { v4 } from 'uuid';
 import { ModalComponent } from '../../../../modal/modal.component';
 import { ProjectExplorerApiService } from '../../../project-explorer-api.service';
 import { db } from '../../../../../util/db/db';
 import { EditorFile } from '../../../../file/file.model';
+import { OpenTabsService } from '../../../editor/tab-container/open-tabs.service';
+import { CurrentProjectService } from '../../../../project/current-project.service';
 
 @Component({
   selector: 'app-project-modal',
@@ -13,16 +15,38 @@ import { EditorFile } from '../../../../file/file.model';
   styleUrls: [ './project-modal.component.scss' ],
 })
 export class ProjectModalComponent implements OnInit, OnDestroy {
-  @ViewChild('modal', { static: false }) modal!: ModalComponent;
   @Output() public selected = new EventEmitter<IProject>();
   @Output() public removed = new EventEmitter<IProject>();
+  @Output() public closed = new EventEmitter<void>();
   public storedProjects!: IProject[];
   public apiProjects?: IProject[];
   private afterInit = new BehaviorSubject(false);
+  private activeProject = localStorage.getItem('ACTIVE_PROJECT') || '';
+  private modalElement!: ModalComponent;
 
   constructor(
+    private readonly openTabsService: OpenTabsService,
     private readonly projectExplorerApiService: ProjectExplorerApiService,
+    private readonly currentProjectService: CurrentProjectService,
   ) { }
+
+  public get modal() {
+    return this.modalElement;
+  }
+
+  @ViewChild('modal', { static: false }) set modal(modal: ModalComponent) {
+    modal.closed.subscribe(_ => this.closed.emit());
+    this.modalElement = modal;
+  }
+
+  public static create(vcr: ViewContainerRef): ProjectModalComponent {
+    const component = vcr.createComponent(ProjectModalComponent);
+    component.instance.closed.subscribe(_ => {
+      component?.destroy();
+    });
+    component.instance.open();
+    return component.instance;
+  }
 
   ngOnDestroy(): void {
     this.afterInit.unsubscribe();
@@ -67,13 +91,17 @@ export class ProjectModalComponent implements OnInit, OnDestroy {
         }
       });
     }
-    this.selected.emit(project);
-    this.modal?.close();
+    this.openTabsService.clear();
+    this.updateActiveProject(project);
+    this.close();
   }
 
-  public removeProject($event: IProject): void {
-    db.deleteProject($event).then(_ => this.ngOnInit());
-    this.removed.emit($event);
+  public removeProject(project: IProject): void {
+    db.deleteProject(project).then(_ => this.ngOnInit());
+    if (this.activeProject === project.id) {
+      this.updateActiveProject(undefined);
+      this.modal.open();
+    }
   }
 
   public open(): void {
@@ -85,5 +113,13 @@ export class ProjectModalComponent implements OnInit, OnDestroy {
 
   public close(): void {
     this.modal?.close();
+    this.closed.emit();
+  }
+
+  private updateActiveProject(project?: IProject): void {
+    this.activeProject = project?.id || '';
+    localStorage.setItem('ACTIVE_PROJECT', this.activeProject);
+    this.currentProjectService.activeProject = project ? new Project(project) : undefined;
+    this.currentProjectService.save();
   }
 }

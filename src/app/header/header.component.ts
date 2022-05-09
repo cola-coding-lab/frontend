@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { ComputedComponent } from 'src/util/computed.component';
 import { setDocumentProperty } from 'src/util/properties';
 import { environment } from '../../environments/environment';
 import { CurrentProjectService } from '../project/current-project.service';
+import { ProjectModalComponent } from '../workspace/explorer/project/project-modal/project-modal.component';
 
 @Component({
   selector: 'app-header',
@@ -12,7 +13,10 @@ import { CurrentProjectService } from '../project/current-project.service';
 export class HeaderComponent extends ComputedComponent implements OnInit {
   public title = environment.title;
 
-  constructor(private currentProjectService: CurrentProjectService) { super(); }
+  constructor(
+    private viewContainerRef: ViewContainerRef,
+    private currentProjectService: CurrentProjectService,
+  ) { super(); }
 
   public get hasProject(): boolean {
     return this.currentProjectService.activeProject !== undefined;
@@ -20,5 +24,9 @@ export class HeaderComponent extends ComputedComponent implements OnInit {
 
   ngOnInit(): void {
     setDocumentProperty('header-height', this.height);
+  }
+
+  public openProjectModal() {
+    ProjectModalComponent.create(this.viewContainerRef);
   }
 }

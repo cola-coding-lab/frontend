@@ -1,9 +1,10 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { ModalService } from './modal.service';
 
 @Component({ template: '' })
 export abstract class BaseModalComponent implements OnInit, OnDestroy {
   @Input() id!: string;
+  @Output() public closed = new EventEmitter<void>();
   public readonly element: HTMLElement;
 
   protected constructor(
@@ -50,5 +51,6 @@ export abstract class BaseModalComponent implements OnInit, OnDestroy {
     this.element.style.opacity = '0';
     this.element.style.visibility = 'hidden';
     document.body.classList.remove('cola-modal-open');
+    this.closed.emit();
   }
 }

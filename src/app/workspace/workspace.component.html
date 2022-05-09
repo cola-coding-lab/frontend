@@ -5,7 +5,7 @@
     [breaks]="['lg']"
   >
     <app-explorer></app-explorer>
-    <button (click)="modal.open()" class="btn btn-sm mt-3 w-100 btn-light">Projekte</button>
+    <!--<button (click)="openProjectModal()" class="btn btn-sm mt-3 w-100 btn-light">Projekte</button>-->
   </app-flex-container>
 
   <div
@@ -61,8 +61,7 @@
 
 <ng-template #chooseProject>
   <div class="new-project">
-    <button (click)="modal.open()" class="btn btn-primary w-75 h-25" type="button">Wähle ein Projekt</button>
+    <button (click)="openProjectModal()" class="btn btn-primary w-75 h-25" type="button">Wähle ein Projekt</button>
   </div>
 </ng-template>
-<app-project-modal #modal (selected)="setProject($event)" (removed)="removeProject($event)"></app-project-modal>
 
