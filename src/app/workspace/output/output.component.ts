@@ -6,6 +6,7 @@ import { CodeFile } from '../../file/file.model';
 import { createDoc } from '../../../util/output/export';
 import { OutputProjectService } from './output-project.service';
 import { IProject } from '../../project/project';
+import { isScrollEvent } from '../../../util/keys';
 
 
 @Component({
@@ -56,7 +57,17 @@ export class OutputComponent implements AfterViewInit {
 
   public onLoad(iframe: HTMLIFrameElement): void {
     try {
-      createDoc(iframe, { jsLibs: this.jsLibs, project: this.project, files: this.files });
+      const doc = createDoc(iframe, { jsLibs: this.jsLibs, project: this.project, files: this.files });
+      doc.addEventListener('wheel', (event: WheelEvent) => {
+        if (event.ctrlKey) {
+          event.preventDefault();
+        }
+      }, { passive: false });
+      doc.addEventListener('keydown', (event: KeyboardEvent) => {
+        if (isScrollEvent(event)) {
+          event.preventDefault();
+        }
+      })
     } catch (err) {
       console.error((err as Error).message);
       this.iframe.nativeElement.contentWindow?.location.reload();
