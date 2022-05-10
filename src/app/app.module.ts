@@ -13,6 +13,8 @@ import { WorkshopsComponent } from './welcome/workshops/workshops.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LessonsWorkspaceModule } from './lessons-workspace/lessons-workspace.module';
 import { ExplorerModule } from './workspace/explorer/explorer.module';
+import { APP_BASE_HREF } from '@angular/common';
+import { environment } from '../environments/environment';
 
 
 export let AppInjector: Injector;
@@ -35,7 +37,7 @@ export let AppInjector: Injector;
     LessonsWorkspaceModule,
     ExplorerModule,
   ],
-  providers: [],
+  providers: [ { provide: APP_BASE_HREF, useValue: environment.baseHref } ],
   bootstrap: [ AppComponent ],
 })
 export class AppModule {
