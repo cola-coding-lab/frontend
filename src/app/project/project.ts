@@ -1,6 +1,8 @@
 import { Directory, EditorFile, emptyFile } from '../file/file.model';
 import { v4 } from 'uuid';
 import { db } from '../../util/db/db';
+import { CurrentProjectService } from './current-project.service';
+import { AppInjector } from '../app.module';
 
 export interface IProject {
   id: string;
@@ -81,5 +83,6 @@ export class Project implements IProject {
       showHidden: this.showHidden,
     });
     db.saveFiles(this.files);
+    AppInjector.get(CurrentProjectService).activeProject = this;
   }
 }

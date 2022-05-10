@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { Injector, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ContextMenuModule } from '../../context-menu/context-menu.module';
 import { AddFileComponent } from './add-file/add-file.component';

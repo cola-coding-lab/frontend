@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { Injector, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -13,6 +13,9 @@ import { WorkshopsComponent } from './welcome/workshops/workshops.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LessonsWorkspaceModule } from './lessons-workspace/lessons-workspace.module';
 import { ExplorerModule } from './workspace/explorer/explorer.module';
+
+
+export let AppInjector: Injector;
 
 @NgModule({
   declarations: [
@@ -35,4 +38,8 @@ import { ExplorerModule } from './workspace/explorer/explorer.module';
   providers: [],
   bootstrap: [ AppComponent ],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private injector: Injector) {
+    AppInjector = this.injector;
+  }
+}
