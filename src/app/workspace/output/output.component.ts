@@ -28,7 +28,7 @@ export class OutputComponent implements AfterViewInit {
     private libsService: OutputLibsService,
   ) {
     this.resizeObserver = new ResizeObserver(_ => {
-      console.log('resize ' + OutputComponent.name);
+      console.debug('resize ' + OutputComponent.name);
     });
   }
 

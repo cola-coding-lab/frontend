@@ -68,7 +68,6 @@ export class EditorComponent implements OnInit, AfterViewInit, OnChanges, OnDest
   }
 
   public updateFontSize($event: any): void {
-    console.log($event);
     const { value, min, max } = $event.target;
     if (+value < +min) {
       $event.target.value = min;
@@ -78,7 +77,6 @@ export class EditorComponent implements OnInit, AfterViewInit, OnChanges, OnDest
       $event.target.value = max;
       return $event.target.dispatchEvent(new Event('change'));
     }
-    console.log(value);
     const div = this.editor?.nativeElement.querySelector('.CodeMirror');
     div.style.fontSize = `${value}px`;
     this.codeMirrorEditor?.refresh();
@@ -86,9 +84,8 @@ export class EditorComponent implements OnInit, AfterViewInit, OnChanges, OnDest
 
   public save(cm?: CodeMirror.Editor): void {
     cm = cm || this.codeMirrorEditor;
-    console.log(cm, this.file);
     if (!cm || !this.file) { return; }
-    console.log(`save ${this.file.name}`);
+    console.info(`save ${this.file.name}`);
     this.file.content = cm.getValue();
     this.file.isModified = undefined;
     db.saveFile(this.file);
@@ -105,7 +102,6 @@ export class EditorComponent implements OnInit, AfterViewInit, OnChanges, OnDest
   }
 
   private setEditor(): void {
-    console.log('setEditor', this.code);
     if (!this.code) { return; }
     this.resetEditor();
 
@@ -135,7 +131,6 @@ export class EditorComponent implements OnInit, AfterViewInit, OnChanges, OnDest
       });
     });
     if (this.file) { this.file.editor = this.codeMirrorEditor; }
-    console.log(this.codeMirrorEditor, this.file);
     this.codeMirrorEditor.refresh();
   }
 }

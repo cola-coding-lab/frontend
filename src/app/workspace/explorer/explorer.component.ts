@@ -55,7 +55,6 @@ export class ExplorerComponent implements OnInit {
       if (mainIdx >= 0) {
         files.push(files.splice(mainIdx, 1).pop()!);
       }
-      console.log(files);
       this.outputFilesService.update(files);
     } else {
       this.outputFilesService.clear();

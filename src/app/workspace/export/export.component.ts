@@ -72,10 +72,8 @@ export class ExportComponent implements OnInit {
 
     this.apiService.postPWA$(data).subscribe(
       value => {
-        console.log(value);
         this.apiService.getPWAZip$(`${data.pwa_title}.zip`).subscribe(
           zip => {
-            console.log(zip);
             if (zip.type === 'application/zip') {
               const download = downloadBlob(zip, `${this.pwaExportForm.value.pwa_title}.zip`);
               download.click();

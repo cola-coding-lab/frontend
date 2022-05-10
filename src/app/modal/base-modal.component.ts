@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { ModalService } from './modal.service';
 
 @Component({ template: '' })
@@ -12,10 +12,18 @@ export abstract class BaseModalComponent implements OnInit, OnDestroy {
     protected modalService: ModalService,
   ) {
     this.element = er.nativeElement;
+    this.onKeyUp = this.onKeyUp.bind(this);
   }
+
 
   public get isOpen(): boolean {
     return this.element.style.visibility === 'visible' && this.element.style.opacity === '1';
+  }
+
+  private onKeyUp(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+      this.close();
+    }
   }
 
   ngOnInit(): void {
@@ -38,6 +46,7 @@ export abstract class BaseModalComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.modalService.remove(this.id);
+    this.element.ownerDocument.removeEventListener('keyup', this.onKeyUp);
     this.element.remove();
   }
 
@@ -45,12 +54,14 @@ export abstract class BaseModalComponent implements OnInit, OnDestroy {
     this.element.style.visibility = 'visible';
     this.element.style.opacity = '1';
     document.body.classList.add('cola-modal-open');
+    this.element.ownerDocument.addEventListener('keyup', this.onKeyUp)
   }
 
   public close(): void {
     this.element.style.opacity = '0';
     this.element.style.visibility = 'hidden';
     document.body.classList.remove('cola-modal-open');
+    this.element.ownerDocument.removeEventListener('keyup', this.onKeyUp);
     this.closed.emit();
   }
 }
