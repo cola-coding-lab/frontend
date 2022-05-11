@@ -3,3 +3,77 @@
   top: 0.5rem;
   right: 0.5rem;
 }
+
+
+/* MODAL STYLES */
+:host {
+  --modal-width: 95vw;
+
+  visibility: hidden;
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  z-index: 1998;
+
+  transition: visibility 0.3s, opacity 0.5s linear;
+
+  .cola-modal {
+    position: relative;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    max-height: 95vh;
+    max-width: var(--modal-width);
+    margin: 2rem auto;
+
+    z-index: 1999;
+
+    overflow: auto;
+
+    .cola-modal-body {
+      padding: 20px;
+      background: #fff;
+
+      margin: 40px;
+    }
+  }
+
+  .cola-modal-background {
+    /* modal background fixed across whole screen */
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    background-color: rgba(160, 160, 160, 0.6);
+
+    @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+      & {
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+      }
+    }
+
+    /* slightly transparent fallback for Firefox (not supporting backdrop-filter) */
+    @supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+      & {
+        background-color: rgba(160, 160, 160, 0.95);
+      }
+    }
+
+    /* semi-transparent white  */
+    /* z-index must be below .jw-modal and above everything else  */
+    z-index: 1998;
+  }
+
+}
+
+body.cola-modal-open {
+  overflow: hidden;
+}

@@ -1,9 +1,11 @@
-import { Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { ModalService } from './modal.service';
+import { setPropertyFor } from '../../util/properties';
 
 @Component({ template: '' })
 export abstract class BaseModalComponent implements OnInit, OnDestroy {
   @Input() id!: string;
+  @Input() width: number = 95;
   @Output() public closed = new EventEmitter<void>();
   public readonly element: HTMLElement;
 
@@ -13,17 +15,17 @@ export abstract class BaseModalComponent implements OnInit, OnDestroy {
   ) {
     this.element = er.nativeElement;
     this.onKeyUp = this.onKeyUp.bind(this);
+    if (this.width > 95) {
+      this.width = 95;
+    }
+    if (this.width < 15) {
+      this.width = 15;
+    }
   }
 
 
   public get isOpen(): boolean {
     return this.element.style.visibility === 'visible' && this.element.style.opacity === '1';
-  }
-
-  private onKeyUp(event: KeyboardEvent) {
-    if (event.key === 'Escape') {
-      this.close();
-    }
   }
 
   ngOnInit(): void {
@@ -32,8 +34,8 @@ export abstract class BaseModalComponent implements OnInit, OnDestroy {
       return;
     }
 
+    setPropertyFor(this.element, 'modal-width', this.width, 'vw');
     document.body.appendChild(this.element);
-
     this.element.addEventListener('click', el => {
       const target = el.target as HTMLElement;
       if (target?.className === 'cola-modal-background') {
@@ -54,7 +56,7 @@ export abstract class BaseModalComponent implements OnInit, OnDestroy {
     this.element.style.visibility = 'visible';
     this.element.style.opacity = '1';
     document.body.classList.add('cola-modal-open');
-    this.element.ownerDocument.addEventListener('keyup', this.onKeyUp)
+    this.element.ownerDocument.addEventListener('keyup', this.onKeyUp);
   }
 
   public close(): void {
@@ -63,5 +65,11 @@ export abstract class BaseModalComponent implements OnInit, OnDestroy {
     document.body.classList.remove('cola-modal-open');
     this.element.ownerDocument.removeEventListener('keyup', this.onKeyUp);
     this.closed.emit();
+  }
+
+  private onKeyUp(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+      this.close();
+    }
   }
 }

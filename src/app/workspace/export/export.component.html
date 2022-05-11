@@ -10,7 +10,7 @@
   </ul>
 </div>
 
-<app-modal #modal id="pwa_export">
+<app-modal #modal id="pwa_export" [width]="65">
   <h1>Export</h1>
   <p>F&uuml;r den Export f&uuml;lle bitte die folgenden Punkte aus.</p>
   <form (ngSubmit)="onPwaSubmit()" *ngIf="modal.isOpen" [formGroup]="pwaExportForm">
