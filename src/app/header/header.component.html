@@ -1,5 +1,5 @@
 <header #computed class="sticky-top">
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light" [ngClass]="themeClass()">
     <div class="container-fluid">
       <a class="navbar-brand" routerLink="">{{ title }}</a>
       <button
@@ -22,6 +22,7 @@
             <button class="btn nav-link" (click)="openProjectModal()">Projekt wechseln</button>
           </li>
         </ul>
+        <app-theme-switch></app-theme-switch>
         <app-export *ngIf="hasProject"></app-export>
       </div>
     </div>

@@ -1,27 +1,41 @@
 import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, ReplaySubject, Subject, Subscription } from 'rxjs';
 import { EditorConfiguration } from 'codemirror';
 import { decreaseKeys, increaseKeys, isScrollEvent } from '../../../util/keys';
+import { ThemeSwitchService } from '../theme-switch/theme-switch.service';
 
 export enum FontSizeEvent {
   increase,
   decrease,
 }
 
+const themes = {
+  light: 'default',
+  dark: 'dracula',
+};
+
 @Injectable({
   providedIn: 'root',
 })
 export class EditorConfigurationService implements OnDestroy {
-  public readonly fontSizeEmitter = new EventEmitter<FontSizeEvent>();
+  private readonly fontSizeEmitter = new EventEmitter<FontSizeEvent>();
   private readonly subject: Subject<EditorConfiguration>;
+  private readonly themeSubject: Subject<string>;
   private configuration: EditorConfiguration = {};
 
-  constructor() {
+  constructor(
+    private themeService: ThemeSwitchService,
+  ) {
     this.subject = new BehaviorSubject(this.configuration);
+    this.themeSubject = new ReplaySubject(1);
     this.onKeyDownListener = this.onKeyDownListener.bind(this);
     this.onWheelListener = this.onWheelListener.bind(this);
     document.addEventListener('keydown', this.onKeyDownListener);
     document.addEventListener('wheel', this.onWheelListener, { passive: false });
+    this.themeService.subscribe(theme => {
+      this.update({ theme: themes[theme] });
+      this.themeSubject.next(themes[theme]);
+    });
   }
 
   ngOnDestroy(): void {
@@ -32,6 +46,18 @@ export class EditorConfigurationService implements OnDestroy {
                    error?: (err: Error) => void,
                    complete?: () => void): Subscription {
     return this.subject.subscribe(next, error, complete);
+  }
+
+  public theme$(next: (t: string) => void,
+                error?: (e: Error) => void,
+                complete?: () => void): Subscription {
+    return this.themeSubject.subscribe(next, error, complete);
+  }
+
+  public fontSize$(next: (fs: FontSizeEvent) => void,
+                   error?: (err: Error) => void,
+                   complete?: () => void): Subscription {
+    return this.fontSizeEmitter.subscribe(next, error, complete);
   }
 
   public update(config: EditorConfiguration): void {

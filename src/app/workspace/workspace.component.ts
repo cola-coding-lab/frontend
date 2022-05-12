@@ -4,6 +4,7 @@ import { CurrentProjectService } from '../project/current-project.service';
 import { db } from '../../util/db/db';
 import { ProjectModalComponent } from './explorer/project/project-modal/project-modal.component';
 import { Project } from '../project/project';
+import { ThemeSwitchService } from './theme-switch/theme-switch.service';
 
 @Component({
   selector: 'app-workspace',
@@ -12,11 +13,16 @@ import { Project } from '../project/project';
 })
 export class WorkspaceComponent extends ResizeableContainerComponent {
   private activeProject = localStorage.getItem('ACTIVE_PROJECT') || '';
+  private theme;
 
   constructor(
     private readonly viewContainerRef: ViewContainerRef,
     private readonly currentProjectService: CurrentProjectService,
-  ) { super(); }
+    private readonly themeService: ThemeSwitchService,
+  ) {
+    super();
+    this.theme = themeService.theme;
+  }
 
   public get projectSelected(): boolean {
     return !!this.currentProjectService.activeProject;
@@ -32,10 +38,17 @@ export class WorkspaceComponent extends ResizeableContainerComponent {
         this.openProjectModal();
       }
     });
+    this.themeService.subscribe(theme => this.theme = theme);
   }
 
   openProjectModal() {
     ProjectModalComponent.create(this.viewContainerRef);
+  }
+
+  themeClass() {
+    return [
+      `bg-${this.theme}`
+    ];
   }
 }
 

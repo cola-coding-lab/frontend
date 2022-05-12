@@ -8,7 +8,8 @@ import { FlexContainerComponent } from './flex-container/flex-container.componen
 import { WorkspaceComponent } from './workspace.component';
 import { ExportComponent } from './export/export.component';
 import { ModalModule } from '../modal/modal.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ThemeSwitchComponent } from './theme-switch/theme-switch.component';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     OutputComponent,
     WorkspaceComponent,
     ExportComponent,
+    ThemeSwitchComponent,
   ],
   imports: [
     CommonModule,
@@ -25,12 +27,14 @@ import { ReactiveFormsModule } from '@angular/forms';
     ExplorerModule,
     ModalModule,
     ReactiveFormsModule,
+    FormsModule,
   ],
   exports: [
     WorkspaceComponent,
     FlexContainerComponent,
     OutputComponent,
     ExportComponent,
+    ThemeSwitchComponent,
   ],
 })
 export class WorkspaceModule {}

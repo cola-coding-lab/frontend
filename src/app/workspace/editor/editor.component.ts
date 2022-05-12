@@ -28,12 +28,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnChanges, OnDest
   @ViewChild('editor', { static: true }) public editor!: ElementRef;
   @Input() file?: EditorFile;
   public codeMirrorEditor?: EditorFromTextArea;
-  public codeMirrorTheme: string = 'default';
-  public themes = [
-    'default',
-    'dracula',
-  ];
-  private config: EditorConfiguration;
+  private config: EditorConfiguration = {};
   private resizeObserver: ResizeObserver;
   private saveSubscription?: Subscription;
 
@@ -45,20 +40,6 @@ export class EditorComponent implements OnInit, AfterViewInit, OnChanges, OnDest
       this.codeMirrorEditor?.refresh();
     });
     this.save = this.save.bind(this);
-    this.config = {
-      lineNumbers: true,
-      mode: this.file?.type || 'text/text',
-      styleActiveLine: true,
-      matchBrackets: true,
-      autoCloseBrackets: true,
-      theme: 'dracula',
-      tabSize: 2,
-      value: this.file?.content || '',
-      extraKeys: {
-        'Ctrl-S': this.save,
-
-      },
-    };
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -67,17 +48,31 @@ export class EditorComponent implements OnInit, AfterViewInit, OnChanges, OnDest
 
   ngOnInit(): void {
     if (!this.file) { throw new Error('no file given'); }
-    this.configService.subscribe(config => {
-      this.config = { ...this.config, ...config };
+    this.config = {
+      lineNumbers: true,
+      mode: this.file?.type || 'text/text',
+      styleActiveLine: true,
+      matchBrackets: true,
+      autoCloseBrackets: true,
+      theme: 'default',
+      tabSize: 2,
+      value: this.file?.content || '',
+      extraKeys: {
+        'Ctrl-S': this.save,
+      },
+    };
+    this.configService.theme$(theme => {
+      this.config.theme = theme;
+      this.codeMirrorEditor?.setOption('theme', theme);
     });
-    this.configService.fontSizeEmitter.subscribe(value => {
+    this.configService.fontSize$(value => {
       const div: HTMLDivElement = this.editor.nativeElement.querySelector('.CodeMirror');
       const current = parseNum(div.style.fontSize, 16);
-      if (value === FontSizeEvent.increase) {
+      if (value === FontSizeEvent.increase && current < 48) {
         div.style.fontSize = `${current + 1}px`;
         this.codeMirrorEditor?.refresh();
       }
-      if (value === FontSizeEvent.decrease) {
+      if (value === FontSizeEvent.decrease && current > 8) {
         div.style.fontSize = `${current - 1}px`;
         this.codeMirrorEditor?.refresh();
       }
@@ -91,11 +86,6 @@ export class EditorComponent implements OnInit, AfterViewInit, OnChanges, OnDest
 
   ngOnDestroy(): void {
     this.resizeObserver.disconnect();
-  }
-
-  public updateTheme(): void {
-    this.codeMirrorEditor?.setOption('theme', this.codeMirrorTheme);
-    this.codeMirrorEditor?.refresh();
   }
 
   public save(cm?: CodeMirror.Editor): void {
@@ -121,21 +111,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnChanges, OnDest
     if (!this.code) { return; }
     this.resetEditor();
 
-    const options = {
-      lineNumbers: true,
-      mode: this.file?.type || 'text/text',
-      styleActiveLine: true,
-      matchBrackets: true,
-      autoCloseBrackets: true,
-      theme: 'dracula',
-      tabSize: 2,
-      value: this.file?.content || '',
-      extraKeys: {
-        'Ctrl-S': this.save,
-      },
-    };
-
-    this.codeMirrorEditor = CodeMirror.fromTextArea(this.code.nativeElement, options);
+    this.codeMirrorEditor = CodeMirror.fromTextArea(this.code.nativeElement, this.config);
     this.codeMirrorEditor.setValue(this.file?.content || '');
     this.codeMirrorEditor.on('change', (cm: CodeMirror.Editor) => {
       if (!this.file) { return; }

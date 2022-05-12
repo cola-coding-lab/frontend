@@ -1,8 +1,9 @@
-<div id="container" class="d-flex h-100 bg-primary" *ngIf="projectSelected; else chooseProject">
+<div id="container" class="d-flex h-100" *ngIf="projectSelected; else chooseProject">
   <app-flex-container
     id="left-box"
     [min]="15"
     [breaks]="['lg']"
+    [ngClass]="themeClass()"
   >
     <app-explorer></app-explorer>
     <!--<button (click)="openProjectModal()" class="btn btn-sm mt-3 w-100 btn-light">Projekte</button>-->
@@ -16,13 +17,13 @@
 
   <app-flex-container
     id="right-box"
-    class="d-flex flex-column h-100 w-100 bg-info"
+    class="d-flex flex-column h-100 w-100"
     [min]="50"
   >
     <app-flex-container id="right-container" class="d-flex" [min]="30">
       <app-flex-container
         id="left-inner"
-        class="h-100 bg-dark"
+        class="h-100"
         [min]="25"
         [breaks]="['md']"
       >
