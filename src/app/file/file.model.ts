@@ -1,4 +1,5 @@
 import * as CodeMirror from 'codemirror';
+import { ExplorerFile } from '../workspace/explorer/file/file.model';
 
 export interface FSElement {
   id?: number;
@@ -20,7 +21,7 @@ export interface EditorFile extends FSElement, CodeFile {
 }
 
 export interface Directory extends FSElement {
-  children: EditorFile[];
+  children: ExplorerFile[];
 }
 
 export enum MimeType {
