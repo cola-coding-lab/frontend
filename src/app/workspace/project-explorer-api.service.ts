@@ -40,6 +40,10 @@ export class ProjectExplorerApiService extends BaseApiService {
     return this.http.post<any>(`${this.uri}pwa`, data);
   }
 
+  public putPWA$(data: IPwaData, uuid: string): Observable<any> {
+    return this.http.put<any>(`${this.uri}pwa/${uuid}`, data, { observe: 'response' });
+  }
+
   public getPWAZip$(zipFileName: string): Observable<Blob> {
     return this.http.get(`${this.uri}pwa/${zipFileName}`, {
       responseType: 'blob',

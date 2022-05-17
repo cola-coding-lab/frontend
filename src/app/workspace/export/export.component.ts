@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ComponentFactoryResolver, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ModalComponent } from '../../modal/modal.component';
 import { Project } from '../../project/project';
@@ -9,6 +9,8 @@ import { createDoc } from '../../../util/output/export';
 import { OutputLibsService } from '../output/output-libs.service';
 import { OutputFile } from '../output/output-file.model';
 import { ProjectExplorerApiService } from '../project-explorer-api.service';
+import * as QRCode from 'qrcode-svg';
+import { QrcodeModalComponent } from './qrcode-modal/qrcode-modal.component';
 
 @Component({
   selector: 'app-export',
@@ -33,6 +35,7 @@ export class ExportComponent implements OnInit {
     private apiService: ProjectExplorerApiService,
     private projectService: CurrentProjectService,
     private libsService: OutputLibsService,
+    private viewContainerRef: ViewContainerRef,
   ) {
     this.projectService.subscribe(active => {
       if (active) {
@@ -70,27 +73,45 @@ export class ExportComponent implements OnInit {
       pwa_description: this.pwaExportForm.value.pwa_description,
     };
 
-    this.apiService.postPWA$(data).subscribe(
-      value => {
-        this.apiService.getPWAZip$(`${data.pwa_title}.zip`).subscribe(
-          zip => {
-            if (zip.type === 'application/zip') {
-              const download = downloadBlob(zip, `${this.pwaExportForm.value.pwa_title}.zip`);
-              download.click();
-              this.modal.close();
-            }
-          },
-          error => {
-            console.error(error);
-            this.downloadError();
-          },
-        );
-      },
-      error => {
-        console.error(error);
-        this.downloadError();
-      },
-    );
+    this.apiService.putPWA$(data, this.projectService.activeProject?.id || '')
+      .subscribe(
+        response => {
+          console.log(response);
+          console.log(response.headers.keys());
+          console.log(response.headers.get('location'));
+          console.log(new QRCode({
+            content: response.headers.get('location'),
+            container: 'svg-viewbox',
+            join: true,
+          }));
+          const component = this.viewContainerRef.createComponent(QrcodeModalComponent);
+          const instance = component.instance;
+          instance.content = response.headers.get('location');
+          instance.open();
+        },
+      );
+    //
+    // this.apiService.postPWA$(data).subscribe(
+    //   value => {
+    //     this.apiService.getPWAZip$(`${data.pwa_title}.zip`).subscribe(
+    //       zip => {
+    //         if (zip.type === 'application/zip') {
+    //           const download = downloadBlob(zip, `${this.pwaExportForm.value.pwa_title}.zip`);
+    //           download.click();
+    //           this.modal.close();
+    //         }
+    //       },
+    //       error => {
+    //         console.error(error);
+    //         this.downloadError();
+    //       },
+    //     );
+    //   },
+    //   error => {
+    //     console.error(error);
+    //     this.downloadError();
+    //   },
+    // );
   }
 
   public onFileSelect($event: Event): void {

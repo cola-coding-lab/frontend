@@ -10,6 +10,7 @@ import { ExportComponent } from './export/export.component';
 import { ModalModule } from '../modal/modal.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ThemeSwitchComponent } from './theme-switch/theme-switch.component';
+import { QrcodeModalComponent } from './export/qrcode-modal/qrcode-modal.component';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { ThemeSwitchComponent } from './theme-switch/theme-switch.component';
     WorkspaceComponent,
     ExportComponent,
     ThemeSwitchComponent,
+    QrcodeModalComponent,
   ],
   imports: [
     CommonModule,
