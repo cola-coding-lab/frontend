@@ -9,6 +9,7 @@ import { ModalComponent } from '../../../modal/modal.component';
   styleUrls: [ './qrcode-modal.component.scss' ],
 })
 export class QrcodeModalComponent implements OnInit {
+  @Input() public header: string = '';
   @Input() public content: string = '';
   @ViewChild('modal', { static: true }) modal!: ModalComponent;
 
@@ -20,10 +21,15 @@ export class QrcodeModalComponent implements OnInit {
   }
 
   qrcode(): SafeHtml {
+    const side = document.body.offsetHeight * 0.7
+
+    console.log(side)
     const qr = new QRCode({
       content: this.content,
-      container: 'svg-viewbox',
-      join: true,
+      container: 'svg',
+      height: side,
+      width: side,
+      join: true
     });
     return this.sanitizer.bypassSecurityTrustHtml(qr.svg());
   }

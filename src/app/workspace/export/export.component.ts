@@ -87,6 +87,7 @@ export class ExportComponent implements OnInit {
           const component = this.viewContainerRef.createComponent(QrcodeModalComponent);
           const instance = component.instance;
           instance.content = response.headers.get('location');
+          instance.header = this.project?.title || 'Meine CoLa App';
           instance.open();
         },
       );

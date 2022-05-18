@@ -8,6 +8,7 @@
 /* MODAL STYLES */
 :host {
   --modal-width: 95vw;
+  --modal-height: 95vh;
 
   visibility: hidden;
   opacity: 0;
@@ -27,7 +28,7 @@
     right: 0;
     bottom: 0;
     left: 0;
-    max-height: 95vh;
+    max-height: var(--modal-height);
     max-width: var(--modal-width);
     margin: 2rem auto;
 

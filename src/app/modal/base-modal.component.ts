@@ -6,6 +6,7 @@ import { setPropertyFor } from '../../util/properties';
 export abstract class BaseModalComponent implements OnInit, OnDestroy {
   @Input() id!: string;
   @Input() width: number = 95;
+  @Input() height: number = 95;
   @Output() public closed = new EventEmitter<void>();
   public readonly element: HTMLElement;
 
@@ -35,6 +36,7 @@ export abstract class BaseModalComponent implements OnInit, OnDestroy {
     }
 
     setPropertyFor(this.element, 'modal-width', this.width, 'vw');
+    setPropertyFor(this.element, 'modal-height', this.height, 'vh');
     document.body.appendChild(this.element);
     this.element.addEventListener('click', el => {
       const target = el.target as HTMLElement;
