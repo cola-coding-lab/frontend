@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { v4, v5 } from 'uuid';
 import { Directory, EditorFile } from '../file/file.model';
 import { IPwaData } from './export/export.model';
+import { PwaOverview } from './pwa-overview/pwa-overview.component';
 
 // Todo: Extract to shared-types
 interface ProjectResponse {
@@ -34,6 +35,10 @@ export class ProjectExplorerApiService extends BaseApiService {
 
   public get p5js$(): Observable<{ script: string }> {
     return this.http.get<{ script: string }>(`${this.base}assets/iframe/p5.min.json`);
+  }
+
+  public get pwaOverview$(): Observable<PwaOverview[]> {
+    return this.http.get<PwaOverview[]>(`${this.uri}pwa/overview`);
   }
 
   public postPWA$(data: IPwaData): Observable<any> {

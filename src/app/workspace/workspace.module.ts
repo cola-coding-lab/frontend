@@ -11,6 +11,7 @@ import { ModalModule } from '../modal/modal.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ThemeSwitchComponent } from './theme-switch/theme-switch.component';
 import { QrcodeModalComponent } from './export/qrcode-modal/qrcode-modal.component';
+import { PwaOverviewComponent } from './pwa-overview/pwa-overview.component';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { QrcodeModalComponent } from './export/qrcode-modal/qrcode-modal.compone
     ExportComponent,
     ThemeSwitchComponent,
     QrcodeModalComponent,
+    PwaOverviewComponent,
   ],
   imports: [
     CommonModule,
