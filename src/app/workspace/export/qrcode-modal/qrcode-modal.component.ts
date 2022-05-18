@@ -21,15 +21,13 @@ export class QrcodeModalComponent implements OnInit {
   }
 
   qrcode(): SafeHtml {
-    const side = document.body.offsetHeight * 0.7
-
-    console.log(side)
+    const side = document.body.offsetHeight * 0.7;
     const qr = new QRCode({
       content: this.content,
       container: 'svg',
       height: side,
       width: side,
-      join: true
+      join: true,
     });
     return this.sanitizer.bypassSecurityTrustHtml(qr.svg());
   }
