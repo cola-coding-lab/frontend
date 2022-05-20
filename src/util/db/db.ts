@@ -60,9 +60,9 @@ export class AppDB extends Dexie {
     return this.files.where('projectId').equals(projectId).primaryKeys().then((keys) => (keys.map(key => (key as unknown as any[])[0]).sort().pop() || 1) + 1);
   }
 
-  saveFile(file: EditorFile): void {
+  async saveFile(file: EditorFile): Promise<void> {
     this.files.put({
-      id: file.id,
+      id: file.id || await this.nextFileId(file.projectId),
       name: file.name,
       projectId: file.projectId,
       content: file.content,
