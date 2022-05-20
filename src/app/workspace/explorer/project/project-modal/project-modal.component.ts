@@ -59,7 +59,7 @@ export class ProjectModalComponent implements OnInit, OnDestroy {
     });
     this.projectExplorerApiService.projects$.subscribe(
       projects => {
-        this.apiProjects = projects.map(project => {
+        this.apiProjects = [ Project.fromEmpty(), ...projects.map(project => {
           return {
             ...project, files: project.files.map<EditorFile>(file => {
               return {
@@ -75,7 +75,8 @@ export class ProjectModalComponent implements OnInit, OnDestroy {
               };
             }),
           };
-        });
+        }),
+        ];
         this.afterInit.next(true);
       },
     );
