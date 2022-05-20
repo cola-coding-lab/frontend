@@ -15,6 +15,12 @@
   <div *ngFor="let overview of overviews" class="card m-2 p-3" title="{{overview.url}}">
     <h5 class="card-title">{{overview.title}}</h5>
     <p class="card-text">{{overview.description}}</p>
+    <div class="card times">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item" title="erstellt {{overview.created}}">C: {{overview.created}}</li>
+        <li class="list-group-item" title="zuletzt geändert {{overview.modified}}">M: {{overview.modified}}</li>
+      </ul>
+    </div>
     <button class="btn btn-primary" (click)="show(overview)">Show</button>
   </div>
 </div>

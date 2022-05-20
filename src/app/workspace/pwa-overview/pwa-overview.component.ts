@@ -5,7 +5,9 @@ import { QrcodeModalComponent } from '../export/qrcode-modal/qrcode-modal.compon
 export interface PwaOverview {
   url: string,
   title: string,
-  description: string
+  description: string,
+  created: string,
+  modified: string,
 }
 
 @Component({
@@ -57,7 +59,10 @@ export class PwaOverviewComponent implements OnInit {
 
   private pollOverview(): void {
     const sub = this.apiService.pwaOverview$.subscribe(overviews => {
-      this.overviews = overviews;
+      this.overviews = overviews
+        .map(ov => ({ ...ov, modified: new Date(ov.modified), created: new Date(ov.created) }))
+        .sort((a, b) => (b.modified.getTime() - a.modified.getTime()))
+        .map(ov => ({ ...ov, modified: ov.modified.toLocaleString(), created: ov.created.toLocaleString() }));
       sub.unsubscribe();
     });
   }
