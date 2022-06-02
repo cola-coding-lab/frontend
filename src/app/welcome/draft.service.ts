@@ -1,30 +1,27 @@
-import { Injectable, Input } from '@angular/core';
-import { inject } from '@angular/core/testing';
-// import { timeStamp } from 'console';
-import { Observable, Subject } from 'rxjs';
-import { WelcomeComponent } from './welcome.component';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class DraftService {
+  private id: number = 1;
+  private subject: Subject<number>;
 
-// getting the draft depending on clickEvent from header
-private subject = new Subject<any>();
-id : number = 0;
+  constructor() {
+    this.subject = new BehaviorSubject<number>(this.id);
+  }
 
-constructor( ) {}
+  get current$(): Observable<number> {
+    return this.subject.asObservable();
+  }
 
-getClickEvent(id : number) : Observable<any> {
-  console.log(`draftService, getClickEvent, id: ${id}`);
-  return this.subject.asObservable();
-}
+  get current() {
+    return this.id;
+  }
 
-// load welcome page depending on draft
-    loadWelcomeDraftService(id : number) {
-      console.log(`welcomeCom, laodWelcomeDraft, id: ${id}`); 
-      this.subject.next(id);
-   }
-
+  set current(id: number) {
+    this.id = id;
+    this.subject.next(id);
+  }
 }

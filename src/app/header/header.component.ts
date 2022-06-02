@@ -48,6 +48,6 @@ export class HeaderComponent extends ComputedComponent implements OnInit {
   }
 
   getDraft(id: number) {
-    this.draftService.loadWelcomeDraftService(id);
+    this.draftService.current = id;
   }
 }
