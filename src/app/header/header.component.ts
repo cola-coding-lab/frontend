@@ -25,7 +25,6 @@ export class HeaderComponent extends ComputedComponent implements OnInit {
   ) {
     super();
     this.theme = themeService.theme;
-    this.themeService.subscribe(theme => this.theme = theme);
   }
 
   public get hasProject(): boolean {
@@ -34,6 +33,7 @@ export class HeaderComponent extends ComputedComponent implements OnInit {
 
   ngOnInit(): void {
     setDocumentProperty('header-height', this.height);
+    this.themeService.subscribe(theme => this.theme = theme);
   }
 
   public openProjectModal() {

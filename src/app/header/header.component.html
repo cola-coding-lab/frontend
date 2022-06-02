@@ -1,96 +1,90 @@
-<!-- VCL -->
-<div *ngIf="!isEditor; else editor">
-  <header #computed class="sticky-top">
-    <nav class="navbar navbar-expand-lg" [ngClass]="themeClass()">
-      <div class="container-fluid">
-        <a class="navbar-brand" routerLink="">{{ title }}</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item dropdown">
-              <a class="nav-link" routerLink="welcome">Home</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdownHome"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >Drafts</a>
-              <!-- aria-current="page" -->
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" (click)="getDraft(1)">Draft 1</a></li>
-                <li><a class="dropdown-item" (click)="getDraft(2)">Draft 2</a></li>
-                <li><a class="dropdown-item" (click)="getDraft(3)">Draft 3</a></li>
-                <li><a class="dropdown-item" (click)="getDraft(4)">Draft 4</a></li>
-              </ul>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link" routerLink="workspace">Workspace</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Dropdown
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li>
-                  <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-              </ul>
-            </li>
-            <!-- only for testing/development! -->
-            <li class="nav-item">
-              <a class="nav-link" routerLink="lessons-testing">Lessons-Testing</a>
-            </li>
-            <!-- / -->
-            <li class="nav-item">
-              <a class="nav-link disabled">Disabled</a>
-            </li>
-          </ul>
-          <app-theme-switch></app-theme-switch>
-          <form class="d-flex">
-            <input
-              class="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
+<header #computed class="sticky-top">
+  <nav class="navbar navbar-expand-lg" [ngClass]="themeClass()">
+
+    <!-- VCL -->
+    <div class="container-fluid" *ngIf="!isEditor; else editor">
+      <a class="navbar-brand" routerLink="">{{ title }}</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown">
+            <a class="nav-link" routerLink="welcome">Home</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdownHome"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >Drafts</a>
+            <!-- aria-current="page" -->
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" (click)="getDraft(1)">Draft 1</a></li>
+              <li><a class="dropdown-item" (click)="getDraft(2)">Draft 2</a></li>
+              <li><a class="dropdown-item" (click)="getDraft(3)">Draft 3</a></li>
+              <li><a class="dropdown-item" (click)="getDraft(4)">Draft 4</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link" routerLink="workspace">Workspace</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
             >
-            <button class="btn btn-outline-success" type="submit">Search</button>
-          </form>
-        </div>
+              Dropdown
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </li>
+          <!-- only for testing/development! -->
+          <li class="nav-item">
+            <a class="nav-link" routerLink="lessons-testing">Lessons-Testing</a>
+          </li>
+          <!-- / -->
+          <li class="nav-item">
+            <a class="nav-link disabled">Disabled</a>
+          </li>
+        </ul>
+        <app-theme-switch></app-theme-switch>
+        <form class="d-flex">
+          <input
+            class="form-control me-2"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+          >
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
       </div>
-    </nav>
-  </header>
-</div>
-<!-- /VCL -->
+    </div>
+    <!-- /VCL -->
 
-
-<!-- EDITOR -->
-<ng-template #editor>
-  <header #computed class="sticky-top">
-    <nav class="navbar navbar-expand-lg" [ngClass]="themeClass()">
+    <!-- EDITOR -->
+    <ng-template #editor>
       <div class="container-fluid">
         <a class="navbar-brand" routerLink="">{{ title }}</a>
         <button
@@ -117,7 +111,8 @@
           <app-export *ngIf="hasProject"></app-export>
         </div>
       </div>
-    </nav>
-  </header>
-</ng-template>
-<!-- /EDITOR -->
+    </ng-template>
+    <!-- /EDITOR -->
+
+  </nav>
+</header>
