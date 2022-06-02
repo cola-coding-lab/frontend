@@ -1,11 +1,8 @@
 import { Url } from "url";
-import {v4 as uuid} from "uuid";
 import { LessonOverview } from "./lessonOverview";
 
-export interface WorkshopOverview {
-  // TODO: how to import a uuid correctly (document it) and how to use it in an interface
+export interface WorkshopDetails {
     id: string;
-    // uuid();
     title: string;
     description: string;
     image: Url;

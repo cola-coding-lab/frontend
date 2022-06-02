@@ -1,269 +1,333 @@
-<!-- input area -->
-<!-- login draft 1 -->
-<div class="row">
-    <div class="col-xs-12 col-md-8"></div>
-    <div class="col-xs-2 col-md-2">
-        <p>
-            <strong>login</strong>
-        </p>
-    </div>
-</div>
-<div class="row">
-    <div class="col-xs-12 col-md-8"></div>
-    <div class="col-xs-2 col-md-2">
-        <label for="usernameExample">Username</label>
-        <input type="text" id="usernameExample" placeholder="username">
-    </div>
-    <div class="col-xs-2 col-md-2">
-        <label for="passwordExample">Passwort</label>
-        <input type="password" placeholder="password">
-    </div>
-</div>
-<div class="row">
-    <div class="col-xs-12 col-md-9"></div>
-    <div class="col-xs-2 col-md-2">
-        <div class="d-grid gap-2">
-            <button type="button" class="btn btn-success">anmelden</button>
+<container-element [ngSwitch]="id">
+    <div *ngSwitchCase="'1'">
+        <!-- draft 1 -->
+        <div #1>
+            <div class="row">
+                <div class="col-xs-12 col-md-8"></div>
+                <div class="col-xs-2 col-md-2">
+                    <p>
+                        <strong>login</strong>
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-md-8"></div>
+                <div class="col-xs-2 col-md-2">
+                    <label for="usernameExample">Username</label>
+                    <input type="text" id="usernameExample" placeholder="username">
+                </div>
+                <div class="col-xs-2 col-md-2">
+                    <label for="passwordExample">Passwort</label>
+                    <input type="password" placeholder="password">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-md-9"></div>
+                <div class="col-xs-2 col-md-2">
+                    <div class="d-grid gap-2">
+                        <button type="button" class="btn btn-success">anmelden</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- header -->
+            <h1>Welcome to the lab!</h1><br>
+
+            <!-- body -->
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-4">
+                    <h2>general</h2>
+                    <br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                    incididunt ut labore et
+                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip ex ea
+                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                    fugiat nulla
+                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+                    anim id est
+                    laborum.
+                </div>
+                <div class="col-md-2">
+                    <h2>neuester Workshop</h2>
+                    <br>neuerWorkshop<br>Beschreibung<br>Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                    laboris nisi ut
+                    aliquip ex ea
+                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                    fugiat nulla
+                    pariatur.<br>
+                    <button type="button" class="btn btn-success" routerLink="/workshops" (click)="getDraftWorkshops(1)">Alle Workshops</button>
+                </div>
+
+                <div class="col-md-4">
+                    <h2>insights zu @neuerWorkshop</h2>
+                    <br>generelle Workshopbeschreibung oder Infos zum @neuerWorkshop bzw Fotos
+                    <br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                    labore et
+                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip ex ea
+                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                    fugiat nulla
+                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+                    anim id est
+                    laborum.
+                </div>
+            </div><br>
+            <div class="row">
+                <div class="col-md-5"></div>
+                <div class="col-md-1">
+                    <button type="submit" class="btn btn-outline-success">login anonymous</button>
+                </div>
+                <div class="col-md-1">
+                    <button type="submit" class="btn btn-success">registrieren</button>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- login draft 2 -->
-<!-- <div class="row">
-    <div class="col-xs-12 col-md-8"></div>
-    <div class="col-xs-4 col-md-4">
-        login
-        <input type="text" placeholder="username"><input type="password" placeholder="password">
-    </div>
-    <div class="col-xs-7 col-xs-offset-3"></div>
-</div>
-<div class="row">
-    <p>new paragraph</p>
-    <form class="form-inline">
-        <div class="form-group">
-            <label for="exampleInputName2">Name</label>
-            <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
+    <div *ngSwitchCase="'2'">
+        <!-- draft 2 -->
+        <div #2>
+            <div class="row">
+                <div class="col-xs-12 col-md-8"></div>
+                <div class="col-xs-4 col-md-4">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" id="username" placeholder="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Passwort</label>
+                        <input type="password" class="form-control" id="password">
+                    </div>
+                    <button type="submit" class="btn btn-success">anmelden</button>
+                </form>
+                </div>
+            </div>
+
+            <!-- header -->
+            <h1>Welcome to the lab!</h1>
+
+            <!-- body -->
+            <div>
+                <h2>general</h2><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                incididunt ut
+                labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                ex
+                ea
+                commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                fugiat
+                nulla
+                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
+                id
+                est
+                laborum.
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>neuesterneuester Workshop</h2>
+                    <br>neuerWorkshop<br>Beschreibung<br>Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                    laboris
+                    nisi ut
+                    aliquip ex ea
+                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                    fugiat nulla
+                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+                    anim
+                    id est
+                    laborum.<br>
+                    <button type="button" class="btn btn-success" routerLink="/workshops" (click)="getDraftWorkshops(2)">Alle Workshops</button>
+                </div>
+                <div class="col-md-6">
+                    <h2>workshop description:</h2>
+                    <br>general workshop description or depending on selected workshop!<br>Lorem ipsum dolor sit amet,
+                    consectetur
+                    adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip
+                    ex ea
+                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                    fugiat nulla
+                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+                    anim
+                    id est
+                    laborum.
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-5"></div>
+                <div class="col-md-1">
+                    <button type="submit" class="btn btn-outline-success">login anonymous</button>
+                </div>
+                <div class="col-md-1">
+                    <button type="submit" class="btn btn-success">registrieren</button>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="exampleInputEmail2">Email</label>
-            <input type="email" class="form-control" id="exampleInputEmail2" placeholder="jane.doe@example.com">
+    </div>
+
+
+
+    <!-- draft 3 -->
+    <!-- header -->
+    <div *ngSwitchCase="'3'">
+        <div #3>
+            <div class="row">
+                <div class="col-xs-12 col-md-6"></div>
+                <div class="col-xs-1 col-md-1">Login</div>
+                <div class="col-xs-2 col-md-2">
+                    <label for="username">Username</label>
+                    <input  type="text" class="form-control" id="username" placeholder="username">
+                </div>
+                <div class="col-xs-2 col-md-2">
+                    <label for="password">Passwort</label>
+                    <input type="password" class="form-control" id="password" placeholder="password">
+                </div>
+                <div class="col-xs-1 col-md-1">
+                    <br>
+                    <button type="button" class="btn btn-success">anmelden</button>
+                </div>
+            </div>
+<br>
+
+            <h1>Welcome to the lab!</h1>
+
+            <!-- body -->
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h2>general information</h2><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                    eiusmod
+                    tempor incididunt ut labore et
+                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip
+                    ex ea
+                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                    fugiat nulla
+                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+                    anim
+                    id est
+                    laborum.
+                </div>
+                <div class="col-md-5">
+                    <h2>neuester Workshop</h2>
+                    <br>neuerWorkshop<br>Beschreibung<br>Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                    laboris
+                    nisi ut
+                    aliquip ex ea
+                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                    fugiat nulla
+                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+                    anim
+                    id est
+                    laborum.<br>
+                    <button type="button" class="btn btn-success" routerLink="/workshops" (click)="getDraftWorkshops(3)">Alle Workshops</button>
+                </div>
+            </div><br>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-1">
+                    <br><br><br><br>
+                    <button type="submit" class="btn btn-outline-success">login anonymous</button>
+                    <br><br>
+                    <button type="submit" class="btn btn-success">registrieren</button>
+                </div>
+                <div class="col-md-2"></div>
+                <div class="col-md-5">
+                    <h2>workshop description:</h2>
+                    <br>general workshop description or depending on selected workshop!<br>Lorem ipsum dolor sit amet,
+                    consectetur
+                    adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip
+                    ex ea
+                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                    fugiat nulla
+                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+                    anim
+                    id est
+                    laborum.
+                </div>
+            </div>
         </div>
-        <button type="submit" class="btn btn-default">Send invitation</button>
-    </form>
-
-</div>
-
-
-<div class="row">
-    <div class="col-xs-12 col-md-8"></div>
-    <div class="col-xs-4 col-md-4">
-        <label for="exampleInputEmail1">Email address</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
-    </div>
-    <div>
-        login<input type="text" placeholder="username"><input type="text" placeholder="password">
-    </div>
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">.col-md-6 .col-md-offset-3</div>
-    </div>
-</div> -->
-
-
-
-<!-- draft 1 -->
-<p>DRAFT 1</p>
-<!-- header -->
-<h1>Welcome to the lab!</h1><br>
-
-<!-- body -->
-<div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-4">
-        <h2>general</h2>
-        <br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-        incididunt ut labore et
-        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-        laborum.
-    </div>
-    <div class="col-md-2">
-        <h2>neuester Workshop</h2>
-        <br>neuerWorkshop<br>Beschreibung<br>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-        aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur.<br>
-        <button type="button" class="btn btn-success" routerLink="/workshops">Alle Workshops</button>
     </div>
 
-    <div class="col-md-4">
-        <h2>insights zu @neuerWorkshop</h2>
-        <br>generelle Workshopbeschreibung oder Infos zum @neuerWorkshop bzw Fotos
-        <br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-        laborum.
-    </div>
-</div><br>
-<div class="row">
-    <div class="col-md-5"></div>
-    <div class="col-md-1">
-        <button type="submit" class="btn btn-outline-success">login anonymous</button>
-    </div>
-    <div class="col-md-1">
-        <button type="submit" class="btn btn-success">registrieren</button>
-    </div>
-</div>
-<br><br>
 
-<!-- draft 2 -->
-<p>DRAFT 2</p>
-<!-- header -->
-<h1>Welcome to the lab!</h1>
+    <!-- draft 5 -->
+    <!-- header -->
+    <div *ngSwitchCase="'4'">
+        <div #4>
+            <h1>Welcome to the lab!</h1>
 
-<!-- body -->
-<div>
-    <h2>general</h2><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-    labore et
-    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-    laborum.
-</div>
-<br>
-<div class="row">
-    <div class="col-md-6">
-        <h2>neuesterneuester Workshop</h2>
-        <br>neuerWorkshop<br>Beschreibung<br>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-        aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-        laborum.<br>
-        <button type="button" class="btn btn-success" routerLink="/workshops">Alle Workshops</button>
-    </div>
-    <div class="col-md-6">
-        <h2>workshop description:</h2>
-        <br>general workshop description or depending on selected workshop!<br>Lorem ipsum dolor sit amet, consectetur
-        adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-        laborum.
-    </div>
-</div>
-<br>
-<div class="row">
-    <div class="col-md-5"></div>
-    <div class="col-md-1">
-        <button type="submit" class="btn btn-outline-success">login anonymous</button>
-    </div>
-    <div class="col-md-1">
-        <button type="submit" class="btn btn-success">registrieren</button>
-    </div>
-</div>
-<br><br>
+            <!-- body -->
+            <img src="../../../../images/gruenes-italienisches-sofa-1950er-1.jpg" alt="picture of a green couch">
+            <div>
+                <h2>general</h2><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                incididunt ut
+                labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                ex
+                ea
+                commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                fugiat
+                nulla
+                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
+                id
+                est
+                laborum.
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h2>neuester Workshop</h2>
+                    <br>neuerWorkshop<br>Beschreibung<br>Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                    laboris
+                    nisi ut
+                    aliquip ex ea
+                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                    fugiat nulla
+                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+                    anim
+                    id est
+                    laborum.<br>
+                    <button type="button" class="btn btn-success" routerLink="/workshops" (click)="getDraftWorkshops(4)">Alle Workshops</button>
+                </div>
+                <div class="col-md-5">
+                    <h2>workshop description:</h2>
+                    <br>general workshop description or depending on selected workshop!<br>Lorem ipsum dolor sit amet,
+                    consectetur
+                    adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip
+                    ex ea
+                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                    fugiat nulla
+                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+                    anim
+                    id est
+                    laborum.
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-5"></div>
+                <div class="col-md-1">
+                    <button type="submit" class="btn btn-outline-success">login anonymous</button>
+                </div>
+                <div class="col-md-1">
+                    <button type="submit" class="btn btn-success">registrieren</button>
+                </div>
+            </div>
+            <br>
 
-
-<!-- draft 3 -->
-<p>DRAFT 3</p>
-<!-- header -->
-<h1>Welcome to the lab!</h1>
-
-<!-- body -->
-<div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-5">
-        <h2>general information</h2><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et
-        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-        laborum.
+            <br>
+            <!-- button workspace -->
+            <button class="btn btn-lg btn-success" routerLink="/workspace">goto Workspace</button>
+        </div>
     </div>
-    <div class="col-md-5">
-        <h2>neuester Workshop</h2>
-        <br>neuerWorkshop<br>Beschreibung<br>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-        aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-        laborum.<br>
-        <button type="button" class="btn btn-success" routerLink="/workshops">Alle Workshops</button>
-    </div>
-</div><br>
-<div class="row">
-    <div class="col-md-3"></div>
-    <div class="col-md-1">
-        <br><br><br><br>
-        <button type="submit" class="btn btn-outline-success">login anonymous</button>
-        <br><br>
-        <button type="submit" class="btn btn-success">registrieren</button>
-    </div>
-    <div class="col-md-2"></div>
-    <div class="col-md-5">
-        <h2>workshop description:</h2>
-        <br>general workshop description or depending on selected workshop!<br>Lorem ipsum dolor sit amet, consectetur
-        adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-        laborum.
-    </div>
-</div>
-<br><br>
-
-
-<!-- draft 5 -->
-<p>DRAFT 5</p>
-<!-- header -->
-<h1>Welcome to the lab!</h1>
-
-<!-- body -->
-<img src="" alt="picture of a green couch">
-<div>
-    <h2>general</h2><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-    labore et
-    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-    laborum.
-</div>
-<br>
-<div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-5">
-        <h2>neuester Workshop</h2>
-        <br>neuerWorkshop<br>Beschreibung<br>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-        aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-        laborum.<br>
-        <button type="button" class="btn btn-success" routerLink="/workshops">Alle Workshops</button>
-    </div>
-    <div class="col-md-5">
-        <h2>workshop description:</h2>
-        <br>general workshop description or depending on selected workshop!<br>Lorem ipsum dolor sit amet, consectetur
-        adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-        laborum.
-    </div>
-</div>
-<br>
-<div class="row">
-    <div class="col-md-5"></div>
-    <div class="col-md-1">
-        <button type="submit" class="btn btn-outline-success">login anonymous</button>
-    </div>
-    <div class="col-md-1">
-        <button type="submit" class="btn btn-success">registrieren</button>
-    </div>
-</div>
-<br>
-
-<br>
-<!-- button workspace -->
-<button class="btn btn-lg btn-success" routerLink="/workspace">goto Workspace</button>
-
-<br><br><br><br>
+    <div *ngSwitchDefault>default</div>
+</container-element>
