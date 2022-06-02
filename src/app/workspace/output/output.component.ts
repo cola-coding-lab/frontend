@@ -1,8 +1,12 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { Codefile } from '../../welcome/workshops/codefile';
 import { OutputFile } from './output-file.model';
 import { OutputFilesService } from './output-files.service';
 import { OutputLibsService } from './output-libs.service';
+import { CodeFile } from '../../file/file.model';
+import { createDoc } from '../../../util/output/export';
+import { OutputProjectService } from './output-project.service';
+import { IProject } from '../../project/project';
+import { isScrollEvent } from '../../../util/keys';
 
 
 @Component({
@@ -11,29 +15,22 @@ import { OutputLibsService } from './output-libs.service';
   styleUrls: [ './output.component.scss' ],
 })
 export class OutputComponent implements AfterViewInit {
-  @ViewChild('iframe', { static: false }) iframe!: ElementRef;
+  @ViewChild('iframe', { static: false }) iframe!: ElementRef<HTMLIFrameElement>;
   public onresize = false;
   private resizeObserver: ResizeObserver;
-  private files: Codefile[] = [];
-
+  private files: CodeFile[] = [];
   private jsLibs: OutputFile[] = [];
+  private project?: IProject;
 
   constructor(
     private elRef: ElementRef,
     private filesService: OutputFilesService,
+    private projectService: OutputProjectService,
     private libsService: OutputLibsService,
   ) {
     this.resizeObserver = new ResizeObserver(_ => {
-      console.log('resize ' + OutputComponent.name);
+      console.debug('resize ' + OutputComponent.name);
     });
-  }
-
-  private static addScript(doc: Document, lib: OutputFile): void {
-    const script = doc.createElement('script');
-    const place = lib.place || 'body';
-    if (lib.src) { script.src = lib.src; }
-    script.innerHTML = lib.innerHTML || '';
-    doc[place].append(script);
   }
 
   ngAfterViewInit(): void {
@@ -41,29 +38,39 @@ export class OutputComponent implements AfterViewInit {
     this.filesService.subscribe(values => {
       if (values !== this.files) {
         this.files = values;
-        this.iframe.nativeElement.contentWindow.location.reload();
+        this.iframe.nativeElement.contentWindow?.location.reload();
       }
     });
     this.libsService.subscribe(values => {
       if (values !== this.jsLibs) {
         this.jsLibs = values;
-        this.iframe.nativeElement.contentWindow.location.reload();
+        this.iframe.nativeElement.contentWindow?.location.reload();
+      }
+    });
+    this.projectService.subscribe(([ project ]) => {
+      if (project !== this.project) {
+        this.project = project;
+        this.iframe.nativeElement.contentWindow?.location.reload();
       }
     });
   }
 
   public onLoad(iframe: HTMLIFrameElement): void {
-    const doc = iframe.contentDocument || iframe.contentWindow?.document;
-    if (doc) {
-      this.jsLibs.forEach(lib => {
-        OutputComponent.addScript(doc, lib);
-      });
-
-      this.files.map<OutputFile>(file => {
-        return { id: file.name, innerHTML: file.content, place: 'body' };
-      }).forEach(file => {
-        OutputComponent.addScript(doc, file);
-      });
+    try {
+      const doc = createDoc(iframe, { jsLibs: this.jsLibs, project: this.project, files: this.files });
+      doc.addEventListener('wheel', (event: WheelEvent) => {
+        if (event.ctrlKey) {
+          event.preventDefault();
+        }
+      }, { passive: false });
+      doc.addEventListener('keydown', (event: KeyboardEvent) => {
+        if (isScrollEvent(event)) {
+          event.preventDefault();
+        }
+      })
+    } catch (err) {
+      console.error((err as Error).message);
+      this.iframe.nativeElement.contentWindow?.location.reload();
     }
   }
 }

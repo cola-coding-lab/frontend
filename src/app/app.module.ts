@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { Injector, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
@@ -12,6 +12,12 @@ import { WorkshopsComponent } from './welcome/workshops/workshops.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { LessonsWorkspaceModule } from './lessons-workspace/lessons-workspace.module';
+import { ExplorerModule } from './workspace/explorer/explorer.module';
+import { APP_BASE_HREF } from '@angular/common';
+import { environment } from '../environments/environment';
+
+
+export let AppInjector: Injector;
 
 @NgModule({
   declarations: [
@@ -30,8 +36,13 @@ import { LessonsWorkspaceModule } from './lessons-workspace/lessons-workspace.mo
     HttpClientModule,
     CommonModule,
     LessonsWorkspaceModule,
+    ExplorerModule,
   ],
-  providers: [],
+  providers: [ { provide: APP_BASE_HREF, useValue: environment.baseHref } ],
   bootstrap: [ AppComponent ],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private injector: Injector) {
+    AppInjector = this.injector;
+  }
+}

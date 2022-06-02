@@ -35,7 +35,6 @@ export abstract class ResizeableContainerComponent implements OnInit {
     // https://htmldom.dev/create-resizable-split-views/
     let x = $event.clientX;
     let y = $event.clientY;
-    console.log(this.innerWidth);
 
     const resizer = $event.target as HTMLElement;
     const prevSibling = resizer.previousElementSibling as HTMLElement;
@@ -48,8 +47,6 @@ export abstract class ResizeableContainerComponent implements OnInit {
     const nextMin = parseNum(getComputedStyle(nextSibling).getPropertyValue(`min-${m}`));
 
     const prevValue: number = prevSibling?.getBoundingClientRect()[m];
-
-    console.log(direction, m, prevMin, nextMin, prevValue);
 
     const oldAfter = getPropertyFor(resizer, dividerVars.after);
     const oldLt = getPropertyFor(resizer, dividerVars.lt);

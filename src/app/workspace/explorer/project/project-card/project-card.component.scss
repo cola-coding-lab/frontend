@@ -1,0 +1,15 @@
+.remove {
+  position: absolute;
+  top: 2px;
+  right: 10px;
+  font-size: small;
+  opacity: 0.8;
+  color: orangered;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 1;
+    color: red;
+    font-weight: bold;
+  }
+}

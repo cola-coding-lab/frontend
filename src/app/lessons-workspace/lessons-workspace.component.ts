@@ -1,10 +1,9 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { Lesson } from '../welcome/workshops/lesson';
-import { WorkspaceComponent } from '../workspace/workspace.component';
 import { v4 } from 'uuid';
-import { MimeType } from '../welcome/workshops/codefile';
 import { OpenTabsService } from '../workspace/editor/tab-container/open-tabs.service';
-import { EditorFile } from '../file/file.model';
+import { EditorFile, MimeType } from '../file/file.model';
+import { ResizeableContainerComponent } from '../workspace/resizeable-container.component';
 
 @Component({
   selector: 'app-lessons-workspace',
@@ -12,7 +11,7 @@ import { EditorFile } from '../file/file.model';
   styleUrls: [ './lessons-workspace.component.scss' ],
   providers: [ OpenTabsService ],
 })
-export class LessonsWorkspaceComponent extends WorkspaceComponent implements OnDestroy {
+export class LessonsWorkspaceComponent extends ResizeableContainerComponent implements OnDestroy {
   @Input() lesson!: Lesson;
 
   constructor(private openTabsService: OpenTabsService) { super(); }

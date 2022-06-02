@@ -1,18 +1,29 @@
-import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { ContextMenuClick } from '../../../context-menu/context-menu.model';
 import { HasContextMenuComponent } from '../../../context-menu/has-context-menu.component';
 import { OpenTabsService } from '../../editor/tab-container/open-tabs.service';
-import { EditorFile } from '../../../file/file.model';
+import { Directory, EditorFile, getFileType } from '../../../file/file.model';
 import { AddFileComponent } from '../add-file/add-file.component';
 import { AddFileDirective } from '../add-file/add-file.directive';
-import { AddFileType } from '../add-file/add-file.model';
+import { AddFileResult, AddFileType } from '../add-file/add-file.model';
 import { CurrentSelectedService } from './current-selected.service';
 import { ExplorerFile } from './file.model';
+import { db } from '../../../../util/db/db';
 
 @Component({
   selector: 'explorer-file',
   templateUrl: './file.component.html',
-  styleUrls: ['./file.component.scss'],
+  styleUrls: [ './file.component.scss' ],
 })
 export class FileComponent extends HasContextMenuComponent<EditorFile> implements OnInit {
   private static BASE_PADDING = 8;
@@ -21,14 +32,14 @@ export class FileComponent extends HasContextMenuComponent<EditorFile> implement
   @Input() public root: boolean = false;
   @Input() public depth: number = 0;
   @Input() public collapse?: boolean = false;
-  @Input() public parent: ExplorerFile = { name: '/', children: [], type: 'directory' };
+  @Input() public parent: Directory = { projectId: '', name: '/', children: [] };
   @Output() public onFilesUpdate: EventEmitter<EditorFile[]> = new EventEmitter<EditorFile[]>();
 
   protected contextMenuItems = [
     { text: 'löschen', event: 'delete' },
     { text: 'umbenennen', event: 'rename' },
     { text: 'neue datei', event: 'new-file' },
-    { text: 'neuer ordner', event: 'new-dir' },
+    // { text: 'neuer ordner', event: 'new-dir' },
   ];
 
   @ViewChild(AddFileDirective, { static: true }) private addFile!: AddFileDirective;
@@ -38,6 +49,7 @@ export class FileComponent extends HasContextMenuComponent<EditorFile> implement
   constructor(
     private currentSelectedService: CurrentSelectedService,
     private openTabsService: OpenTabsService,
+    private ref: ChangeDetectorRef,
   ) { super(); }
 
   @ViewChild('editRef', { read: ElementRef })
@@ -59,7 +71,7 @@ export class FileComponent extends HasContextMenuComponent<EditorFile> implement
           && this.parent.children?.includes(value)
         ) {
           setTimeout(() => { // needed because state of parent node will be changed after change-detection run!
-            this.parent.isOpen = true;
+            // this.parent.isOpen = true;
           }, 0);
         }
       },
@@ -68,7 +80,8 @@ export class FileComponent extends HasContextMenuComponent<EditorFile> implement
   }
 
   public isDirectory(file: EditorFile): boolean {
-    return file.type === 'directory';
+    //return file.type === 'directory';
+    return false;
   }
 
   public clicked($event: MouseEvent, child: EditorFile): void {
@@ -88,7 +101,7 @@ export class FileComponent extends HasContextMenuComponent<EditorFile> implement
   }
 
   public isActive(child: EditorFile): boolean {
-    return this.activeFile === child && child !== this.parent;
+    return this.activeFile === child; //&& child !== this.parent;
   }
 
   public edit($event: MouseEvent, child: ExplorerFile): void {
@@ -112,6 +125,7 @@ export class FileComponent extends HasContextMenuComponent<EditorFile> implement
         child.name = this.tmpName || child.name;
         this.tmpName = undefined;
         child.edit = undefined;
+        db.saveFile(child);
         break;
       default:
         break;
@@ -133,7 +147,7 @@ export class FileComponent extends HasContextMenuComponent<EditorFile> implement
         break;
       case 'delete':
         this.deleteChild(data);
-        this.parent.children = this.parent.children?.filter(file => file !== data);
+        this.parent.children = this.parent.children?.filter(child => child !== data);
         break;
       case 'new-file':
         this.add($event.target?.closest('li'));
@@ -149,7 +163,6 @@ export class FileComponent extends HasContextMenuComponent<EditorFile> implement
   @HostListener('document:mousedown')
   private closeEditForAllChild(): void {
     this.parent.children?.forEach(child => {
-      child.edit = undefined;
     });
   }
 
@@ -160,8 +173,11 @@ export class FileComponent extends HasContextMenuComponent<EditorFile> implement
   }
 
   private deleteChild(child: EditorFile): void {
-    this.parent.children = this.parent.children?.filter(file => file !== child);
+    this.parent.children = this.parent.children?.filter(file => file.id !== child.id);
+    db.deleteFile(child);
     this.openTabsService.remove(child);
+    // TODO: Deleted child keeps in file-list
+    this.ref.detectChanges();
   }
 
   private add(sibling?: HTMLElement | null, type: AddFileType = 'file'): void {
@@ -177,8 +193,21 @@ export class FileComponent extends HasContextMenuComponent<EditorFile> implement
     componentRef.instance.onAddFileAbort.subscribe(() => {
       viewContainerRef?.clear();
     });
-    componentRef.instance.onAddFileSave.subscribe((file: EditorFile) => {
-      const dir = (siblingType === 'file') ? this.parent.children : this.parent.children?.find(child => child.name === siblingName)?.children;
+    componentRef.instance.onAddFileSave.subscribe(async (result: AddFileResult) => {
+      if (result.type === 'file') {
+        const file: EditorFile = {
+          name: result.name,
+          type: getFileType(result.name),
+          isOpen: true,
+          content: '',
+          projectId: this.parent.projectId,
+          id: await db.nextFileId(this.parent.projectId),
+        };
+        db.saveFile(file);
+        this.parent.children.push(file);
+        this.openTabsService.select(file);
+      }
+      /*const dir = (siblingType === 'file') ? this.parent.children : this.parent.children?.find(id => id === siblingName)?.children;
       console.log(dir);
       if (dir?.find(child => child.name === file.name)) {
         alert(`${file.name} already exists`);
@@ -197,22 +226,25 @@ export class FileComponent extends HasContextMenuComponent<EditorFile> implement
       if (!this.isDirectory(file)) {
         this.openTabsService.select(file);
       }
+       */
     });
     sibling.parentElement?.appendChild(componentRef.location.nativeElement);
+
   }
 
   private select(file: EditorFile): void {
     if (!this.includes(file, this.parent)) {
       const children = this.parent.children || [];
-      this.parent.children = [...children, file];
+      // this.parent.children = [ ...children, file ];
     } else if (!this.parent.children?.includes(file)) {
       this.parent.children?.push(file);
     }
-    this.onFilesUpdate.emit(this.parent.children);
+    // this.onFilesUpdate.emit(this.parent.children);
   }
 
-  private includes(file: EditorFile, parent?: EditorFile): boolean {
-    for (const child of parent?.children || []) {
+  private includes(file: EditorFile, parent?: Directory): boolean {
+    return false;
+    /*for (const child of parent?.children || []) {
       if (child.type === 'directory') {
         return this.includes(child, file);
       }
@@ -221,5 +253,8 @@ export class FileComponent extends HasContextMenuComponent<EditorFile> implement
       }
     }
     return (parent === file);
+
+     */
   }
+
 }

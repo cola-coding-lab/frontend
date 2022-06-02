@@ -1,32 +1,54 @@
 import * as CodeMirror from 'codemirror';
+import { ExplorerFile } from '../workspace/explorer/file/file.model';
 
-type FileType = 'text/javascript' | 'text/css' | 'text/html' | 'text/plain' | 'directory';
-
-export interface EditorFile {
+export interface FSElement {
+  id?: number;
   name: string;
-  type: FileType;
-  content?: string;
+  projectId: string;
+}
+
+export interface CodeFile {
+  name: string;
+  type: MimeType;
+  content: string;
+}
+
+export interface EditorFile extends FSElement, CodeFile {
   isModified?: boolean;
-  isOpen?: boolean;
+  isOpen: boolean;
   editor?: CodeMirror.Editor;
-  children?: EditorFile[];
+  children?: EditorFile[]; // TODO: Remove
+}
+
+export interface Directory extends FSElement {
+  children: ExplorerFile[];
+}
+
+export enum MimeType {
+  js = 'text/javascript',
+  css = 'text/css',
+  html = 'text/html',
+  plain = 'text/plain',
+  jpeg = 'image/jpeg',
+  png = 'image/png',
+  gif = 'image/gif'
 }
 
 export const validFileExtensionRegex = /\.(js|css|html?|txt)/i;
 
-export function getFileType(value: string, defaultType: FileType = 'text/plain'): FileType {
+export function getFileType(value: string, defaultType: MimeType = MimeType.plain): MimeType {
   const result = validFileExtensionRegex.exec(value);
   if (result?.[1]) {
     switch (result[1].toLowerCase()) {
       case 'js':
-        return 'text/javascript';
+        return MimeType.js;
       case 'css':
-        return 'text/css';
+        return MimeType.css;
       case 'html':
       case 'htm':
-        return 'text/html';
+        return MimeType.html;
       case 'txt':
-        return 'text/plain';
+        return MimeType.plain;
       default:
         return defaultType;
     }
@@ -34,19 +56,12 @@ export function getFileType(value: string, defaultType: FileType = 'text/plain')
   return defaultType;
 }
 
-export function emptyFile(name: string = 'main.js', type: FileType = 'text/javascript'): EditorFile {
+export function emptyFile(projectId: string, name: string = 'main.js', type = MimeType.js): EditorFile {
   return {
     name,
     type,
-    content: isFile(type) ? '' : undefined,
-    children: isDirectory(type) ? [] : undefined,
+    projectId,
+    content: '',
+    isOpen: false,
   };
-}
-
-export function isDirectory(type: FileType): boolean {
-  return type === 'directory';
-}
-
-export function isFile(type: FileType): boolean {
-  return !isDirectory(type);
 }

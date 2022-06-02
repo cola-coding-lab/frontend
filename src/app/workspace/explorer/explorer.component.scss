@@ -1,6 +1,7 @@
 explorer-container:not(:first-child) {
   ::ng-deep .card {
     border-radius: 0 !important;
+    margin-bottom: 6px;
   }
 }
 

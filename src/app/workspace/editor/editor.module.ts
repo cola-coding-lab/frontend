@@ -16,6 +16,7 @@ import { ControlsComponent } from './controls/controls.component';
   ],
   exports: [
     TabContainerComponent,
+    ControlsComponent,
   ],
 })
 export class EditorModule {}
