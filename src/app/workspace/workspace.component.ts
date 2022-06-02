@@ -5,7 +5,6 @@ import { db } from '../../util/db/db';
 import { ProjectModalComponent } from './explorer/project/project-modal/project-modal.component';
 import { Project } from '../project/project';
 import { ThemeSwitchService } from './theme-switch/theme-switch.service';
-import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-workspace',
@@ -43,9 +42,7 @@ export class WorkspaceComponent extends ResizeableContainerComponent {
   }
 
   openProjectModal() {
-    if (environment.isEditor) {
-      ProjectModalComponent.create(this.viewContainerRef);
-    }
+    ProjectModalComponent.create(this.viewContainerRef);
   }
 
   themeClass() {
