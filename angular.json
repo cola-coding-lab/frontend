@@ -26,7 +26,8 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "allowedCommonJsDependencies": [
-              "codemirror"
+              "codemirror",
+              "qrcode-svg"
             ],
             "aot": true,
             "inlineStyleLanguage": "scss",
