@@ -1,14 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { OpenTabsService } from './tab-container/open-tabs.service';
 import { TabContainerComponent } from './tab-container/tab-container.component';
 import { EditorComponent } from './editor.component';
+import { ControlsComponent } from './controls/controls.component';
 
 
 @NgModule({
   declarations: [
     EditorComponent,
     TabContainerComponent,
+    ControlsComponent,
   ],
   imports: [
     CommonModule,
@@ -16,6 +17,5 @@ import { EditorComponent } from './editor.component';
   exports: [
     TabContainerComponent,
   ],
-
 })
 export class EditorModule {}

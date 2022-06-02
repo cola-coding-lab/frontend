@@ -1,13 +1,12 @@
-import { Url } from "url";
+import { Step } from './Step';
+import { Codefile } from './codefile';
+
 export interface Lesson {
     id: string;
-    // uuid();
     title: string;
     description: string;
-    descriptionImages: Url[];
     type: string;
-    steps: any[];
-    // steps: Step[];
-    stepsImages: Url[]; //step separating
-    hint: string;
+    steps: Step[];
+    hint?: string;
+    code: Codefile[];
   }

@@ -4,7 +4,7 @@
   id="fileTab"
   role="tablist"
   aria-label="Open code files"
-  *ngIf="openTabs.length > 1"
+  *ngIf="displayTabs"
 >
   <li class="nav-item" *ngFor="let f of openTabs" role="presentation">
     <button
@@ -21,14 +21,14 @@
       [attr.aria-selected]="f.isOpen"
     >
       {{ f.name }}<span *ngIf="f.isModified"> *</span>
-      <div class="close" (click)="close(f)"></div>
+      <div *ngIf="isCloseable" class="close" (click)="close(f)"></div>
     </button>
   </li>
 </ul>
 <div
   class="tab-content"
   id="fileTabContent"
-  *ngIf="openTabs.length > 1"
+  *ngIf="displayTabs"
 >
   <div
     *ngFor="let f of openTabs"
@@ -39,10 +39,13 @@
     [attr.aria-labelledby]="tabId(f)"
     [id]="contentId(f)"
   >
-    <app-editor [file]="f"></app-editor>
+    <app-editor #editor [file]="f"></app-editor>
+  </div>
+  <div #run *ngIf="showRunArea">
+    <app-controls (state)="controlsClicked($event)"></app-controls>
   </div>
 </div>
-<div class="position-relative h-100" *ngIf="openTabs.length === 1">
-  <app-editor [file]="openTabs[0]"></app-editor>
-  <div class="close" (click)="close(openTabs[0])"></div>
+<div class="position-relative h-100" *ngIf="openTabs.length === 1 && !showTabsAlways">
+  <app-editor #editor [file]="openTabs[0]"></app-editor>
+  <div *ngIf="isCloseable" class="close" (click)="close(openTabs[0])"></div>
 </div>

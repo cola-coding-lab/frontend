@@ -1,0 +1,6 @@
+<div class="btn-group" style="width: 100%" role="group" aria-label="play/stop area">
+  <button type="button" style="width: 50%" class="btn btn-success" (click)="run()">&#9658;</button>
+  <button type="button" style="width: 50%" class="btn btn-warning" (click)="stop()" [disabled]="!isActive()">
+    &#9726;
+  </button>
+</div>

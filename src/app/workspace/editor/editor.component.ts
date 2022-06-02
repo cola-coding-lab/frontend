@@ -17,7 +17,7 @@ import { EditorFile } from '../../file/file.model';
 @Component({
   selector: 'app-editor',
   templateUrl: './editor.component.html',
-  styleUrls: ['./editor.component.scss'],
+  styleUrls: [ './editor.component.scss' ],
 })
 export class EditorComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   private static readonly AUTO_SAVE_AFTER = 5000; // 5 seconds
@@ -41,6 +41,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnChanges, OnDest
     this.resizeObserver = new ResizeObserver(_ => {
       this.codeMirrorEditor?.refresh();
     });
+    this.save = this.save.bind(this);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -82,6 +83,15 @@ export class EditorComponent implements OnInit, AfterViewInit, OnChanges, OnDest
     this.codeMirrorEditor?.refresh();
   }
 
+  public save(cm?: CodeMirror.Editor): void {
+    cm = cm || this.codeMirrorEditor;
+    console.log(cm, this.file);
+    if (!cm || !this.file) { return; }
+    console.log(`save ${this.file.name}`);
+    this.file.content = cm.getValue();
+    this.file.isModified = undefined;
+  }
+
   private resetEditor(): void {
     this.codeMirrorEditor?.toTextArea();
     this.saveSubscription?.unsubscribe();
@@ -96,12 +106,6 @@ export class EditorComponent implements OnInit, AfterViewInit, OnChanges, OnDest
     console.log('setEditor', this.code);
     if (!this.code) { return; }
     this.resetEditor();
-    const save = (cm: CodeMirror.Editor): void => {
-      if (!this.file) { return; }
-      console.log('save');
-      this.file.content = cm.getValue();
-      this.file.isModified = undefined;
-    };
 
     const options = {
       lineNumbers: true,
@@ -113,7 +117,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnChanges, OnDest
       tabSize: 2,
       value: this.file?.content || '',
       extraKeys: {
-        'Ctrl-S': save,
+        'Ctrl-S': this.save,
       },
     };
 
@@ -125,7 +129,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnChanges, OnDest
       this.file.isModified = true;
 
       this.saveSubscription = timer(EditorComponent.AUTO_SAVE_AFTER).subscribe(_ => {
-        save(cm);
+        this.save(cm);
       });
     });
     if (this.file) { this.file.editor = this.codeMirrorEditor; }

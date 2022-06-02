@@ -41,4 +41,10 @@ export class OpenTabsService {
     this.add(file);
     this.explorerCurrentSelectedService.currentSelected = file;
   }
+
+  public clear(): void {
+    this.files.forEach(f => {f.isOpen = false; });
+    this.files = [];
+    this.subject.next(this.files);
+  }
 }
