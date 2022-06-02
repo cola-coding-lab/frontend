@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 // import { NgbdModule } from '@ng-bootstrap/ng-bootstrap';
-
 import { AppComponent } from './app.component';
 import { ContextMenuModule } from './context-menu/context-menu.module';
 import { FooterComponent } from './footer/footer.component';
@@ -12,17 +11,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { WorkshopsComponent } from './welcome/workshops/workshops.component';
 import { HttpClientModule } from "@angular/common/http";
+import { CommonModule } from '@angular/common'; 
+import { WORKSHOPS } from './welcome/workshops/mock-workshops';
 
-//collapse function
-// import { NgbdDropdown } from './dropdown-basic';
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
     WelcomeComponent,
-    WorkshopsComponent,
-    // NgbdModule
+    WorkshopsComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +29,7 @@ import { HttpClientModule } from "@angular/common/http";
     WorkspaceModule,
     AppRoutingModule,
     HttpClientModule,
-    // NgbdModule,
+    CommonModule
   ],
   providers: [],
   bootstrap: [AppComponent],
