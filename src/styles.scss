@@ -11,6 +11,9 @@
 @import "~codemirror/theme/dracula";
 @import "~codemirror/theme/ambiance.css";
 
+/* Angular Material core */
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+
 .CodeMirror {
   height: 100%;
   max-width: 100%;
