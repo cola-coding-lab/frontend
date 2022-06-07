@@ -45,7 +45,13 @@ export class TabContainerComponent implements OnInit {
 
   ngOnInit(): void {
     this.openTabsService.subscribe(files => {
-      this.openTabs = files;
+      this.openTabs = [];
+      setTimeout(() => {
+        this.openTabs = files;
+        if (!this.openTabs.find(f => f.isOpen) && this.openTabs.length > 0) {
+          this.openTabsService.select(this.openTabs[0]);
+        }
+      }, 20);
     });
   }
 

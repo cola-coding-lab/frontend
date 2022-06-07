@@ -19,9 +19,11 @@ export class CurrentProjectService {
   }
 
   public set activeProject(project: Project | undefined) {
-    this.currentProject = project;
-    if (this.currentProject) {
-      this.currentProject$.next(this.currentProject);
+    if (this.currentProject?.id !== project?.id) {
+      this.currentProject = project;
+      if (this.currentProject) {
+        this.currentProject$.next(this.currentProject);
+      }
     }
   }
 
