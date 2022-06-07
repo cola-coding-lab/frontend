@@ -44,6 +44,7 @@ export class ExplorerComponent implements OnInit {
 
   controlStateChanged(state: ControlState) {
     if (state === ControlState.RUN) {
+      this.project?.save();
       const files = Project.filesForExport(this.project).sort((a, b) => {
         if (a.name > b.name) { return 1; }
         if (b.name > a.name) { return -1; }

@@ -82,6 +82,12 @@ export class Project implements IProject {
       description: this.description,
       showHidden: this.showHidden,
     });
+    this.files.forEach(file => {
+      if (file.editor && file.isModified) {
+        file.content = file.editor.getValue();
+        file.isModified = false;
+      }
+    })
     db.saveFiles(this.files);
     AppInjector.get(CurrentProjectService).activeProject = this;
   }
