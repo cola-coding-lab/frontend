@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, ContentChildren, Input, QueryList } from '@angular/core';
+import { AfterContentInit, Component, ContentChildren, EventEmitter, Input, Output, QueryList } from '@angular/core';
 import { ContainerContentComponent } from './container-content.component';
 
 @Component({
@@ -10,10 +10,17 @@ export class ContainerComponent implements AfterContentInit {
   @Input() public title!: string;
   @Input() public collapse: boolean = true;
   @ContentChildren(ContainerContentComponent) private children!: QueryList<ContainerContentComponent>;
+  @Input() public showAdd: boolean = false;
+  @Output() public addClicked: EventEmitter<void> = new EventEmitter<void>();
 
   ngAfterContentInit(): void {
     this.children.forEach(child => {
       child.updateCollapse.subscribe(collapse => this.collapse = collapse);
     });
+  }
+
+  add($event: MouseEvent) {
+    $event.stopPropagation();
+    this.addClicked.emit();
   }
 }

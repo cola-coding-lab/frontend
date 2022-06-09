@@ -7,13 +7,17 @@ import { EditorFile } from '../../../file/file.model';
 })
 export class CurrentSelectedService {
   private currentSelectedSubject: Subject<EditorFile | undefined>;
+  private current?: EditorFile;
 
   constructor() {
     this.currentSelectedSubject = new BehaviorSubject<EditorFile | undefined>(undefined);
   }
 
   public set currentSelected(value: EditorFile | null) {
-    this.currentSelectedSubject.next(value || undefined);
+    if (this.current?.id !== value?.id) {
+      this.current = value || undefined;
+      this.currentSelectedSubject.next(this.current);
+    }
   }
 
   public currentSelected$(next: (value?: EditorFile) => void, error?: (err: Error) => void, complete?: () => void): Subscription {

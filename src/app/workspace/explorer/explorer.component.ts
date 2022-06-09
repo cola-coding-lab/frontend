@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { OpenTabsService } from '../editor/tab-container/open-tabs.service';
 import { CodeFile, EditorFile, MimeType } from '../../file/file.model';
 import { CurrentProjectService } from '../../project/current-project.service';
 import { Project } from '../../project/project';
 import { ControlState } from '../editor/controls/controls.model';
 import { OutputFilesService } from '../output/output-files.service';
+import { FileComponent } from './file/file.component';
 
 @Component({
   selector: 'app-explorer',
@@ -13,6 +14,7 @@ import { OutputFilesService } from '../output/output-files.service';
 })
 export class ExplorerComponent implements OnInit {
   public project?: Project;
+  private explorerFile?: FileComponent;
 
   constructor(
     private openTabsService: OpenTabsService,
@@ -20,6 +22,10 @@ export class ExplorerComponent implements OnInit {
     private currentProjectService: CurrentProjectService,
   ) {
     this.setFiles = this.setFiles.bind(this);
+  }
+
+  @ViewChild('explorerFile') set expFile(ref: FileComponent) {
+    this.explorerFile = ref;
   }
 
   ngOnInit(): void {
@@ -42,7 +48,7 @@ export class ExplorerComponent implements OnInit {
     this.openTabsService.select(file);
   }
 
-  controlStateChanged(state: ControlState) {
+  public controlStateChanged(state: ControlState): void {
     if (state === ControlState.RUN) {
       this.project?.save();
       const files = Project.filesForExport(this.project).sort((a, b) => {
@@ -60,5 +66,9 @@ export class ExplorerComponent implements OnInit {
     } else {
       this.outputFilesService.clear();
     }
+  }
+
+  public add(): void {
+    this.explorerFile?.add();
   }
 }

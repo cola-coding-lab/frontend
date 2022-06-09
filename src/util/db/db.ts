@@ -52,8 +52,9 @@ export class AppDB extends Dexie {
     this.projects.where('id').equals(project.id).delete();
   }
 
-  deleteFile(file: EditorFile): void {
-    this.files.where('[id+projectId]').equals([ file.id!, file.projectId ]).delete();
+  async deleteFile(file: EditorFile): Promise<void> {
+    const deleted = await this.files.where('[id+projectId]').equals([ file.id!, file.projectId ]).delete();
+    console.log(deleted);
   }
 
   async nextFileId(projectId: string): Promise<number> {

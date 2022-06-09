@@ -35,6 +35,10 @@ export class Project implements IProject {
     return { projectId: this.id, name: '/', children: this.files };
   }
 
+  public set projectRoot(val: Directory) {
+    this.files = val.children;
+  }
+
   public static fromJson(json: string | IProject): Project {
     return new Project(json);
   }

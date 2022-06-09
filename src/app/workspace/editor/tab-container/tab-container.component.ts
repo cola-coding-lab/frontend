@@ -56,7 +56,7 @@ export class TabContainerComponent implements OnInit {
   }
 
   public close(file: EditorFile): void {
-    this.openTabsService.remove(file);
+    this.openTabsService.remove(file, true);
   }
 
   public select(file: EditorFile): void {

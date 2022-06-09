@@ -28,12 +28,12 @@ export class OpenTabsService {
     }
   }
 
-  public remove(file: EditorFile): void {
+  public remove(file: EditorFile, save: boolean = false): void {
     file.isOpen = false;
     file.editor = undefined;
     this.files = this.files.filter(f => file.id !== f.id);
     this.subject.next(this.files);
-    db.saveFile(file);
+    if (save) { db.saveFile(file); }
   }
 
   public select(file: EditorFile): void {
@@ -45,7 +45,7 @@ export class OpenTabsService {
   }
 
   public clear(): void {
-    this.files.forEach(f => {f.isOpen = false; });
+    this.files.forEach(f => { f.isOpen = false; });
     this.files = [];
     this.subject.next(this.files);
   }

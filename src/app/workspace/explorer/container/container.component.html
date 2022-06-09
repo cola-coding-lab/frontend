@@ -4,6 +4,7 @@
        [ngClass]="collapse ? 'bi-chevron-compact-right': 'bi-chevron-compact-down'"
     ></i>
     <span>{{title}}</span>
+    <button class="btn btn-sm btn-outline-success btn-add" *ngIf="showAdd" type="button" (click)="add($event)">+</button>
   </div>
   <div class="card-body container-body" data-toggle="collapse" [class.collapse]="collapse">
     <ng-content></ng-content>
