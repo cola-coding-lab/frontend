@@ -1,6 +1,7 @@
 import Dexie, { Table } from 'dexie';
 import { IProject } from '../../app/project/project';
 import { EditorFile, MimeType } from '../../app/file/file.model';
+import { Lesson } from '../../app/welcome/workshops/lesson';
 
 export interface DbProject {
   id: string;
@@ -8,6 +9,16 @@ export interface DbProject {
   title: string;
   description: string;
   showHidden: boolean;
+}
+
+export interface DbWorkshop {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  difficulty: string;
+  categories: string[];
+  lessons: Lesson[];
 }
 
 interface DbFsItem {
@@ -31,13 +42,15 @@ export class AppDB extends Dexie {
   projects!: Table<DbProject, number>;
   files!: Table<DbFile, number>;
   directories!: Table<DbFile, number>;
+  workshops!: Table<DbWorkshop, number>;
 
   constructor() {
     super('vcl-fs-db');
-    this.version(1).stores({
+    this.version(2).stores({
       projects: 'id',
       files: '[id+projectId], projectId',
       directories: '[id+projectId], projectId',
+      workshops: 'id, title',
     });
     this.on('populate', () => this.populate());
   }
@@ -58,6 +71,7 @@ export class AppDB extends Dexie {
   }
 
   async nextFileId(projectId: string): Promise<number> {
+    if (!projectId) { throw Error('no valid projectId!'); }
     return this.files.where('projectId').equals(projectId).primaryKeys().then((keys) => (keys.map(key => (key as unknown as any[])[0]).sort().pop() || 1) + 1);
   }
 
