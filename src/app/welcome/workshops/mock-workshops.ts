@@ -1,4 +1,4 @@
-import { WorkshopOverview } from './workshopOverview';
+import { WorkshopOverview } from './workshop-overview.model';
 
 export const WORKSHOPS: WorkshopOverview[] = [
     { id: "11", title: 'Tasse',

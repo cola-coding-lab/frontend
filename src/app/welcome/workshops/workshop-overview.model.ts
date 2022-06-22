@@ -1,3 +1,5 @@
+import { ApiResponse } from './api-response.model';
+
 export interface WorkshopOverview {
   id: string;
   title: string;
@@ -8,9 +10,6 @@ export interface WorkshopOverview {
   categories: string[];
 }
 
-export interface WorkshopOverviewAPIResponse {
+export interface WorkshopOverviewAPIResponse extends ApiResponse {
   WorkshopOverviewMock: WorkshopOverview[];
-  url: string;
-  method: string;
-  timestamp: string;
 }

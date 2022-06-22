@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { WorkshopOverview, WorkshopOverviewAPIResponse } from './workshopOverview';
-import { HttpClient } from "@angular/common/http";
-import { environment } from "../../../environments/environment";
-import { Observable, Subject } from "rxjs";
+import { WorkshopOverviewAPIResponse } from './workshop-overview.model';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+import { Observable } from 'rxjs';
+import { WorkshopDetailAPIResponse } from './workshop-detail.model';
 
 @Injectable({
   providedIn: 'root'

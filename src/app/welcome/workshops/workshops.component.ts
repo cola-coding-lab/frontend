@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { WorkshopOverview } from './workshopOverview';
 import { WORKSHOPS } from './mock-workshops';
+import { WorkshopOverview } from './workshop-overview.model';
 import { DraftService } from '../draft.service';
 
 @Component({
