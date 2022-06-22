@@ -1,0 +1,7 @@
+<div *ngIf="workshop" class="h-75">
+  <app-lessons-workspace [lesson]="workshop.lessons[currentLesson]"></app-lessons-workspace>
+  <!-- todo: better styling -->
+  <button class="btn btn-outline-info" (click)="currentLesson = (currentLesson+1) % workshop.lessons.length">
+    weiter
+  </button>
+</div>
