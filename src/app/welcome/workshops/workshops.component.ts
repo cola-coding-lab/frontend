@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { WORKSHOPS } from './mock-workshops';
 import { WorkshopOverview } from './workshop-overview.model';
 import { DraftService } from '../draft.service';
+import { WorkshopService } from './workshop.service';
 
 @Component({
   selector: 'app-workshops',
@@ -10,15 +10,23 @@ import { DraftService } from '../draft.service';
   styleUrls: [ './workshops.component.scss' ],
 })
 export class WorkshopsComponent implements OnInit {
-  workshops: WorkshopOverview [] = WORKSHOPS;
+  workshops: WorkshopOverview [] = [];
   id: number = 1;
   eventSubscription!: Subscription;
 
-  constructor(private draftService: DraftService) {
-    console.log(`workshopsCom, constructor`);
+  constructor(
+    private draftService: DraftService,
+    private workshopService: WorkshopService,
+  ) {
+
   }
 
   ngOnInit(): void {
     this.eventSubscription = this.draftService.current$.subscribe(id => this.id = id);
+    this.workshopService.workshops$().subscribe(response => this.workshops = response.WorkshopOverviewMock);
+  }
+
+  public startWorkshop(workshop: WorkshopOverview): void {
+    console.log('open', workshop);
   }
 }
