@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { WorkshopService } from '../../welcome/workshops/workshop.service';
 import { WorkshopDetail } from '../../welcome/workshops/workshop-detail.model';
+import { db, DbWorkshop } from '../../../util/db/db';
 import { v4 } from 'uuid';
 
 @Component({
@@ -28,6 +29,9 @@ export class WorkshopComponent implements OnInit {
     }
     this.workshopsService.workshop$(this.workshopId).subscribe(response => {
         this.workshop = { ...response, id: v4() };
+        if (this.workshop) {
+          db.workshops.add(this.workshop as DbWorkshop);
+        }
       },
       error => {
         console.error(error);

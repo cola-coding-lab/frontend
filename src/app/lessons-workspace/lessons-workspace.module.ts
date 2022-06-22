@@ -13,7 +13,7 @@ import { EditorModule } from '../workspace/editor/editor.module';
 @NgModule({
   declarations: [
     LessonsWorkspaceComponent,
-    Md2htmlPipe
+    Md2htmlPipe,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -23,6 +23,9 @@ import { EditorModule } from '../workspace/editor/editor.module';
     MatIconModule,
     MatButtonModule,
     EditorModule,
+  ],
+  exports: [
+    LessonsWorkspaceComponent,
   ],
 })
 export class LessonsWorkspaceModule {

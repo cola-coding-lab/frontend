@@ -4,6 +4,7 @@ import { v4 } from 'uuid';
 import { OpenTabsService } from '../workspace/editor/tab-container/open-tabs.service';
 import { EditorFile, MimeType } from '../file/file.model';
 import { ResizeableContainerComponent } from '../workspace/resizeable-container.component';
+import { db } from '../../util/db/db';
 
 @Component({
   selector: 'app-lessons-workspace',
@@ -23,7 +24,7 @@ export class LessonsWorkspaceComponent extends ResizeableContainerComponent impl
   ngOnInit(): void {
     super.ngOnInit();
     // only for debugging/development!
-    if (!this.lesson) {
+    if (this.lesson) {
       this.lesson = {
         id: v4(),
         title: 'first lesson',
@@ -69,10 +70,14 @@ hier steht noch viel mehr Sinnvolles
     }
 
     const { code } = this.lesson;
-    code.forEach((file, idx) => {
-      this.openTabsService.add(file as EditorFile);
-      if (idx === 0) { this.openTabsService.select(file as EditorFile);}
-    });
+    if (code) {
+      code.forEach(async (file, idx) => {
+        file = { ...file, projectId: this.lesson.id, id: idx+1 } as EditorFile;
+        await db.saveFile(file as EditorFile);
+        this.openTabsService.add(file as EditorFile);
+        if (idx === 0) { this.openTabsService.select(file as EditorFile); }
+      });
+    }
   }
 
 }
