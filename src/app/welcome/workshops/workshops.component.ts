@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { WorkshopOverview } from './workshop-overview.model';
 import { DraftService } from '../draft.service';
 import { WorkshopService } from './workshop.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-workshops',
@@ -17,6 +18,7 @@ export class WorkshopsComponent implements OnInit {
   constructor(
     private draftService: DraftService,
     private workshopService: WorkshopService,
+    private router: Router,
   ) {
 
   }
@@ -28,5 +30,6 @@ export class WorkshopsComponent implements OnInit {
 
   public startWorkshop(workshop: WorkshopOverview): void {
     console.log('open', workshop);
+    this.router.navigate([ 'workshops', workshop.id ]);
   }
 }
