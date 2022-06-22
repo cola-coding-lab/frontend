@@ -1,5 +1,5 @@
-import { LessonOverview } from './lessonOverview';
 import { ApiResponse } from './api-response.model';
+import { Lesson } from './lesson';
 
 export interface WorkshopDetail {
   id: string;
@@ -8,7 +8,7 @@ export interface WorkshopDetail {
   image: string;
   difficulty: string;
   categories: string[];
-  lessons: LessonOverview[];
+  lessons: Lesson[];
 }
 
 export interface WorkshopDetailAPIResponse extends WorkshopDetail, ApiResponse {}
