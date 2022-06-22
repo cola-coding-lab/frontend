@@ -21,7 +21,7 @@
               {{workshop.difficulty}}
             </div>
             <div class="col-md-2">
-              <button type="button" class="btn btn-secondary">WS {{workshop.title}} jetzt starten</button>
+              <button type="button" class="btn btn-secondary" (click)="startWorkshop(workshop)">WS {{workshop.title}} jetzt starten</button>
             </div>
           </div>
         </div>
@@ -49,7 +49,7 @@
         {{workshop.detailDescription}}
     </div> -->
             <div class="col-md-3">
-              <button type="button" class="btn btn-secondary" routerLink="/workspace">WS
+              <button type="button" class="btn btn-secondary" (click)="startWorkshop(workshop)">WS
                 {{workshop.title}} jetzt
                 starten
               </button>
@@ -128,7 +128,7 @@
                 <div class="col-md-4">{{workshop.description}}</div>
                 <div class="col-md-3">{{workshop.image}}hier könnten Fotos sein</div>
                 <div class="col-md-1">
-                  <button type="button" class="btn btn-secondary" routerLink="/workspace">WS
+                  <button type="button" class="btn btn-secondary" (click)="startWorkshop(workshop)">WS
                     {{workshop.title}} jetzt starten
                   </button>
                 </div>
