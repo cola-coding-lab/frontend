@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { Lesson } from '../welcome/workshops/lesson';
 import { v4 } from 'uuid';
 import { OpenTabsService } from '../workspace/editor/tab-container/open-tabs.service';
@@ -12,19 +12,14 @@ import { db } from '../../util/db/db';
   styleUrls: [ './lessons-workspace.component.scss' ],
   providers: [ OpenTabsService ],
 })
-export class LessonsWorkspaceComponent extends ResizeableContainerComponent implements OnDestroy {
+export class LessonsWorkspaceComponent extends ResizeableContainerComponent implements OnDestroy, OnChanges {
   @Input() lesson!: Lesson;
 
   constructor(private openTabsService: OpenTabsService) { super(); }
 
-  ngOnDestroy(): void {
-    this.openTabsService.clear();
-  }
-
-  ngOnInit(): void {
-    super.ngOnInit();
+  ngOnChanges(changes: SimpleChanges): void {
     // only for debugging/development!
-    if (this.lesson) {
+    if (!this.lesson) {
       this.lesson = {
         id: v4(),
         title: 'first lesson',
@@ -71,8 +66,9 @@ hier steht noch viel mehr Sinnvolles
 
     const { code } = this.lesson;
     if (code) {
+      this.openTabsService.clear();
       code.forEach(async (file, idx) => {
-        file = { ...file, projectId: this.lesson.id, id: idx+1 } as EditorFile;
+        file = { ...file, projectId: this.lesson.id, id: idx + 1 } as EditorFile;
         await db.saveFile(file as EditorFile);
         this.openTabsService.add(file as EditorFile);
         if (idx === 0) { this.openTabsService.select(file as EditorFile); }
@@ -80,4 +76,11 @@ hier steht noch viel mehr Sinnvolles
     }
   }
 
+  ngOnDestroy(): void {
+    this.openTabsService.clear();
+  }
+
+  ngOnInit(): void {
+    super.ngOnInit();
+  }
 }
