@@ -10,13 +10,11 @@
 
     <mat-stepper [linear]="false" *ngIf="lesson.steps.length > 0">
       <mat-step *ngFor="let step of lesson.steps; let idx = index" [optional]="step.isOptional"
-                [editable]="false" [completed]="false"
-
-      >
+                [editable]="true" [completed]="false">
         <ng-template matStepLabel>{{step.title}}</ng-template>
         <div class="description" [innerHTML]="step.description | md2html"></div>
-        <button mat-button matStepperPrevious *ngIf="idx > 0">zurück</button>
-        <button mat-button matStepperNext *ngIf="idx < lesson.steps.length - 1">
+        <button mat-button matStepperPrevious type="button" *ngIf="idx > 0">zurück</button>
+        <button mat-button matStepperNext type="button" *ngIf="idx < lesson.steps.length - 1">
           weiter
         </button>
       </mat-step>
