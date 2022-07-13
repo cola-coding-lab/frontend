@@ -1,10 +1,11 @@
-import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
 import { Lesson } from '../welcome/workshops/lesson';
 import { v4 } from 'uuid';
 import { OpenTabsService } from '../workspace/editor/tab-container/open-tabs.service';
 import { EditorFile, MimeType } from '../file/file.model';
 import { ResizeableContainerComponent } from '../workspace/resizeable-container.component';
 import { db } from '../../util/db/db';
+import { MatStepper } from '@angular/material/stepper';
 
 @Component({
   selector: 'app-lessons-workspace',
@@ -13,9 +14,22 @@ import { db } from '../../util/db/db';
   providers: [ OpenTabsService ],
 })
 export class LessonsWorkspaceComponent extends ResizeableContainerComponent implements OnDestroy, OnChanges {
-  @Input() lesson!: Lesson;
+  @ViewChild('stepper') public stepper!: MatStepper;
+  private mLesson!: Lesson;
 
   constructor(private openTabsService: OpenTabsService) { super(); }
+
+  public get lesson(): Lesson {
+    return this.mLesson;
+  }
+
+  @Input()
+  public set lesson(current: Lesson) {
+    if (this.stepper) {
+      this.stepper.selectedIndex = current.currentStep || 0;
+    }
+    this.mLesson = current;
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     // only for debugging/development!
@@ -85,5 +99,15 @@ hier steht noch viel mehr Sinnvolles
 
   ngOnInit(): void {
     super.ngOnInit();
+  }
+
+  previousStep(stepper: MatStepper, lesson: Lesson) {
+    stepper.previous();
+    lesson.currentStep = stepper.selectedIndex;
+  }
+
+  nextStep(stepper: MatStepper, lesson: Lesson) {
+    stepper.next();
+    lesson.currentStep = stepper.selectedIndex;
   }
 }

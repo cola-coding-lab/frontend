@@ -10,4 +10,5 @@ export interface Lesson {
     steps: Step[];
     hint?: string;
     codeFiles: CodeFile[];
+    currentStep?: number; // not from API, internal used to memorize current selected step
   }
