@@ -5,8 +5,9 @@ export interface Lesson {
     id: string;
     title: string;
     description: string;
-    type: string;
+    type?: string; // will be type used?
+    stepsCount: number;
     steps: Step[];
     hint?: string;
-    code: CodeFile[];
+    codeFiles: CodeFile[];
   }

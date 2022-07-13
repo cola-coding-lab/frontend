@@ -13,7 +13,7 @@
                 [editable]="false" [completed]="false"
 
       >
-        <ng-template matStepLabel>{{step.label}}</ng-template>
+        <ng-template matStepLabel>{{step.title}}</ng-template>
         <div class="description" [innerHTML]="step.description | md2html"></div>
         <button mat-button matStepperPrevious *ngIf="idx > 0">zurück</button>
         <button mat-button matStepperNext *ngIf="idx < lesson.steps.length - 1">

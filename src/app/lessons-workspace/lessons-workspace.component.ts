@@ -30,9 +30,11 @@ In dieser Lektion lernst du, wie du mit Hilfe der JavaScript Bibliothek p5.js da
 ![testbild](https://picsum.photos/300/200)
         `,
         type: '',
+        stepsCount: 2,
         steps: [
           {
-            label: 'Schritt 01',
+            id: 'step1',
+            title: 'Schritt 01',
             description: `#### Was ist eine Funktion?
 Vereinfacht erklärt kannst du dir unter einer Funktion einen wiederverwendbaren Codeblock vorstellen.
 ...
@@ -40,7 +42,8 @@ Vereinfacht erklärt kannst du dir unter einer Funktion einen wiederverwendbaren
             isOptional: false,
           },
           {
-            label: 'Schritt 02',
+            id: 'step2',
+            title: 'Schritt 02',
             description: `#### Noch mehr Schritte...
 hier steht noch viel mehr Sinnvolles
 ...
@@ -48,7 +51,7 @@ hier steht noch viel mehr Sinnvolles
             isOptional: true,
           },
         ],
-        code: [
+        codeFiles: [
           {
             name: 'main.js',
             type: MimeType.js,
@@ -64,10 +67,10 @@ hier steht noch viel mehr Sinnvolles
       };
     }
 
-    const { code } = this.lesson;
-    if (code) {
+    const { codeFiles } = this.lesson;
+    if (codeFiles) {
       this.openTabsService.clear();
-      code.forEach(async (file, idx) => {
+      codeFiles.forEach(async (file, idx) => {
         file = { ...file, projectId: this.lesson.id, id: idx + 1 } as EditorFile;
         await db.saveFile(file as EditorFile);
         this.openTabsService.add(file as EditorFile);

@@ -4,7 +4,8 @@ export interface WorkshopOverview {
   id: string;
   title: string;
   description: string;
-  image: string;
+  image?: string; // will be removed in a later version
+  assets?: string[]; // will replace image in a later version
   lessonsCount: number;
   difficulty: string;
   categories: string[];
