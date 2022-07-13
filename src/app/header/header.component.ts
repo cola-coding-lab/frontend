@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { ComputedComponent } from 'src/util/computed.component';
-import { setDocumentProperty } from 'src/util/properties';
 import { DraftService } from '../welcome/draft.service';
 import { environment } from '../../environments/environment';
 import { CurrentProjectService } from '../project/current-project.service';
@@ -31,8 +30,11 @@ export class HeaderComponent extends ComputedComponent implements OnInit {
     return this.currentProjectService.activeProject !== undefined;
   }
 
+  protected get selectorPrefix(): string {
+    return 'header';
+  }
+
   ngOnInit(): void {
-    setDocumentProperty('header-height', this.height);
     this.themeService.subscribe(theme => this.theme = theme);
   }
 

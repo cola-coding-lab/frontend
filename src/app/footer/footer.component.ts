@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ComputedComponent } from 'src/util/computed.component';
-import { setDocumentProperty } from 'src/util/properties';
 import { environment } from '../../environments/environment';
 import { ThemeSwitchService } from '../workspace/theme-switch/theme-switch.service';
 
@@ -27,8 +26,11 @@ export class FooterComponent extends ComputedComponent implements OnInit {
     return new Date().getFullYear();
   }
 
+  protected get selectorPrefix(): string {
+    return 'footer';
+  }
+
   ngOnInit(): void {
-    setDocumentProperty('footer-height', this.height);
     this.themeService.subscribe(theme => this.theme = theme);
   }
 
