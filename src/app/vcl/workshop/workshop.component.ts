@@ -27,17 +27,28 @@ export class WorkshopComponent implements OnInit {
       console.log('TODO: Redirect to Workshops!');
       return;
     }
-    this.workshopsService.workshop$(this.workshopId).subscribe(response => {
+    this.workshopsService.workshop$(this.workshopId).subscribe({
+      next: response => {
         this.workshop = { ...response, id: v4() };
         if (this.workshop) {
           db.workshops.add(this.workshop as DbWorkshop);
         }
       },
-      error => {
+      error: error => {
         console.error(error);
         console.log('TODO: Redirect to Workshops!');
-      });
+      },
+    });
     console.log(this.workshopId);
   }
 
+  public nextLesson(): void {
+    this.currentLesson = (this.currentLesson + 1) % (this.workshop?.lessons.length || 0);
+  }
+
+  public previousLesson(): void {
+    const n = this.workshop?.lessons.length || 0;
+    // JS Modulo Bug: https://web.archive.org/web/20090717035140if_/javascript.about.com/od/problemsolving/a/modulobug.htm
+    this.currentLesson = (((this.currentLesson - 1) % n) + n) % n;
+  }
 }
