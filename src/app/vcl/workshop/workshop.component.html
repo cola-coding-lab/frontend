@@ -1,7 +1,12 @@
-<div *ngIf="workshop" class="h-75">
+<div *ngIf="workshop" class="h-100 position-relative">
   <app-lessons-workspace [lesson]="workshop.lessons[currentLesson]"></app-lessons-workspace>
   <!-- todo: better styling -->
-  <button class="btn btn-outline-info" (click)="currentLesson = (currentLesson+1) % workshop.lessons.length">
-    weiter
-  </button>
+  <div id="lessons-navigation" class="btn-group position-absolute bottom-0 m-1" role="group" aria-label="Lessons Navigation">
+    <button class="btn btn-outline-info" (click)="currentLesson = (currentLesson+1) % workshop.lessons.length">
+      zurück
+    </button>
+    <button class="btn btn-outline-info" (click)="currentLesson = (currentLesson-1) % workshop.lessons.length">
+      weiter
+    </button>
+  </div>
 </div>
