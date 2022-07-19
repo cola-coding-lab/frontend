@@ -25,7 +25,9 @@ export class WorkshopsComponent implements OnInit {
 
   ngOnInit(): void {
     this.eventSubscription = this.draftService.current$.subscribe(id => this.id = id);
-    this.workshopService.workshops$().subscribe(response => this.workshops = response.WorkshopOverviewMock);
+    this.workshopService.workshops$().subscribe(response => {
+      this.workshops = response.WorkshopOverview;
+    });
   }
 
   public startWorkshop(workshop: WorkshopOverview): void {

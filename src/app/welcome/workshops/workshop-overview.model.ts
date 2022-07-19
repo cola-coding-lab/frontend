@@ -12,5 +12,5 @@ export interface WorkshopOverview {
 }
 
 export interface WorkshopOverviewAPIResponse extends ApiResponse {
-  WorkshopOverviewMock: WorkshopOverview[];
+  WorkshopOverview: WorkshopOverview[];
 }
