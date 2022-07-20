@@ -1,4 +1,4 @@
-import { Step } from './Step';
+import { Step } from './step';
 import { CodeFile } from '../../file/file.model';
 
 export interface Lesson {
