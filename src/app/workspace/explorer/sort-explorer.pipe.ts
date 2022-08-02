@@ -6,6 +6,9 @@ import { ExplorerFile } from './file/file.model';
   pure: false,
 })
 export class SortExplorerPipe implements PipeTransform {
+
+ 
+
   transform(values?: ExplorerFile[]): ExplorerFile[] | undefined {
     values?.sort((a, b) => {
       const name = a.name.localeCompare(b.name);
@@ -15,4 +18,14 @@ export class SortExplorerPipe implements PipeTransform {
     });
     return values;
   }
+
+  // TODO: löschen, wenn nicht in Verwendung
+  // scssTrasform(values?: ExplorerFile[]): ExplorerFile[] | undefined {
+  //   values?.sort((a, b)=> {
+  //     const otherName = a.name.localeCompare(b.name);
+  //     return -1;
+  //   })
+  //   return values;
+  // };
+ 
 }
