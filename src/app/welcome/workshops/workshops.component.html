@@ -9,22 +9,29 @@
           <h2>vollständige Workshopliste</h2>
           <div class="row" *ngFor="let workshop of workshops">
             <div class="col-md-2">
-              {{workshop.title}}
+              <h3>
+                {{workshop.title}}
+              </h3>
             </div>
             <div class="col-md-2">
+              <!-- <div class="description"  [innerHTML]="workshop.description | md2html "></div> -->
+              <p>
               {{workshop.description}}
+            </p>
             </div>
             <div class="col-md-2">
+              <p>
               {{workshop.image}}hier könnten Fotos sein
             </div>
             <div class="col-md-2">
-              {{workshop.difficulty}}
+              <p>
+                {{workshop.difficulty}}
+              </p>
             </div>
             <div class="col-md-2">
               <button type="button" class="btn btn-outline-success" (click)="startWorkshop(workshop)">
-                WS {{workshop.title}} jetzt starten
+                  WS {{workshop.title}} jetzt starten
               </button>
-              
             </div>
             <hr>
           </div>
@@ -44,10 +51,11 @@
           <h3>{{workshop.title}}</h3><br>
           <div class="row">
             <div class="col-md-3">
-              {{workshop.description}}
+              <p>{{workshop.description}}</p>
             </div>
             <div class="col-md-3">
-              {{workshop.image}}hier könnten Fotos sein
+              <img src="" alt="Bsp für Workshop">
+              <p>{{workshop.image}}hier könnten Fotos sein</p>
             </div>
             <div class="col-md-3">
               <button type="button" class="btn btn-success" (click)="startWorkshop(workshop)">
@@ -72,14 +80,14 @@
           <h3>{{workshop.title}}</h3><br>
           <div class="row">
             <div class="col-md-6">
-              {{workshop.description}}
+              <p>{{workshop.description}}</p>
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-1">
               <div class="btn btn-primary" type="button" data-bs-toggle="collapse"
                    [attr.data-bs-target]="'#openCollapseDescription_' + workshop.id" aria-expanded="false"
                    aria-controls="openCollapseDescription">
-                \/ Details
+                  \/ Details
               </div>
             </div>
             <div class="collapse" id="openCollapseDescription_{{workshop.id}}">

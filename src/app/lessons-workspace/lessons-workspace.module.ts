@@ -8,15 +8,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { EditorModule } from '../workspace/editor/editor.module';
-// import { Md2sitePipe } from './md2site.pipe';
-// import {SecurityContext} from ''
+
 
 
 @NgModule({
   declarations: [
     LessonsWorkspaceComponent,
     Md2htmlPipe,
-    // Md2sitePipe,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -26,7 +24,6 @@ import { EditorModule } from '../workspace/editor/editor.module';
     MatIconModule,
     MatButtonModule,
     EditorModule,
-    // StyleSheet
   ],
   exports: [
     LessonsWorkspaceComponent,

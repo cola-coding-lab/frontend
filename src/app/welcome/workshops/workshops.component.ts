@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit, Pipe } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { WorkshopOverview } from './workshop-overview.model';
 import { DraftService } from '../draft.service';
 import { WorkshopService } from './workshop.service';
 import { Router } from '@angular/router';
+// import { Md2htmlPipe } from '../../lessons-workspace/md2html.pipe';
 
 @Component({
   selector: 'app-workshops',
   templateUrl: './workshops.component.html',
   styleUrls: [ './workshops.component.scss' ],
 })
+
+
 export class WorkshopsComponent implements OnInit {
   workshops: WorkshopOverview [] = [];
   id: number = 1;
@@ -19,6 +22,7 @@ export class WorkshopsComponent implements OnInit {
     private draftService: DraftService,
     private workshopService: WorkshopService,
     private router: Router,
+    // private Md2htmlPipe: Md2htmlPipe,
   ) {
 
   }
