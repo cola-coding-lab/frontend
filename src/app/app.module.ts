@@ -16,6 +16,7 @@ import { ExplorerModule } from './workspace/explorer/explorer.module';
 import { APP_BASE_HREF } from '@angular/common';
 import { environment } from '../environments/environment';
 import { VclModule } from './vcl/vcl.module';
+import { ProfilePageComponent } from './profile-page/profile-page.component';
 
 
 export let AppInjector: Injector;
@@ -27,6 +28,7 @@ export let AppInjector: Injector;
     FooterComponent,
     WelcomeComponent,
     WorkshopsComponent,
+    ProfilePageComponent,
   ],
   imports: [
     BrowserModule,
