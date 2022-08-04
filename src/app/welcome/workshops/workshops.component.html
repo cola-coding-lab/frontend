@@ -20,8 +20,7 @@
             </p>
             </div>
             <div class="col-md-2">
-              <p>
-              {{workshop.image}}hier könnten Fotos sein
+              <img src="{{workshop.assets}}" alt="Ziel des Workshops als Foto dargestellt">
             </div>
             <div class="col-md-2">
               <p>
@@ -54,8 +53,7 @@
               <p>{{workshop.description}}</p>
             </div>
             <div class="col-md-3">
-              <img src="" alt="Bsp für Workshop">
-              <p>{{workshop.image}}hier könnten Fotos sein</p>
+              <img src="{{workshop.assets}}" alt="Ziel des Workshops als Foto dargestellt">
             </div>
             <div class="col-md-3">
               <button type="button" class="btn btn-success" (click)="startWorkshop(workshop)">
@@ -84,16 +82,18 @@
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-1">
-              <div class="btn btn-primary" type="button" data-bs-toggle="collapse"
+              <button class="btn-outline-success" type="button" data-bs-toggle="collapse"
                    [attr.data-bs-target]="'#openCollapseDescription_' + workshop.id" aria-expanded="false"
                    aria-controls="openCollapseDescription">
                   \/ Details
-              </div>
+            </button>
             </div>
             <div class="collapse" id="openCollapseDescription_{{workshop.id}}">
               <div class="row">
                 <div class="col-md-4">{{workshop.description}}</div>
-                <div class="col-md-3">{{workshop.image}}hier könnten Fotos sein</div>
+                <div class="col-md-3">
+                  <img src="{{workshop.assets}}" alt="Ziel des Workshops als Foto dargestellt">
+                </div>
                 <div class="col-md-1">
                   <button type="button" class="btn btn-success" (click)="startWorkshop(workshop)">
                     WS {{workshop.title}} jetzt starten
