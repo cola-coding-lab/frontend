@@ -17,7 +17,8 @@ import { APP_BASE_HREF } from '@angular/common';
 import { environment } from '../environments/environment';
 import { VclModule } from './vcl/vcl.module';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
-
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatIconModule } from '@angular/material/icon';
 
 export let AppInjector: Injector;
 
@@ -41,6 +42,8 @@ export let AppInjector: Injector;
     LessonsWorkspaceModule,
     ExplorerModule,
     VclModule,
+    NoopAnimationsModule,
+    MatIconModule
   ],
   providers: [ { provide: APP_BASE_HREF, useValue: environment.baseHref } ],
   bootstrap: [ AppComponent ],
