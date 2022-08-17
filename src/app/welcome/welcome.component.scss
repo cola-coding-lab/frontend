@@ -1,3 +1,9 @@
+.container {
+  .welcome {
+    padding-bottom: 5rem;
+  }
+}
+
 h1, h2, h3, h4, h5, h6 {
     font-family: UnitsLabProMedium;
     font-weight: 400;
@@ -41,7 +47,7 @@ p, ul {
     font-size: 20px;
     // font-family: Parka Reg;
     background-color: white;
-    border-color: #76B82A; 
+    border-color: #76B82A;
     color: #76B82A;
 }
 

@@ -1,5 +1,5 @@
-<container-element [ngSwitch]="id">
-    <div *ngSwitchCase="'1'">
+<div class="container" [ngSwitch]="id">
+    <div class="welcome" *ngSwitchCase="'1'">
         <!-- draft 1 -->
         <div #1>
             <div class="row">
@@ -60,18 +60,18 @@
                 </div>
             </div><br>
             <div class="row">
-                <div class="col-md-5"></div>
-                <div class="col-md-1">
+                <div class="col-md-4"></div>
+                <div class="col-md-2">
                     <button type="submit" class="btn btn-outline-success">login anonymous</button>
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-2">
                     <button type="submit" class="btn btn-success">registrieren</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div *ngSwitchCase="'2'">
+    <div class="welcome" *ngSwitchCase="'2'">
         <!-- draft 2 -->
         <div #2>
             <div class="row">
@@ -116,11 +116,11 @@
             </div>
             <br>
             <div class="row">
-                <div class="col-md-5"></div>
-                <div class="col-md-1">
+                <div class="col-md-4"></div>
+                <div class="col-md-2">
                     <button type="submit" class="btn btn-outline-success">login anonymous</button>
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-2">
                     <button type="submit" class="btn btn-success">registrieren</button>
                 </div>
             </div>
@@ -131,7 +131,7 @@
 
     <!-- draft 3 -->
     <!-- header -->
-    <div *ngSwitchCase="'3'">
+    <div class="welcome" *ngSwitchCase="'3'">
         <div #3>
             <div class="row">
                 <div class="col-xs-12 col-md-6"></div>
@@ -189,7 +189,7 @@
 
     <!-- draft 5 -->
     <!-- header -->
-    <div *ngSwitchCase="'4'">
+    <div class="welcome" *ngSwitchCase="'4'">
         <div #4>
             <h1>Welcome to the lab!</h1>
 
@@ -220,11 +220,11 @@
             </div>
             <br>
             <div class="row">
-                <div class="col-md-5"></div>
-                <div class="col-md-1">
+                <div class="col-md-4"></div>
+                <div class="col-md-2">
                     <button type="submit" class="btn btn-outline-success">login anonymous</button>
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-2">
                     <button type="submit" class="btn btn-success">registrieren</button>
                 </div>
             </div>
@@ -236,4 +236,4 @@
         </div>
     </div>
     <div *ngSwitchDefault>default</div>
-</container-element>
+</div>
