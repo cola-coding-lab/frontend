@@ -1,0 +1,117 @@
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-3 col-md-3">
+        <img src="https://www.salesjob.de/wp-content/uploads/2019/05/executive-516331_6401.jpg" alt="Profilfoto">
+    </div>
+    <div class="col-md-7 col-md-7">
+        <div class="row">
+            <div class="col-md-10 col-md-10">
+                <h1>Jenny Muster</h1>
+            </div>
+
+            <div class="col-md-2 col-md-2">
+                <h3>
+                    <mat-icon>settings</mat-icon>
+                </h3>
+
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10 col-md-10">
+                <p>
+                    <mat-icon>person</mat-icon> Accountart: Lehrer/Schüler
+                </p>
+                <p>
+                    <mat-icon>school</mat-icon>
+                    <!-- <mat-icon> business</mat-icon> -->
+                    Schule: neue Mittelschule Kapfenberg
+                </p>
+                <p>
+                    <mat-icon>home</mat-icon>
+                    <!-- <mat-icon> map</mat-icon> -->
+                    Wohnort: Kapfenberg
+                </p>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<mat-icon class="mat-icon-rtl-mirror" svgIcon="thumb-up"></mat-icon>
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-5 col-md-5">
+        <h2>Statistiken</h2>
+        <div class="row">
+            <div class="col-md-6 col-md-6">
+                <h3>
+                    <mat-icon>trending_up</mat-icon> 350xp
+                </h3>
+                <p>gesammelten Punkte</p>
+                <br>
+                <h3>
+                    <mat-icon>flag</mat-icon> 2
+                </h3>
+                <p>fertige Workshops</p>
+            </div>
+            <div class="col-md-6 col-md-6">
+                <h3>
+                    <mat-icon>access_time</mat-icon> 150min
+                </h3>
+                <p>coding Zeit</p>
+                <br>
+                <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap">
+
+                <h3>
+                    <!-- <mat-icon>list</mat-icon>
+                    <mat-icon>star</mat-icon> -->
+                    <mat-icon>grade</mat-icon> 2
+                </h3>
+                <p>Platz*</p>
+                <p>*innerhalb der Klasse</p>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="col-md-5 col-md-5">
+        <h2>Workshops</h2>
+
+        <!-- <p>begonnene Workshops: </p> -->
+        <!-- <p>//Liste der begonnen Workshops mit Button</p> -->
+        <div class="row">
+            <div class="col-md-4 col-md-4">
+                <h3>Workshops</h3>
+            </div>
+            <div class="col-md-8 col-md8">
+                <h3>letzter Stand</h3>
+            </div>
+            <!-- <div class="col-md-4 col-md-4"> -->
+                <!-- <button type="success">weitermachen</button> -->
+            <!-- </div> -->
+        </div>
+        <div class="row">
+            <div *ngFor="let user of users">
+                <div *ngFor="let startedWorkshop  of user.startedWorkshops">
+                    <div class="row">
+                        <div class="col-md-4 col-md-4">
+                            <p>{{ startedWorkshop.title }}</p>
+                        </div>
+                        <div class="col-md-8 col-md-8">
+                            <button type="button" class="btn-outline-success" (click)="startWorkshop(startedWorkshop.title)">
+                                <p>Lektion {{ startedWorkshop.lesson }}, Schritt {{ startedWorkshop.step }} weiter üben</p>
+                            </button>
+                        </div>
+                        <!-- <div class="col-md-4 col-md-4"> -->
+                            <!-- <button type="button"  (click)="startWorkshop(user.startWorkshop">workshop-name weitermachen</button> -->
+                            <!-- <button type="button" class="btn-btn-success" (click)="startWorkshop(startedWorkshop.title)">{{ startedWorkshop.title }} </button> -->
+                            <!-- <button type="button" class="btn-btn-success" (click)="startWorkshop(startedWorkshop.title)"> {{ startedWorkshop.title }} weiter üben </button> -->
+                        <!-- </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

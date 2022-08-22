@@ -1,0 +1,12 @@
+<div *ngIf="workshop" class="h-100 position-relative">
+  <app-lessons-workspace [lesson]="workshop.lessons[currentLesson]"></app-lessons-workspace>
+  <!-- todo: better styling -->
+  <div id="lessons-navigation" class="btn-group position-absolute bottom-0 m-1" role="group" aria-label="Lessons Navigation">
+    <button  mat-raised-button type="button" (click)="previousLesson()">
+      zurück
+    </button>
+    <button  mat-raised-button type="button" (click)="nextLesson()">
+      weiter
+    </button>
+  </div>
+</div>

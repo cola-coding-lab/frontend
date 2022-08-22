@@ -1,9 +1,11 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
 import { Lesson } from '../welcome/workshops/lesson';
 import { v4 } from 'uuid';
 import { OpenTabsService } from '../workspace/editor/tab-container/open-tabs.service';
 import { EditorFile, MimeType } from '../file/file.model';
 import { ResizeableContainerComponent } from '../workspace/resizeable-container.component';
+import { db } from '../../util/db/db';
+import { MatStepper } from '@angular/material/stepper';
 
 @Component({
   selector: 'app-lessons-workspace',
@@ -11,17 +13,25 @@ import { ResizeableContainerComponent } from '../workspace/resizeable-container.
   styleUrls: [ './lessons-workspace.component.scss' ],
   providers: [ OpenTabsService ],
 })
-export class LessonsWorkspaceComponent extends ResizeableContainerComponent implements OnDestroy {
-  @Input() lesson!: Lesson;
+export class LessonsWorkspaceComponent extends ResizeableContainerComponent implements OnDestroy, OnChanges {
+  @ViewChild('stepper') public stepper!: MatStepper;
+  private mLesson!: Lesson;
 
   constructor(private openTabsService: OpenTabsService) { super(); }
 
-  ngOnDestroy(): void {
-    this.openTabsService.clear();
+  public get lesson(): Lesson {
+    return this.mLesson;
   }
 
-  ngOnInit(): void {
-    super.ngOnInit();
+  @Input()
+  public set lesson(current: Lesson) {
+    if (this.stepper) {
+      this.stepper.selectedIndex = current.currentStep || 0;
+    }
+    this.mLesson = current;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
     // only for debugging/development!
     if (!this.lesson) {
       this.lesson = {
@@ -34,9 +44,11 @@ In dieser Lektion lernst du, wie du mit Hilfe der JavaScript Bibliothek p5.js da
 ![testbild](https://picsum.photos/300/200)
         `,
         type: '',
+        stepsCount: 2,
         steps: [
           {
-            label: 'Schritt 01',
+            id: 'step1',
+            title: 'Schritt 01',
             description: `#### Was ist eine Funktion?
 Vereinfacht erklärt kannst du dir unter einer Funktion einen wiederverwendbaren Codeblock vorstellen.
 ...
@@ -44,7 +56,8 @@ Vereinfacht erklärt kannst du dir unter einer Funktion einen wiederverwendbaren
             isOptional: false,
           },
           {
-            label: 'Schritt 02',
+            id: 'step2',
+            title: 'Schritt 02',
             description: `#### Noch mehr Schritte...
 hier steht noch viel mehr Sinnvolles
 ...
@@ -52,7 +65,7 @@ hier steht noch viel mehr Sinnvolles
             isOptional: true,
           },
         ],
-        code: [
+        codeFiles: [
           {
             name: 'main.js',
             type: MimeType.js,
@@ -68,11 +81,33 @@ hier steht noch viel mehr Sinnvolles
       };
     }
 
-    const { code } = this.lesson;
-    code.forEach((file, idx) => {
-      this.openTabsService.add(file as EditorFile);
-      if (idx === 0) { this.openTabsService.select(file as EditorFile);}
-    });
+    const { codeFiles } = this.lesson;
+    if (codeFiles) {
+      this.openTabsService.clear();
+      codeFiles.forEach(async (file, idx) => {
+        file = { ...file, projectId: this.lesson.id, id: idx + 1 } as EditorFile;
+        await db.saveFile(file as EditorFile);
+        this.openTabsService.add(file as EditorFile);
+        if (idx === 0) { this.openTabsService.select(file as EditorFile); }
+      });
+    }
   }
 
+  ngOnDestroy(): void {
+    this.openTabsService.clear();
+  }
+
+  ngOnInit(): void {
+    super.ngOnInit();
+  }
+
+  previousStep(stepper: MatStepper, lesson: Lesson) {
+    stepper.previous();
+    lesson.currentStep = stepper.selectedIndex;
+  }
+
+  nextStep(stepper: MatStepper, lesson: Lesson) {
+    stepper.next();
+    lesson.currentStep = stepper.selectedIndex;
+  }
 }

@@ -3,6 +3,85 @@
 @import "~bootstrap/scss/mixins";
 @import "../workspace/resizeable-container.component";
 
+::ng-deep .description{
+
+  img {
+    max-width: 90%;
+    // TODO: max height!
+    // max-height: 300px;
+
+    padding-left: 10%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: UnitsLabProMedium;
+    font-weight: 400;
+  }
+
+  h1 {
+    font-size: 48px;
+    color: #76B82A;
+    line-height: 56px;
+    padding: 0%  5%;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 36px;
+    color: #76B82A;
+  }
+
+  h3 {
+    font-size: 32px;
+    color: #000;
+  }
+
+  p, ul {
+    // font-family: Parka Lt;
+    color: #000;
+    font-size: 16px;
+    line-height: 26px;
+    word-wrap: break-word;
+  }
+
+  // quotes {
+
+  // }
+
+
+  // Code snippets
+  // They will be scss configured through (examples):
+  // row: 3 backticks "```"
+  // row(s): code
+  // raw: 3 nackticks "```"
+  // ```
+  // here is your code!
+  // ```
+  code {
+    font-family: 'Courier New', Courier, monospace;
+    color: grey; 
+  }
+} 
+
+// angular material stepper
+::ng-deep .mat-step-header .mat-step-icon-selected {
+  background-color: #76B82A;
+color: #fff;
+}
+
+// .description ngModel pattern="[_ngcontent-*]" p {
+//   color: pink;
+  // h2[_ngcontent-.*[***].*-c80] 
+  // {
+  // color: blue;
+  // }
+  // .h3  {
+  //   color: pink;
+  // } h3[_ngcontent-ddu-c80] {
+
+
 #container {
   overflow: hidden;
   position: relative;
@@ -13,17 +92,9 @@
     overflow: auto;
     height: 33.3333%;
     width: 100%;
-
-    &#editor-box {
-      overflow: hidden;
-    }
-    .description {
-      padding: 5px;
-
-      // TODO: Styling for Lesson description HERE
     }
   }
-}
+
 
 @include media-breakpoint-up(lg) {
   #container {

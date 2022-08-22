@@ -1,4 +1,4 @@
-<div [ngSwitch]="id">
+<div class="container" [ngSwitch]="id">
   <div *ngSwitchCase="'1'">
     <div #1>
       <!-- draft 1 -->
@@ -9,20 +9,30 @@
           <h2>vollständige Workshopliste</h2>
           <div class="row" *ngFor="let workshop of workshops">
             <div class="col-md-2">
-              {{workshop.title}}
+              <h3>
+                {{workshop.title}}
+              </h3>
             </div>
             <div class="col-md-2">
+              <!-- <div class="description"  [innerHTML]="workshop.description | md2html "></div> -->
+              <p>
               {{workshop.description}}
+            </p>
             </div>
             <div class="col-md-2">
-              {{workshop.image}}hier könnten Fotos sein
+              <img src="{{workshop.assets}}" alt="Ziel des Workshops als Foto dargestellt">
             </div>
             <div class="col-md-2">
-              {{workshop.difficulty}}
+              <p>
+                {{workshop.difficulty}}
+              </p>
             </div>
             <div class="col-md-2">
-              <button type="button" class="btn btn-secondary">WS {{workshop.title}} jetzt starten</button>
+              <button type="button" class="btn btn-outline-success" (click)="startWorkshop(workshop)">
+                  WS {{workshop.title}} jetzt starten
+              </button>
             </div>
+            <hr>
           </div>
         </div>
       </div>
@@ -40,18 +50,14 @@
           <h3>{{workshop.title}}</h3><br>
           <div class="row">
             <div class="col-md-3">
-              {{workshop.description}}
+              <p>{{workshop.description}}</p>
             </div>
             <div class="col-md-3">
-              {{workshop.image}}hier könnten Fotos sein
+              <img src="{{workshop.assets}}" alt="Ziel des Workshops als Foto dargestellt">
             </div>
-            <!-- <div class="col-md-2">
-        {{workshop.detailDescription}}
-    </div> -->
             <div class="col-md-3">
-              <button type="button" class="btn btn-secondary" routerLink="/workspace">WS
-                {{workshop.title}} jetzt
-                starten
+              <button type="button" class="btn btn-success" (click)="startWorkshop(workshop)">
+                WS {{workshop.title}} jetzt starten
               </button>
             </div>
           </div>
@@ -72,98 +78,34 @@
           <h3>{{workshop.title}}</h3><br>
           <div class="row">
             <div class="col-md-6">
-              {{workshop.description}}
+              <p>{{workshop.description}}</p>
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-1">
-              <div class="btn btn-primary" type="button" data-bs-toggle="collapse"
+              <button class="btn-outline-success" type="button" data-bs-toggle="collapse"
                    [attr.data-bs-target]="'#openCollapseDescription_' + workshop.id" aria-expanded="false"
                    aria-controls="openCollapseDescription">
-                \/ Details
-              </div>
-
-              <!-- <div class="btn btn-primary" type="button" data-bs-toggle="collapse"
-          data-bs-target="#openCollapseDescription{{workshop.id}}" aria-expanded="false"
-          aria-controls="openCollapseDescription{{workshop.id}}">
-          \/ Details
-      </div> -->
-
-              <!-- <div class="btn btn-primary" type="button" data-bs-toggle="collapse"
-          data-bs-target="#openCollapseDescription${(workshop.id)}" aria-expanded="false"
-          aria-controls="openCollapseDescription${(workshop.id)}">
-          \/ Details
-      </div> -->
-              <!-- _______________________________________________________ -->
-              <!-- <div class="btn btn-primary" type="button" data-bs-toggle="collapse"
-          data-bs-target="#openCollapseDescription" aria-expanded="!workshop.isCollapsed"
-          aria-controls="openCollapseDescription" (click)="workshop.isCollapsed = !workshop.isCollapsed">
-          \/ Details
-      </div> -->
-              <!-- (click)="workshop.isCollapsed = !workshop.isCollapsed"  -->
-              <!-- [attr-aria-expanded]="!workshop.isCollapsed"  -->
-              <!-- data-bs-toggle="collapse" openCollapsedDetailDescription -->
-              <!-- href="#openCollapsedDetailDescription", role="button"  -->
-              <!-- <i class="fa" aria-hidden="true"></i> -->
-              <!-- <button class="btn btn-link" (click)="row.isCollapsed = !row.isCollapsed"
-[attr.aria-expanded]="!row.isCollapsed" aria-controls="collapseExample"> -->
-              <!-- \/ Details</button> -->
-
-              <!-- <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-              Button with data-bs-target
+                  \/ Details
             </button>
-
-            <div class="collapse" id="collapseExample">
-              <div class="card card-body">
-                Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
-              </div>
-            </div> -->
             </div>
-            <!-- <div collapse="workshop.isCollapsed"> -->
-
-
             <div class="collapse" id="openCollapseDescription_{{workshop.id}}">
-              <!-- <div class="collapse" id="openCollapseDescription{{workshop.id}}"> -->
-              <!-- <div class="collapse" id="openCollapseDescription${(workshop.id)}"> -->
               <div class="row">
                 <div class="col-md-4">{{workshop.description}}</div>
-                <div class="col-md-3">{{workshop.image}}hier könnten Fotos sein</div>
+                <div class="col-md-3">
+                  <img src="{{workshop.assets}}" alt="Ziel des Workshops als Foto dargestellt">
+                </div>
                 <div class="col-md-1">
-                  <button type="button" class="btn btn-secondary" routerLink="/workspace">WS
-                    {{workshop.title}} jetzt starten
+                  <button type="button" class="btn btn-success" (click)="startWorkshop(workshop)">
+                    WS {{workshop.title}} jetzt starten
                   </button>
                 </div>
               </div>
             </div>
-
-
-            <!-- <div class="card card-body">
-            <div class="row" for="workshop-description">
-                <div class="col-md-4" >{{workshop.detailDescription}}</div>
-                <div class="col-md-3">{{workshop.image}}hier könnten Fotos sein</div>
-                <div class="col-md-1">
-                    <button type="button" class="btn btn-secondary" routerLink="/workspace">WS
-                        {{workshop.title}} jetzt starten</button>
-                </div>
-            </div>
-        </div> -->
-
           </div>
           <br>
         </div>
       </div>
     </div>
   </div>
-
-
-  <!-- <p>
-  <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
-      aria-controls="collapseExample">
-      Link with href
-  </a>
-  <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
-      aria-expanded="false" aria-controls="collapseExample">
-      Button with data-bs-target
-  </button>
-</p> -->
   <div *ngSwitchDefault>default</div>
 </div>

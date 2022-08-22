@@ -1,5 +1,5 @@
-<container-element [ngSwitch]="id">
-    <div *ngSwitchCase="'1'">
+<div class="container" [ngSwitch]="id">
+    <div class="welcome" *ngSwitchCase="'1'">
         <!-- draft 1 -->
         <div #1>
             <div class="row">
@@ -38,70 +38,56 @@
                 <div class="col-md-1"></div>
                 <div class="col-md-4">
                     <h2>general</h2>
-                    <br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                    incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea
-                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla
-                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                    anim id est
-                    laborum.
+                    <br>
+                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laborisit in voluptate velit esse cillum dolore fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                 </div>
                 <div class="col-md-2">
                     <h2>neuester Workshop</h2>
-                    <br>neuerWorkshop<br>Beschreibung<br>Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                    laboris nisi ut
-                    aliquip ex ea
-                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla
-                    pariatur.<br>
-                    <button type="button" class="btn btn-success" routerLink="/workshops" (click)="getDraftWorkshops(1)">Alle Workshops</button>
+                    <br>
+                    <p>neuerWorkshop<br>Beschreibung<br>Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+                        voluptate velit esse cillum dolore eugiat nulla pariatur.</p><br>
+                    <button type="button" class="btn btn-success" routerLink="/workshops"
+                        (click)="getDraftWorkshops(1)">Alle Workshops</button>
                 </div>
 
                 <div class="col-md-4">
                     <h2>insights zu @neuerWorkshop</h2>
-                    <br>generelle Workshopbeschreibung oder Infos zum @neuerWorkshop bzw Fotos
-                    <br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                    labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea
-                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla
-                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                    anim id est
-                    laborum.
+                    <br>
+                    <p>generelle Workshopbeschreibung oder Infos zum @neuerWorkshop bzw Fotos
+                        <br>Ut enim ad minim veniam, quis nostrud exercitation ullamco laborisit in voluptate velit esse cillum dolore fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </p>
                 </div>
             </div><br>
             <div class="row">
-                <div class="col-md-5"></div>
-                <div class="col-md-1">
+                <div class="col-md-4"></div>
+                <div class="col-md-2">
                     <button type="submit" class="btn btn-outline-success">login anonymous</button>
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-2">
                     <button type="submit" class="btn btn-success">registrieren</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div *ngSwitchCase="'2'">
+    <div class="welcome" *ngSwitchCase="'2'">
         <!-- draft 2 -->
         <div #2>
             <div class="row">
                 <div class="col-xs-12 col-md-8"></div>
                 <div class="col-xs-4 col-md-4">
-                <form class="form-inline">
-                    <div class="form-group">
-                        <label for="username">Username</label>
-                        <input type="text" class="form-control" id="username" placeholder="username">
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Passwort</label>
-                        <input type="password" class="form-control" id="password">
-                    </div>
-                    <button type="submit" class="btn btn-success">anmelden</button>
-                </form>
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" id="username" placeholder="username">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Passwort</label>
+                            <input type="password" class="form-control" id="password">
+                        </div>
+                        <button type="submit" class="btn btn-success">anmelden</button>
+                    </form>
                 </div>
             </div>
 
@@ -110,59 +96,31 @@
 
             <!-- body -->
             <div>
-                <h2>general</h2><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut
-                labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex
-                ea
-                commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat
-                nulla
-                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
-                id
-                est
-                laborum.
+                <h2>general</h2><br>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laborisit in voluptate velit esse cillum dolore fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
             </div>
             <br>
             <div class="row">
                 <div class="col-md-6">
                     <h2>neuesterneuester Workshop</h2>
-                    <br>neuerWorkshop<br>Beschreibung<br>Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                    laboris
-                    nisi ut
-                    aliquip ex ea
-                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla
-                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                    anim
-                    id est
-                    laborum.<br>
-                    <button type="button" class="btn btn-success" routerLink="/workshops" (click)="getDraftWorkshops(2)">Alle Workshops</button>
+                    <br>
+                    <p>neuerWorkshop<br>Beschreibung<br>Ut enim ad minim veniam, quis nostrud exercitation ullamco laborisit in voluptate velit esse cillum dolore fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p><br>
+                    <button type="button" class="btn btn-success" routerLink="/workshops"
+                        (click)="getDraftWorkshops(2)">Alle Workshops</button>
                 </div>
                 <div class="col-md-6">
                     <h2>workshop description:</h2>
-                    <br>general workshop description or depending on selected workshop!<br>Lorem ipsum dolor sit amet,
-                    consectetur
-                    adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip
-                    ex ea
-                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla
-                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                    anim
-                    id est
-                    laborum.
+                    <br>
+                    <p>general workshop description or depending on selected workshop!<br> Ut enim ad minim veniam, quis nostrud exercitation ullamco laborisit in voluptate velit esse cillum dolore fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                 </div>
             </div>
             <br>
             <div class="row">
-                <div class="col-md-5"></div>
-                <div class="col-md-1">
+                <div class="col-md-4"></div>
+                <div class="col-md-2">
                     <button type="submit" class="btn btn-outline-success">login anonymous</button>
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-2">
                     <button type="submit" class="btn btn-success">registrieren</button>
                 </div>
             </div>
@@ -173,14 +131,14 @@
 
     <!-- draft 3 -->
     <!-- header -->
-    <div *ngSwitchCase="'3'">
+    <div class="welcome" *ngSwitchCase="'3'">
         <div #3>
             <div class="row">
                 <div class="col-xs-12 col-md-6"></div>
                 <div class="col-xs-1 col-md-1">Login</div>
                 <div class="col-xs-2 col-md-2">
                     <label for="username">Username</label>
-                    <input  type="text" class="form-control" id="username" placeholder="username">
+                    <input type="text" class="form-control" id="username" placeholder="username">
                 </div>
                 <div class="col-xs-2 col-md-2">
                     <label for="password">Passwort</label>
@@ -191,7 +149,7 @@
                     <button type="button" class="btn btn-success">anmelden</button>
                 </div>
             </div>
-<br>
+            <br>
 
             <h1>Welcome to the lab!</h1>
 
@@ -199,32 +157,15 @@
             <div class="row">
                 <div class="col-md-1"></div>
                 <div class="col-md-5">
-                    <h2>general information</h2><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                    eiusmod
-                    tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip
-                    ex ea
-                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla
-                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                    anim
-                    id est
-                    laborum.
+                    <h2>general information</h2><br>
+                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laborisit in voluptate velit esse cillum dolore fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                 </div>
                 <div class="col-md-5">
                     <h2>neuester Workshop</h2>
-                    <br>neuerWorkshop<br>Beschreibung<br>Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                    laboris
-                    nisi ut
-                    aliquip ex ea
-                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla
-                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                    anim
-                    id est
-                    laborum.<br>
-                    <button type="button" class="btn btn-success" routerLink="/workshops" (click)="getDraftWorkshops(3)">Alle Workshops</button>
+                    <br>
+                    <p>neuerWorkshop<br>Beschreibung<br>Ut enim ad minim veniam, quis nostrud exercitation ullamco laborisit in voluptate velit esse cillum dolore fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<br></p>
+                    <button type="button" class="btn btn-success" routerLink="/workshops"
+                        (click)="getDraftWorkshops(3)">Alle Workshops</button>
                 </div>
             </div><br>
             <div class="row">
@@ -238,18 +179,8 @@
                 <div class="col-md-2"></div>
                 <div class="col-md-5">
                     <h2>workshop description:</h2>
-                    <br>general workshop description or depending on selected workshop!<br>Lorem ipsum dolor sit amet,
-                    consectetur
-                    adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip
-                    ex ea
-                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla
-                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                    anim
-                    id est
-                    laborum.
+                    <br>
+                    <p>general workshop description or depending on selected workshop!<br>Ut enim ad minim veniam, quis nostrud exercitation ullamco laborisit in voluptate velit esse cillum dolore fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                 </div>
             </div>
         </div>
@@ -258,67 +189,42 @@
 
     <!-- draft 5 -->
     <!-- header -->
-    <div *ngSwitchCase="'4'">
+    <div class="welcome" *ngSwitchCase="'4'">
         <div #4>
             <h1>Welcome to the lab!</h1>
 
             <!-- body -->
-            <img src="../../../../images/gruenes-italienisches-sofa-1950er-1.jpg" alt="picture of a green couch">
+            <p> this image was inserted with usual image tag and src from same folder:</p>
+            <img src="SofaGruen.jpg" alt="picture of a green couch">
+            <p>following image was inserted with url:</p>
+            <img src="https://cdn20.pamono.com/p/g/8/6/868205_vcp1x7ujar/promenade-green-sofa-1.jpg" alt="sofa via url">
             <div>
-                <h2>general</h2><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut
-                labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex
-                ea
-                commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat
-                nulla
-                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
-                id
-                est
-                laborum.
+                <h2>general</h2><br>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
             </div>
             <br>
             <div class="row">
                 <div class="col-md-1"></div>
                 <div class="col-md-5">
                     <h2>neuester Workshop</h2>
-                    <br>neuerWorkshop<br>Beschreibung<br>Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                    laboris
-                    nisi ut
-                    aliquip ex ea
-                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla
-                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                    anim
-                    id est
-                    laborum.<br>
-                    <button type="button" class="btn btn-success" routerLink="/workshops" (click)="getDraftWorkshops(4)">Alle Workshops</button>
+                    <br>
+                    <p>neuerWorkshop<br>Beschreibung<br>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<br></p>
+                    <button type="button" class="btn btn-success" routerLink="/workshops"
+                        (click)="getDraftWorkshops(4)">Alle Workshops</button>
                 </div>
                 <div class="col-md-5">
-                    <h2>workshop description:</h2>
-                    <br>general workshop description or depending on selected workshop!<br>Lorem ipsum dolor sit amet,
-                    consectetur
-                    adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip
-                    ex ea
-                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla
-                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                    anim
-                    id est
-                    laborum.
+                    <h2>workshop description</h2>
+                    <br>
+                    <p>general workshop description or depending on selected workshop!<br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et eolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu iat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia eserunt mollit anim id est laborum.</p>
                 </div>
             </div>
             <br>
             <div class="row">
-                <div class="col-md-5"></div>
-                <div class="col-md-1">
+                <div class="col-md-4"></div>
+                <div class="col-md-2">
                     <button type="submit" class="btn btn-outline-success">login anonymous</button>
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-2">
                     <button type="submit" class="btn btn-success">registrieren</button>
                 </div>
             </div>
@@ -330,4 +236,4 @@
         </div>
     </div>
     <div *ngSwitchDefault>default</div>
-</container-element>
+</div>

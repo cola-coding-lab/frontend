@@ -15,7 +15,10 @@ import { LessonsWorkspaceModule } from './lessons-workspace/lessons-workspace.mo
 import { ExplorerModule } from './workspace/explorer/explorer.module';
 import { APP_BASE_HREF } from '@angular/common';
 import { environment } from '../environments/environment';
-
+import { VclModule } from './vcl/vcl.module';
+import { ProfilePageComponent } from './profile-page/profile-page.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatIconModule } from '@angular/material/icon';
 
 export let AppInjector: Injector;
 
@@ -26,6 +29,7 @@ export let AppInjector: Injector;
     FooterComponent,
     WelcomeComponent,
     WorkshopsComponent,
+    ProfilePageComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,6 +41,9 @@ export let AppInjector: Injector;
     CommonModule,
     LessonsWorkspaceModule,
     ExplorerModule,
+    VclModule,
+    NoopAnimationsModule,
+    MatIconModule
   ],
   providers: [ { provide: APP_BASE_HREF, useValue: environment.baseHref } ],
   bootstrap: [ AppComponent ],
