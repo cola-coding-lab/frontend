@@ -8,6 +8,7 @@ import { LessonsWorkspaceComponent } from './lessons-workspace/lessons-workspace
 import { environment } from '../environments/environment';
 import { WorkshopComponent } from './vcl/workshop/workshop.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
+import { InfoPageComponent } from './info-page/info-page.component';
 
 const routes: Routes = environment.isEditor ? [
     { path: '', component: WorkspaceComponent, pathMatch: 'full' },
@@ -20,6 +21,7 @@ const routes: Routes = environment.isEditor ? [
     { path: 'workshops', component: WorkshopsComponent },
     { path: 'workshops/:id', component: WorkshopComponent},
     { path: 'profile-page', component: ProfilePageComponent},
+    { path: 'info-page', component: InfoPageComponent},
     // only for testing/development
     { path: 'lessons-testing', component: LessonsWorkspaceComponent },
   ];
