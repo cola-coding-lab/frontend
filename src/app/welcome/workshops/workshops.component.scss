@@ -51,21 +51,6 @@ p, ul {
     color: #76B82A;
 }
 
-// ::ng-deep .btn-outline-success ::after{
-//     border-color: red;
-// }
-
-//  ::ng-deep .btn-outline-success .hover{
-//     color: pink;
-// }
-// .btn-primary {
-//     font-size: 20px;
-// font-family: UnitsLabProRegular;
-// background-color: #76B82A;
-// border-color: #76B82A;
-// color:white;
-// }
-
 label, input {
     font-size: 20px;
     // font-family: UnitsLabProRegular;
@@ -79,4 +64,8 @@ img {
     padding-left: 10%;
     padding-top: 2%;
     padding-bottom: 2%;
+}
+
+hr {
+background-color: #76B82A;
 }
