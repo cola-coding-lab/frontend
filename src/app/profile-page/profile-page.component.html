@@ -6,7 +6,7 @@
     <div class="col-md-7 col-md-7">
         <div class="row">
             <div class="col-md-10 col-md-10">
-                <h1>Jenny Muster</h1>
+                <h1>{{ users[0].userName }}</h1>
             </div>
 
             <div class="col-md-2 col-md-2">
@@ -21,17 +21,17 @@
         <div class="row">
             <div class="col-md-10 col-md-10">
                 <p>
-                    <mat-icon>person</mat-icon> Accountart: Lehrer/Schüler
+                    <mat-icon>person</mat-icon> Accountart: {{ users[0].account.toString() }}
                 </p>
                 <p>
                     <mat-icon>school</mat-icon>
                     <!-- <mat-icon> business</mat-icon> -->
-                    Schule: neue Mittelschule Kapfenberg
+                    Schule: {{ users[0].school }}
                 </p>
                 <p>
                     <mat-icon>home</mat-icon>
                     <!-- <mat-icon> map</mat-icon> -->
-                    Wohnort: Kapfenberg
+                    Wohnort: {{ users[0].location }}
                 </p>
 
             </div>
@@ -48,7 +48,7 @@
         <div class="row">
             <div class="col-md-6 col-md-6">
                 <h3>
-                    <mat-icon>trending_up</mat-icon> 350xp
+                    <mat-icon>trending_up</mat-icon> {{ users[0].achievedXp }}xp
                 </h3>
                 <p>gesammelten Punkte</p>
                 <br>
@@ -59,19 +59,15 @@
             </div>
             <div class="col-md-6 col-md-6">
                 <h3>
-                    <mat-icon>access_time</mat-icon> 150min
+                    <mat-icon>access_time</mat-icon> {{ users[0].codingTime }}min
                 </h3>
                 <p>coding Zeit</p>
                 <br>
-                <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap">
-
                 <h3>
-                    <!-- <mat-icon>list</mat-icon>
-                    <mat-icon>star</mat-icon> -->
-                    <mat-icon>grade</mat-icon> 2
+                    <mat-icon>star</mat-icon>  3
                 </h3>
-                <p>Platz*</p>
-                <p>*innerhalb der Klasse</p>
+                <p>Platz</p>
+                <!-- <p>*innerhalb der Klasse</p> -->
             </div>
         </div>
 
@@ -94,6 +90,7 @@
             <!-- </div> -->
         </div>
         <div class="row">
+            <!-- TODO: ändern auf nur MEIN USER wird angezeigt -->
             <div *ngFor="let user of users">
                 <div *ngFor="let startedWorkshop  of user.startedWorkshops">
                     <div class="row">

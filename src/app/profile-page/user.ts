@@ -3,24 +3,34 @@ export interface User{
     userName: string;
     eMail: string;
     password: string;
-    account: string;
+    account: account;
     school: string;
     location: string;
     startedWorkshops: startedWorkshops[];
-    finishedWorkshops: string[];
-    xp: number;
-    codingTime: string[];
+    finishedWorkshops: finishedWorkshops[];
+    achievedXp: number;
+    codingTime: number;
 }
 
 export enum account {
-    ADMIN,
-    TEACHER,
-    STUDENT
+    ADMIN = "Admin",
+    TEACHER = "Lehrer",
+    STUDENT = "Schüler",
 }
 
+// export interface workshop {
+//         // id: string;
+//         title: string;
+// }
 export interface startedWorkshops{
-    // id: string;
+    // workshop.id;
+    // workshop.title;
     title: string;
     lesson: number;
     step: number;
+}
+
+export interface finishedWorkshops{
+    // workshop.title;
+    title: string;
 }
