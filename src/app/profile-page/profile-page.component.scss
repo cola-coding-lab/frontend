@@ -1,4 +1,4 @@
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+//@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 h1, h2, h3, h4, h5, h6 {
     font-family: UnitsLabProMedium;
@@ -30,7 +30,7 @@ p, ul {
     font-size: 18px;
     line-height: 26px;
     word-wrap: break-word;
-    // 
+    //
 }
 
 .btn-success {
@@ -44,14 +44,14 @@ p, ul {
     font-size: 20px;
     // font-family: Parka Reg;
     background-color: white;
-    border-color: #76B82A; 
+    border-color: #76B82A;
     color: #76B82A;
     padding-top: 2%;
     padding-left: 10%;
     padding-right: 10%;
     padding-bottom: 2%;
     margin: 5px;
-    
+
 }
 .btn-outline-success > p {
     margin-bottom:0%;
