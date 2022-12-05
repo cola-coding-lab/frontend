@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
   api: {
-    src: 'https://vcl-api.rigbit.at',
+    src: 'https://cola.fh-joanneum.at/vcl-api',
     version: 'v1',
   },
   baseHref: '/',
