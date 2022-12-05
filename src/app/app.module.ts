@@ -19,6 +19,7 @@ import { VclModule } from './vcl/vcl.module';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
+import { InfoPageComponent } from './info-page/info-page.component';
 
 export let AppInjector: Injector;
 
@@ -30,6 +31,7 @@ export let AppInjector: Injector;
     WelcomeComponent,
     WorkshopsComponent,
     ProfilePageComponent,
+    InfoPageComponent,
   ],
   imports: [
     BrowserModule,

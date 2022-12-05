@@ -42,7 +42,7 @@ export class ProjectExplorerApiService extends BaseApiService {
   }
 
   public postPWA$(data: IPwaData): Observable<any> {
-    return this.http.post<any>(`${this.uri}pwa`, data);
+    return this.http.post<any>(`${this.uri}pwa`, data, { observe: 'response' });
   }
 
   public putPWA$(data: IPwaData, uuid: string): Observable<any> {
