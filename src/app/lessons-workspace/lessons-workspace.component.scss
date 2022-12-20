@@ -1,6 +1,6 @@
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/mixins";
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
 @import "../workspace/resizeable-container.component";
 
 ::ng-deep .description{
@@ -61,9 +61,9 @@
   // ```
   code {
     font-family: 'Courier New', Courier, monospace;
-    color: grey; 
+    color: grey;
   }
-} 
+}
 
 // angular material stepper
 ::ng-deep .mat-step-header .mat-step-icon-selected {
@@ -73,7 +73,7 @@ color: #fff;
 
 // .description ngModel pattern="[_ngcontent-*]" p {
 //   color: pink;
-  // h2[_ngcontent-.*[***].*-c80] 
+  // h2[_ngcontent-.*[***].*-c80]
   // {
   // color: blue;
   // }
