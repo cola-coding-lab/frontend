@@ -27,7 +27,9 @@
             "tsConfig": "tsconfig.app.json",
             "allowedCommonJsDependencies": [
               "codemirror",
-              "qrcode-svg"
+              "qrcode-svg",
+              "showdown",
+              "bootstrap"
             ],
             "aot": true,
             "inlineStyleLanguage": "scss",
@@ -154,6 +156,5 @@
         }
       }
     }
-  },
-  "defaultProject": "angular-codemirror"
+  }
 }

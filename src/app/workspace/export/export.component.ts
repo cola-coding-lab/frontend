@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ModalComponent } from '../../modal/modal.component';
 import { Project } from '../../project/project';
 import { IPwaData } from './export.model';
@@ -19,12 +19,12 @@ export class ExportComponent implements OnInit {
   private static readonly DEFAULT_TITLE = 'Meine App';
   @ViewChild('modal', { static: false }) modal!: ModalComponent;
 
-  public pwaExportForm = new FormGroup({
-    pwa_title: new FormControl(null, { validators: [ Validators.required, Validators.minLength(1) ] }),
-    pwa_color: new FormControl(null, { validators: [ Validators.required ] }),
-    pwa_description: new FormControl(null, { validators: [ Validators.required, Validators.minLength(1) ] }),
-    pwa_css: new FormControl(),
-    pwa_logo: new FormControl(),
+  public pwaExportForm = new UntypedFormGroup({
+    pwa_title: new UntypedFormControl(null, { validators: [ Validators.required, Validators.minLength(1) ] }),
+    pwa_color: new UntypedFormControl(null, { validators: [ Validators.required ] }),
+    pwa_description: new UntypedFormControl(null, { validators: [ Validators.required, Validators.minLength(1) ] }),
+    pwa_css: new UntypedFormControl(),
+    pwa_logo: new UntypedFormControl(),
   });
   public project?: Project;
   private jsLibs: OutputFile[] = [];
