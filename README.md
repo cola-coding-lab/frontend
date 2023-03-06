@@ -1,12 +1,10 @@
-# Angular Resizable
+# VCL Frontend
 
-Angular template with resizable containers.
+Frontend for Virtual Coding Lab (VCL).
 
 ![demo](demo.gif)
 
 Also includes [codemirror](https://codemirror.net/) for future updates.
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.1.
 
 ## Prerequisites
 
