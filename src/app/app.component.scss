@@ -1,7 +1,9 @@
 :host {
   color: rgb(16, 71, 126);
+  --hf-space: calc(var(--footer-height) + var(--header-height));
 
   main {
-    height: calc(100vh - var(--footer-height) - var(--header-height));
+    min-height: calc(100vh - var(--hf-space));
+    padding-bottom: var(--hf-space) !important;
   }
 }
