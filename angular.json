@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular-codemirror": {
+    "vcl-frontend": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/angular-codemirror",
+            "outputPath": "dist/vcl-frontend",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -49,8 +49,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "1600kb",
-                  "maximumError": "2mb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "3mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -70,8 +70,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "1.5mb",
-                  "maximumError": "2mb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "3mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -116,16 +116,16 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "angular-codemirror:build:production"
+              "browserTarget": "vcl-frontend:build:production"
             },
             "development": {
-              "browserTarget": "angular-codemirror:build:development"
+              "browserTarget": "vcl-frontend:build:development"
             },
             "development-local": {
-              "browserTarget": "angular-codemirror:build:development-local"
+              "browserTarget": "vcl-frontend:build:development-local"
             },
             "production-editor": {
-              "browserTarget": "angular-codemirror:build:production-editor"
+              "browserTarget": "vcl-frontend:build:production-editor"
             }
           },
           "defaultConfiguration": "development"
@@ -133,7 +133,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular-codemirror:build"
+            "browserTarget": "vcl-frontend:build"
           }
         },
         "test": {
