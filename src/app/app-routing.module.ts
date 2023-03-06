@@ -15,13 +15,13 @@ const routes: Routes = environment.isEditor ? [
     { path: 'pwas', component: PwaOverviewComponent },
   ]
   : [
-    { path: '', redirectTo: '/welcome', pathMatch: 'full' },
+    { path: '', redirectTo: '/workshops', pathMatch: 'full' },
     { path: 'welcome', component: WelcomeComponent },
     { path: 'workspace', component: WorkspaceComponent },
     { path: 'workshops', component: WorkshopsComponent },
     { path: 'workshops/:id', component: WorkshopComponent},
     { path: 'profile-page', component: ProfilePageComponent},
-    { path: 'info-page', component: InfoPageComponent},
+    { path: 'about', component: InfoPageComponent},
     // only for testing/development
     { path: 'lessons-testing', component: LessonsWorkspaceComponent },
   ];
